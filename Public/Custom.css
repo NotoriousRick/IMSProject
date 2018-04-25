@@ -5,9 +5,19 @@ body{
   font-family: monospace;
   background-color: #f8f9fa;
 }
-#input_margin{
+#input_margin_radius_padding{
   margin-bottom: 2vh;
+  padding:3px;
+}
+#span_margin_radius_padding{
+  margin-bottom: 2vh;
+  padding:3px;
+  background-color:white;
+  border:none;
 }
 #jumbotron_margin{
   margin-bottom: 2vh;
+}
+.input-group > .input-group-prepend{
+  width:50%;
 }
