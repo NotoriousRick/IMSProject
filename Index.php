@@ -1,9 +1,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="Public/Custom.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
+        <link rel="stylesheet" type="text/css" href="public/Custom.css">
+ <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
         <title>IMS</title>
     </head>
     <body>
