@@ -1,0 +1,13 @@
+#container_navbar{
+  margin-bottom: 10vh;
+}
+body{
+  font-family: monospace;
+  background-color: #f8f9fa;
+}
+#input_margin{
+  margin-bottom: 2vh;
+}
+#jumbotron_margin{
+  margin-bottom: 2vh;
+}
