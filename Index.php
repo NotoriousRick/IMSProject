@@ -39,38 +39,21 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">ID</span>
-
-                        <div class="col">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="span_margin_radius_padding">Incident uniek ID nummer</span>
-
                                 </div>
                                 <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding" name="incident_number">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
 
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Medewerker</span>
-
-                        <div class="col">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="span_margin_radius_padding">Baliemedewerker</span>
-
-                                </div>
-                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="incident_number">
                             </div>
                         </div>
-
+                      </div>
                         <div class="col-lg-6">
-
-                        <div class="col">
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Datum</span>
@@ -82,10 +65,7 @@
                 </div>
                 <div class="box-body with-border">
                     <div class="row">
-
                         <div class="col-lg-6">
-
-                        <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
@@ -93,11 +73,7 @@
                                 <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="customer_type">
                             </div>
                         </div>
-
                         <div class="col-lg-6">
-
-                        <div class="col">
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
@@ -107,11 +83,7 @@
                         </div>
                     </div>
                     <div class="row">
-
                         <div class="col-lg-6">
-
-                        <div class="col">
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
@@ -121,9 +93,6 @@
                         </div>
 
                         <div class="col-lg-6">
-
-                        <div class="col">
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">E-mailadres</span>
@@ -133,28 +102,19 @@
                         </div>
                     </div>
                     <div class="row">
-
                         <div class="col-lg-6">
                           <div class="input-group">
                               <div class="input-group-prepend">
                                   <span class="input-group-text" id="span_margin_radius_padding">Incident</span>
                               </div>
                             <select class="select_two" name="type_of_notification" style="width:60%; border:none;">
-
-                        <div class="col">
-                            <select class="form-control form-control-sm select_two bigdrop" id="input_margin_radius_padding" name="type_of_notification" placeholder="Soort melding">
-
                                 <option>Incident 1</option>
                                 <option>Incident 2</option>
                                 <option>Incident 3</option>
                             </select>
                           </div>
                         </div>
-
                         <div class="col-lg-6">
-
-                        <div class="col">
-
                           <div class="input-group">
                               <div class="input-group-prepend">
                                   <span class="input-group-text" id="span_margin_radius_padding">Evt extra vak</span>
@@ -170,8 +130,6 @@
                         </div>
                     </div>
                     <div class="row">
-
-                        <div class="col-lg-6">
 
                         <div class="col">
 
