@@ -2,7 +2,8 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="public/Custom.css">
- <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
+        <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <title>IMS</title>
     </head>
     <body>
@@ -34,57 +35,96 @@
                             <h3>INCIDENT FORMULIER</h3>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control form" id="input_margin" name="incident_number" placeholder="Incident uniek ID nummer...">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Incident uniek ID nummer</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding" name="incident_number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Baliemedewerker</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="incident_number">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Datum</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="date">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="box-body with-border">
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="incident_number" placeholder="Baliemedewerker">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="customer_type">
+                            </div>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="date" placeholder="Datum">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="customer_type" placeholder="Type klant">
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="name" placeholder="Naam">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="phone" placeholder="Telefoon">
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="email" placeholder="E-mailadres">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="name">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <select class="form-control select_two" id="input_margin" name="type_of_notification" placeholder="Soort melding">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="phone">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">E-mailadres</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control form-control-sm select_two bigdrop" id="input_margin_radius_padding" name="type_of_notification" placeholder="Soort melding">
                                 <option>Incident 1</option>
                                 <option>Incident 2</option>
                                 <option>Incident 3</option>
                             </select>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="input_margin"  name="extra_subject" placeholder="Evt extra vak">
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text" id="span_margin_radius_padding">Evt extra vak</span>
+                              </div>
+                            <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"  name="extra_subject">
+                          </div>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <textarea class="form-control" id="input_margin" rows="5" placeholder="Omschrijving incident"></textarea>
+                            <textarea class="form-control form-control-sm" id="input_margin_radius_padding" rows="5" placeholder="Omschrijving incident"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control"  id="input_margin" name="treated by" placeholder="Behandeld door">
+                            <input type="text" class="form-control form-control-sm"  id="input_margin_radius_padding" name="treated by" placeholder="Behandeld door">
                         </div>
                     </div>
                     <div class="row">
@@ -110,10 +150,10 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" id="input_margin" name="rounded_date" placeholder="Afgeronde datum">
+                            <input type="text" class="form-control" id="input_margin_radius_padding" name="rounded_date" placeholder="Afgeronde datum">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="input_margin" name="signature_office" placeholder="Handtekening kantoor">
+                            <input type="text" class="form-control" id="input_margin_radius_padding" name="signature_office" placeholder="Handtekening kantoor">
                         </div>
                         <div class="col">
                             <a class="btn btn-default float-right" href="#">Print</a>
@@ -128,6 +168,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+
         $(document).ready(function () {
             $('.select_two').select2();
         });
