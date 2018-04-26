@@ -50,7 +50,8 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="span_margin_radius_padding">Medewerker</span>
-                            </div>
+                                  	</div>
+                            <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding" name="collaborator">
                         </div>
                       </div>
                         <div class="col-lg-6">
