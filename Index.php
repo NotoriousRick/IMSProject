@@ -6,6 +6,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <title>IMS</title>
     </head>
+    
     <body>
         <div class="container" id="container_navbar">
             <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
