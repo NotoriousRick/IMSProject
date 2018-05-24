@@ -8,27 +8,6 @@
     <title>IMS</title>
 </head>
 <body>
-<div class="container" id="container_navbar">
-    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
-        <a class="navbar-brand" href="#">IMS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="btn btn-default" href="#">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
 <form method="post" action="">
     <div class="container">
         <div class="box">
@@ -137,15 +116,14 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                    <textarea class="form-control form-control-sm" id="input_margin_radius_padding" rows="5"
-                              placeholder="Omschrijving incident"></textarea>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Omschrijving incident"></textarea>
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
-                        <div class="jumbotron" id="jumbotron_margin">
-                            <h3>Actie</h3>
-                        </div>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Actie"></textarea>
+                        <br />
                     </div>
                 </div>
                 <div class="row">
@@ -155,19 +133,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <div class="jumbotron" id="jumbotron_margin">
-                            <h3>Uitgevoerde werkzaamheden</h3>
+                        <div class="col">
+                            <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Uitgevoerde werkzaamheden"></textarea>
                         </div>
-                    </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
-                        <div class="jumbotron" id="jumbotron_margin">
-                            <h3>Afspraken</h3>
-                        </div>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Afspraken"></textarea>
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
