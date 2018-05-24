@@ -1,28 +1,25 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="public/Custom.css">
-        <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-        <title>IMS</title>
-    </head>
-    
-    <body>
-    <form>
-        <div class="container">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h3>INCIDENT FORMULIER</h3>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="span_margin_radius_padding">ID</span>
-                                </div>
-                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding" name="incident_number">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="public/Custom.css">
+    <link rel="stylesheet" href="Public/AdminLTE/AdminLTE.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <title>IMS</title>
+</head>
+<body>
+<form method="post" action="">
+    <div class="container">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3>INCIDENT FORMULIER</h3>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="span_margin_radius_padding">ID</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
                                    name="incident_number">
