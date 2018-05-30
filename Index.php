@@ -1,3 +1,15 @@
+<?php include 'DBConnection.php';
+//$sql_klant = 'INSERT INTO klant(Naam, Telefoon, E-mail, Type_ID) VALUES ("peter", "08374983743", "example@example.com", $_POST[''])';
+//if(mysqli_query($mysqli, $sql_klant)){
+//    echo "Records inserted successfully.";
+//} else{
+//    echo "ERROR: Could not able to execute $sql_klant. " . mysqli_error($mysqli);
+//}
+
+$type_klant = 'SELECT * from typeklant';
+$type_klant_result = $mysqli->query($type_klant);
+
+?>
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -8,7 +20,7 @@
     <title>IMS</title>
 </head>
 <body>
-<form method="post" action="">
+<form method="post" action="index.php">
     <div class="container">
         <div class="box">
             <div class="box-header with-border">
@@ -46,6 +58,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <h3>Klantgegevens</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="box-body with-border">
                 <div class="row">
@@ -64,9 +83,13 @@
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
                             <select class="select_two" name="customer_type" style="width:60%; border:none;">
-                                <option>Docent</option>
-                                <option>Student</option>
-                                <option>Extern</option>
+                                <option selected="true" disabled="disabled"></option>
+                                <?php
+//                              Here are all types of customers in a select box.
+                                while ($row = $type_klant_result->fetch_assoc()) {
+                                echo '<option>' . $row["TypeKlant"] . '</option>';
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -84,7 +107,7 @@
                     <div class="col-lg-6">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="span_margin_radius_padding">Evt extra vak</span>
+                                <span class="input-group-text" id="span_margin_radius_padding">ID nummer</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
                                    name="extra_subject">
@@ -105,10 +128,11 @@
                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                             </div>
                             <select class="select_two" name="type_of_notification" style="width:60%; border:none;">
-                                <option>Incident software</option>
-                                <option>Incident hardware</option>
-                                <option>Incident advies</option>
-                                <option>Incident verzoek</option>
+                                <option selected="true" disabled="disabled"></option>
+                                <option>Software incident</option>
+                                <option>Hardware incident</option>
+                                <option>Advies</option>
+                                <option>Verzoek</option>
                             </select>
                         </div>
                     </div>
@@ -116,59 +140,78 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Omschrijving incident"></textarea>
+                        <label><h6>Omschrijving incident</h6></label>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
                     </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col">
-                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Actie"></textarea>
+                        <label><h6>Actie</h6></label>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
                         <br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
+                        <label><h6>Vervolg actie</h6></label>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                            <label><h6> Behandeld door</h6></label>
                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                               name="treated by" placeholder="Behandeld door">
+                               name="treated by">
                     </div>
                 </div>
                 <div class="row">
                         <div class="col">
-                            <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Uitgevoerde werkzaamheden"></textarea>
+                            <label><h6>Uitgevoerde werkzaamheden</h6></label>
+                            <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
                         </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col">
-                        <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="Afspraken"></textarea>
+                        <label><h6>Afspraken</h6></label>
+                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
                     </div>
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col">
                         <div class="form-group">
                             <label for="practitioner">Behandelaar</label>
                             <input type="checkbox" name="practitioner">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col">
                         <div class="form-group">
                             <label for="desk_employee">Balie medewerker</label>
                             <input type="checkbox" name="desk_employee">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col">
                         <div class="form-group">
                             <label for="rounded_date">Datum</label>
                             <input type="text" id="rounded_date" name="rounded_date" disabled>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <input type="submit" id="save" class="btn btn-default" value="Save">
+                            <input type="submit" id="save" class="btn btn-primary" value="Opslaan   ">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="submit" id="save" class="btn btn-warning" value="Annuleren">
+                        </div>
+                    </div>
+                    <div class="col">
                         <div class="form-group">
                             <a class="btn btn-default" onclick="window.print()">Print</a>
                         </div>
@@ -178,6 +221,13 @@
         </div>
     </div>
 </form>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $sql = "INSERT INTO klant()";
+    echo $_POST["collaborator"];
+}
+
+?>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
