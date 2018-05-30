@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
     <body>
-
 <!--  Navbar     -->
         <nav class="navbar navbar-light navbar-custom" style="margin:-1px 0;">
             <nav class="navbar navbar-expand-sm">
