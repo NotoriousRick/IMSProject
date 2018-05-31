@@ -82,7 +82,6 @@ $soort_incident_result = $mysqli->query($soort_incident);
                             <select class="select_two" name="TypeKlant" style="width:60%; border:none;">
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
-//                              Here are all types of customers in a select box.
                                 while ($row = $type_klant_result->fetch_assoc()) {
                                 echo '<option value=' . $row['Type_ID'] . '>' . $row["TypeKlant"] . '</option>';
                                 }
@@ -162,7 +161,7 @@ $soort_incident_result = $mysqli->query($soort_incident);
                     <div class="col">
                             <label><h6>Behandeld door</h6></label>
                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                               name="Behandelaar">
+                               name="">
                         <br />
                     </div>
                 </div>
@@ -183,32 +182,27 @@ $soort_incident_result = $mysqli->query($soort_incident);
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="practitioner">Behandelaar</label>
-                            <input type="checkbox" name="practitioner" value="1">
+                            <label><h6>Behandelaar</h6></label>
+                            <input type="checkbox" name="Behandelaar" value="1">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="desk_employee">Balie medewerker</label>
+                            <label><h6>Balie medewerker</h6></label>
                             <input type="checkbox" name="desk_employee">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="rounded_date">Sluit datum</label>
-                            <input type="text" id="rounded_date" name="rounded_date" disabled>
+                            <label><h6>Sluit datum</h6></label>
+                            <input type="text" name="rounded_date" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <input type="submit" id="save" class="btn btn-primary" value="Opslaan">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <input type="submit" id="do_not_save" class="btn btn-warning" value="Annuleren">
+                            <input type="submit" class="btn btn-primary" value="Opslaan">
                         </div>
                     </div>
                     <div class="col">
