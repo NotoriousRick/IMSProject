@@ -1,13 +1,10 @@
 <?php include 'DBConnection.php';
-//$sql_klant = 'INSERT INTO klant(Naam, Telefoon, E-mail, Type_ID) VALUES ("peter", "08374983743", "example@example.com", $_POST[''])';
-//if(mysqli_query($mysqli, $sql_klant)){
-//    echo "Records inserted successfully.";
-//} else{
-//    echo "ERROR: Could not able to execute $sql_klant. " . mysqli_error($mysqli);
-//}
 
 $type_klant = 'SELECT * from typeklant';
 $type_klant_result = $mysqli->query($type_klant);
+
+$soort_incident = 'SELECT * from soortincident';
+$soort_incident_result = $mysqli->query($soort_incident);
 
 ?>
 <html>
@@ -20,7 +17,7 @@ $type_klant_result = $mysqli->query($type_klant);
     <title>IMS</title>
 </head>
 <body>
-<form method="post" action="index.php">
+<form method="post" action="index.php" id="formulier">
     <div class="container">
         <div class="box">
             <div class="box-header with-border">
@@ -34,7 +31,7 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <span class="input-group-text" id="span_margin_radius_padding">ID</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="incident_number">
+                                   name="Incident_ID">
                         </div>
                     </div>
                 </div>
@@ -45,7 +42,7 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <span class="input-group-text" id="span_margin_radius_padding">Balie medewerker</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="collaborator">
+                                   name="Baliemedewerker">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -53,7 +50,7 @@ $type_klant_result = $mysqli->query($type_klant);
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Datum</span>
                             </div>
-                            <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
+                            <input type="hidden" class="form-control form-control-sm" id="input_margin_radius_padding"
                                    name="date">
                         </div>
                     </div>
@@ -74,7 +71,7 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="name">
+                                   name="Naam">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -82,12 +79,12 @@ $type_klant_result = $mysqli->query($type_klant);
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
-                            <select class="select_two" name="customer_type" style="width:60%; border:none;">
+                            <select class="select_two" name="TypeKlant" style="width:60%; border:none;">
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
 //                              Here are all types of customers in a select box.
                                 while ($row = $type_klant_result->fetch_assoc()) {
-                                echo '<option>' . $row["TypeKlant"] . '</option>';
+                                echo '<option value=' . $row['Type_ID'] . '>' . $row["TypeKlant"] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -101,7 +98,7 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="phone">
+                                   name="Telefoon">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -119,7 +116,7 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <span class="input-group-text" id="span_margin_radius_padding">Email</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="email">
+                                   name="Email">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -127,12 +124,14 @@ $type_klant_result = $mysqli->query($type_klant);
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                             </div>
-                            <select class="select_two" name="type_of_notification" style="width:60%; border:none;">
+                            <select class="select_two" name="SoortIncident_ID" style="width:60%; border:none;">
                                 <option selected="true" disabled="disabled"></option>
-                                <option>Software incident</option>
-                                <option>Hardware incident</option>
-                                <option>Advies</option>
-                                <option>Verzoek</option>
+                                <?php
+                                while($row = $soort_incident_result->fetch_assoc())
+                                {
+                                    echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . '</option>';
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -141,42 +140,43 @@ $type_klant_result = $mysqli->query($type_klant);
                 <div class="row">
                     <div class="col">
                         <label><h6>Omschrijving incident</h6></label>
-                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5"></textarea>
                     </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col">
                         <label><h6>Actie</h6></label>
-                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="Actie" id="" cols="30" rows="5"></textarea>
                         <br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label><h6>Vervolg actie</h6></label>
-                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="VervolgActie" id="" cols="30" rows="5"></textarea>
                         <br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                            <label><h6> Behandeld door</h6></label>
+                            <label><h6>Behandeld door</h6></label>
                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                               name="treated by">
+                               name="Behandelaar">
+                        <br />
                     </div>
                 </div>
                 <div class="row">
                         <div class="col">
                             <label><h6>Uitgevoerde werkzaamheden</h6></label>
-                            <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                            <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5"></textarea>
                         </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col">
                         <label><h6>Afspraken</h6></label>
-                        <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="Afspraken" cols="30" rows="5"></textarea>
                     </div>
                 </div>
                 <br />
@@ -184,7 +184,7 @@ $type_klant_result = $mysqli->query($type_klant);
                     <div class="col">
                         <div class="form-group">
                             <label for="practitioner">Behandelaar</label>
-                            <input type="checkbox" name="practitioner">
+                            <input type="checkbox" name="practitioner" value="1">
                         </div>
                     </div>
                     <div class="col">
@@ -195,7 +195,7 @@ $type_klant_result = $mysqli->query($type_klant);
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="rounded_date">Datum</label>
+                            <label for="rounded_date">Sluit datum</label>
                             <input type="text" id="rounded_date" name="rounded_date" disabled>
                         </div>
                     </div>
@@ -203,12 +203,12 @@ $type_klant_result = $mysqli->query($type_klant);
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <input type="submit" id="save" class="btn btn-primary" value="Opslaan   ">
+                            <input type="submit" id="save" class="btn btn-primary" value="Opslaan">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <input type="submit" id="save" class="btn btn-warning" value="Annuleren">
+                            <input type="submit" id="do_not_save" class="btn btn-warning" value="Annuleren">
                         </div>
                     </div>
                     <div class="col">
@@ -223,8 +223,68 @@ $type_klant_result = $mysqli->query($type_klant);
 </form>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $sql = "INSERT INTO klant()";
-    echo $_POST["collaborator"];
+    $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
+    $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
+    $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
+    $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
+
+    $insert_klant = 'INSERT INTO klant(
+    Naam,
+    Telefoon,
+    Email,
+    Type_ID
+    ) 
+    VALUES(
+    "' . $klant_name . '",
+    "' . $klant_phone . '",
+    "' . $klant_email . '",
+    "' . $klant_customer_type . '"
+    )';
+
+    $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
+    $incident_treated_by = mysqli_real_escape_string($mysqli,$_POST['Behandelaar']);
+    $incident_description = mysqli_real_escape_string($mysqli,$_POST['Omschrijving']);
+    $incident_action = mysqli_real_escape_string($mysqli,$_POST['Actie']);
+    $incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
+    $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
+    $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
+    $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
+
+    $insert_incident = 'INSERT INTO incident(
+    Datum, 
+    Baliemedewerker, 
+    Behandelaar, 
+    Omschrijving, 
+    Actie, 
+    VervolgActie, 
+    UitgevoerdeWerkzaamheden, 
+    Afspraken,
+    SoortIncident_ID
+    ) 
+    VALUES(
+    "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
+    "' . $incident_treated_by . '", "' . $incident_description . '", 
+    "' . $incident_action . '", "' . $incident_follow_up_action . '", 
+    "' . $incident_executed_work . '", "' . $incident_appointments . '", 
+    "' . $incident_type . '"
+    )';
+
+    if(mysqli_query($mysqli, $insert_klant))
+    {
+        echo 'Klant saved' . '<br />';
+    }
+    else{
+        echo $mysqli->error;
+    }
+
+    if(mysqli_query($mysqli, $insert_incident))
+    {
+        echo 'Incident saved.';
+    }
+    else
+    {
+        echo $mysqli->error;
+    }
 }
 
 ?>
@@ -244,5 +304,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $(document).ready(function () {
         $('.select_two').select2();
     });
+
+    // $('#formulier').submit(function (e) {
+    //     e.preventDefault();
+    // })
 </script>
 </html>
