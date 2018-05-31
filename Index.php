@@ -147,29 +147,30 @@ $soort_incident_result = $mysqli->query($soort_incident);
                     <div class="col">
                         <label><h6>Actie</h6></label>
                         <textarea class="form-control" name="Actie" id="" cols="30" rows="5"></textarea>
-                        <br />
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
                         <label><h6>Vervolg actie</h6></label>
                         <textarea class="form-control" name="VervolgActie" id="" cols="30" rows="5"></textarea>
-                        <br />
+
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col">
                             <label><h6>Behandeld door</h6></label>
                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                               name="">
-                        <br />
+                               name="Behandelaar">
                     </div>
                 </div>
+                <br />
                 <div class="row">
-                        <div class="col">
-                            <label><h6>Uitgevoerde werkzaamheden</h6></label>
-                            <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5"></textarea>
-                        </div>
+                    <div class="col">
+                        <label><h6>Uitgevoerde werkzaamheden</h6></label>
+                        <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5"></textarea>
+                    </div>
                 </div>
                 <br />
                 <div class="row">
@@ -183,19 +184,19 @@ $soort_incident_result = $mysqli->query($soort_incident);
                     <div class="col">
                         <div class="form-group">
                             <label><h6>Behandelaar</h6></label>
-                            <input type="checkbox" name="Behandelaar" value="1">
+                            <input type="checkbox" name="GereedVoorSluiten" value="1">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label><h6>Balie medewerker</h6></label>
-                            <input type="checkbox" name="desk_employee">
+                            <input type="checkbox" name="Baliemedewerker" value="1">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label><h6>Sluit datum</h6></label>
-                            <input type="text" name="rounded_date" disabled>
+                            <input type="text" name="SluitDatum" disabled>
                         </div>
                     </div>
                 </div>
@@ -243,6 +244,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
     $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
     $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
+    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
+    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
 
     $insert_incident = 'INSERT INTO incident(
     Datum, 
@@ -253,14 +256,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VervolgActie, 
     UitgevoerdeWerkzaamheden, 
     Afspraken,
-    SoortIncident_ID
+    SoortIncident_ID,
+    GereedVoorSluiten,
+    IncidentGesloten
     ) 
     VALUES(
     "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
     "' . $incident_treated_by . '", "' . $incident_description . '", 
     "' . $incident_action . '", "' . $incident_follow_up_action . '", 
     "' . $incident_executed_work . '", "' . $incident_appointments . '", 
-    "' . $incident_type . '"
+    "' . $incident_type . '", "' . $incident_ready_for_closing . '", 
+    "' . $incident_closed . '"
     )';
 
     if(mysqli_query($mysqli, $insert_klant))
