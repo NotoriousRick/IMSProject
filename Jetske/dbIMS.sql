@@ -42,11 +42,11 @@ CREATE TABLE `Incident` (
   `VervolgActie` text,
   `UitgevoerdeWerkzaamheden` text,
   `Afspraken` text,
-  `GereedVoorSluiten` bit(1) DEFAULT NULL
+  `GereedVoorSluiten` bit(1) DEFAULT NULL,
   `SluitDatum` datetime DEFAULT NULL,
   `IncidentGesloten` bit(1) DEFAULT NULL,
   `Klant_ID` int(11) NOT NULL,
-  `SoortIncident_ID` int(11) NOT NULL,
+  `SoortIncident_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
