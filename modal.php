@@ -1,18 +1,24 @@
-<?php $type_klant = 'SELECT * from typeklant';
-$type_klant_result = $mysqli->query($type_klant);
 
-$soort_incident = 'SELECT * from soortincident';
-$soort_incident_result = $mysqli->query($soort_incident);
-$getDate = date("Y-m-d");
-?>
+
 <div id="fModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg" style="min-width: 1200px">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <form method="post" action="" id="formulier">
+                    <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="span_margin_radius_padding">Formulier ID</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
+                                       name="Incident_ID" disabled>
+                        </div>
+                    </div>
+                </form>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
                 <form method="post" action="" id="formulier">
@@ -114,7 +120,7 @@ $getDate = date("Y-m-d");
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                                             </div>
-                                            <input class="form-control form-control-sm" name="SoortIncident" id="input_margin_radius_padding" style="width:60%; border:none;" disabled>
+                                            <input class="form-control form-control-sm" name="SoortIncident" id="input_margin_radius_padding"  disabled>
                                             </input>
                                         </div>
                                     </div>
@@ -136,14 +142,6 @@ $getDate = date("Y-m-d");
                                     </div>
                                 </div>
                                 <br />
-                                <!--                <div class="row" id="but">-->
-                                <!--                    <!--                Vervolg actie button-->
-                                <!--                    <div class="col">-->
-                                <!--                        <div class="form-group">-->
-                                <!--                            <input type="button" id="addAction" class="btn btn-info btn-custom" value="Vervolg Actie">-->
-                                <!--                        </div>-->
-                                <!--                    </div>-->
-                                <!--                </div>-->
                                 <div class="row VervolgActie">
                                     <div class="col">
                                         <label><h6>Vervolg actie</h6></label>
@@ -213,7 +211,6 @@ $getDate = date("Y-m-d");
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
 

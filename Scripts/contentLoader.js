@@ -5,14 +5,81 @@
 
 // Main content container
 var content = "#content"; // Content div for generated ajax content
-var table = $('#testData').DataTable();  // Datatable for incident list
+var table = $('#testData').DataTable();  // Datatable initialization for incident list
 
-// Testing datatables plugin
 $(document).ready(function () {
-    $('#test').click(function () {
+    // $(content).empty();
+    $.ajax({
+        url: 'overzicht_incident.php',
+        type: 'post',
+        success: function (response) {
+            if (response == null) {
+                alert('error');
+            }
+            $(content).append(response);
+            $(content).css('padding', '0');
+
+            // Check the state of the navbar settings
+            if (!$('#autoscroll').hasClass('fas fa-check')) {
+                $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+            }
+            // DataTable initiation
+            table = $('#testData').DataTable( {
+                "ajax": "get_incident_data.php",
+                "columns": [
+                    { "data": "incidentId" },
+                    { "data": "datum" },
+                    { "data": "duration" },
+                    { "data": "behandelaar" }
+                ],
+                "order": [[ 1, "asc" ]],
+                "createdRow": function ( row, data, index) {
+                    var days = data['days'];
+                    var color;
+                    if (days > 356) {
+                        color = 'btn-danger';
+                    } else if (days > 160) {
+                        color = 'btn-warning';
+                    } else {
+                        color = 'btn-outline-info';
+                    }
+                    $(row).addClass(color);
+                },
+                "language": {
+                    "sProcessing": "Bezig...",
+                    "sLengthMenu": "_MENU_ resultaten weergeven",
+                    "sZeroRecords": "Geen resultaten gevonden",
+                    "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                    "sInfoEmpty": "Geen resultaten om weer te geven",
+                    "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Zoeken:",
+                    "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                    "sInfoThousands": ".",
+                    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                    "oPaginate": {
+                        "sFirst": "Eerste",
+                        "sLast": "Laatste",
+                        "sNext": "Volgende",
+                        "sPrevious": "Vorige"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                        "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                    }
+                }
+            });
+        }
+    });
+    $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
+});
+
+// Overzicht Incidenten DataTable
+$(document).ready(function () {
+    $('#overzicht').click(function () {
         $(content).empty();
         $.ajax({
-            url: 'test.php',
+            url: 'overzicht_incident.php',
             type: 'post',
             success: function (response) {
                 if (response == null) {
@@ -27,7 +94,7 @@ $(document).ready(function () {
                 }
                 // DataTable initiation
                 table = $('#testData').DataTable( {
-                    "ajax": "get_data.php",
+                    "ajax": "get_incident_data.php",
                     "columns": [
                         { "data": "incidentId" },
                         { "data": "datum" },
@@ -95,12 +162,15 @@ $(content).on('click', 'tbody > tr > td', function (){
                 var type = $('[name="'+name+'"]').attr('type');
                 if (type === 'select-one'){
                     form.find($('[name='+name+']')).val( value ).trigger("change");
-                    // $('#'+form+' option').filter(function () { return $(this).html() === value; }).val(value)
                 }
                 else if($('[name="'+name+'"]').is(':checkbox')){
                     if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
                 }
                 else {
+                    if (value === "0000-00-00"){
+                        form.find($('[name='+name+']')).val(' ')
+                    }
+                    else
                     form.find($('[name='+name+']')).val(value)
                 }
             })
@@ -304,47 +374,47 @@ $(content).on("click", ".btn-right", function (e) {
 });
 
 // Overzicht incidenten
-$(document).ready(function(){
-    $('#overzicht').click(function(){
-        $(content).empty();
-        $.ajax({
-            url: 'overzicht_incidenten.php',
-            type: 'post',
-            success: function (response) {
-                if (response == null) {
-                    alert('error');
-                }
-                $(content).append(response);
-
-                // Check the state of the navbar settings
-                if (!$('#autoscroll').hasClass('fas fa-check')) {
-                    $('#sticky').removeClass('sticky-top').css('padding-top','6px');
-                }
-
-                // Pre-load blank forms
-                $.ajax({
-                    url: 'blank_form.php',
-                    method: 'post',
-                    success: function (response) {
-                        $('.incident-form').append(response);
-                        $('.VervolgActie').hide();
-                        // remove change class so that autoscroll function will ignore this div
-                        $('.change').removeClass('change');
-
-                        $('.delet').hide();
-                    }
-                });
-
-                // if (!$('#set3').hasClass('fas fa-check')){
-                //  //do stuff with 3rd setting off
-                // }
-                // else{
-                //  //do stuff with 3rd setting on
-                // }
-            }
-        });
-    })
-});
+// $(document).ready(function(){
+//     $('#overzicht').click(function(){
+//         $(content).empty();
+//         $.ajax({
+//             url: 'overzicht_incidenten(old).php',
+//             type: 'post',
+//             success: function (response) {
+//                 if (response == null) {
+//                     alert('error');
+//                 }
+//                 $(content).append(response);
+//
+//                 // Check the state of the navbar settings
+//                 if (!$('#autoscroll').hasClass('fas fa-check')) {
+//                     $('#sticky').removeClass('sticky-top').css('padding-top','6px');
+//                 }
+//
+//                 // Pre-load blank forms
+//                 $.ajax({
+//                     url: 'blank_form.php',
+//                     method: 'post',
+//                     success: function (response) {
+//                         $('.incident-form').append(response);
+//                         $('.VervolgActie').hide();
+//                         // remove change class so that autoscroll function will ignore this div
+//                         $('.change').removeClass('change');
+//
+//                         $('.delet').hide();
+//                     }
+//                 });
+//
+//                 // if (!$('#set3').hasClass('fas fa-check')){
+//                 //  //do stuff with 3rd setting off
+//                 // }
+//                 // else{
+//                 //  //do stuff with 3rd setting on
+//                 // }
+//             }
+//         });
+//     })
+// });
 
 // Nieuw incident melden page
 $(document).ready(function(){
@@ -373,7 +443,7 @@ $(document).ready(function(){
     $('#rapport').click(function(){
         $(content).empty();
         $.ajax({
-            url: 'rapportages.php',
+            url: 'Pim/rapportages.php',
             type: 'post',
             success: function (response) {
                 if (response == null){

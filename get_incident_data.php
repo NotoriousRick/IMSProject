@@ -1,4 +1,5 @@
 <?php
+// Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 include "config.php";
 $query = $db->prepare('select Incident_ID, Datum, Behandelaar from incident');
 $query->execute();

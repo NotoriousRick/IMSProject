@@ -1,4 +1,5 @@
 <?php
+// Get data to fill the incident form
 include "config.php";
 
 $stmt = 'select * 
