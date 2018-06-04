@@ -274,7 +274,7 @@ $(document).ready(function () {
                 $('.navbar-main').removeClass('fixed-top');
                 $('#sticky').removeClass('sticky-top').css('padding-top', '6px');
                 $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
-                $('.change').css('padding-top', '0');
+                $('.change').css('padding-top', '11px');
                 $('#collapsedNavbar').removeClass('sticky-top');
             }
             else if($(this).attr('value') === "secret"){
@@ -292,7 +292,7 @@ $(document).ready(function () {
                 $('.navbar-main').addClass('fixed-top');
                 $('#sticky').addClass('sticky-top').css('padding-top', '70px');
                 $('#sticky2').addClass('sticky-top').css('padding-top', '72px');
-                $('.change').css('padding-top', '64px');
+                $('.change').css('padding-top', '75px');
             }
 
             // autohide the navbar to a small collapsed button
@@ -303,7 +303,7 @@ $(document).ready(function () {
                 $('#collapsedNavbar').append("<div id=\"toggle\" class=\"btn btn-info btn-custom btn-block\"></div>");
                 $('#sticky').css('padding-top', '0');
                 $('#sticky2').css('padding-top', '8px');
-                $('.change').css('padding-top', '0');
+                $('.change').css('padding-top', '11px');
             }
             else if(($(this).attr('value') === "secret")){
                 $('.btn-outline-info, .btn-danger, .btn-warning').addClass('ainsley');
@@ -323,7 +323,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
         $('#sticky').css('padding-top', '70px');
         $('#sticky2').css('padding-top', '72px');
         $('#collapsedNavbar').addClass('sticky-top');
-        $('.change').css('padding-top', '64px');
+        $('.change').css('padding-top', '75px');
     }
 });
 
@@ -343,7 +343,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location='../login.php'
+                window.location = window.location.href + 'login.php'
             }, 1000);
         }
     });
@@ -431,7 +431,7 @@ $(document).ready(function(){
                 $('#VervolgActie').hide();
 
                 if($('#autoscroll').hasClass('fas fa-check')) {
-                    $('.change').css('padding-top', '64px');
+                    $('.change').css('padding-top', '75px');
                 }
             }
         });
