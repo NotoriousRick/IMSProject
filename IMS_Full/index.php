@@ -10,11 +10,11 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Style/bootstrap.min.css">
+    <link rel="stylesheet" href="Style/Select2.css">
+    <link rel="stylesheet" href="fontawesome-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="DataTables/datatables.min.css"/>
+    <link rel="stylesheet" href="Style/style.css">
 
 </head>
     <body>
@@ -111,13 +111,23 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
     ?>
     </body>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!--JQuery main library-->
+<script src="Scripts/jquery-3.3.1.slim.js"></script>
+
+<!--Popper,js plugin for bootstrap-->
+<script src="Scripts/popper.js"></script>
+
+<!--Select2 plugin for better dropdown menu-->
+<script src="Scripts/select2.js"></script>
+
+<!--Datatables plugin for better table search and sort functions-->
 <script type="text/javascript" src="DataTables/datatables.min.js"></script>
-<script src="bootstrap.min.js"></script>
-<script src="contentLoader.js"></script>
+
+<!--Bootstrap script library-->
+<script src="Scripts/bootstrap.min.js"></script>
+
+<!--Main script of this app-->
+<script src="Scripts/contentLoader.js"></script>
 
 </html>
 

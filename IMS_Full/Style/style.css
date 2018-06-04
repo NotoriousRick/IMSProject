@@ -6,7 +6,7 @@ tbody > tr > td:hover{
     cursor: pointer;
 }
 .ainsley:hover{
-    cursor: url(ainsleySmol.png), pointer;
+    cursor: url(../images/ainsleySmol.png), pointer;
 }
 
 /*navbar collapsed, toggler*/

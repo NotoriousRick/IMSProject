@@ -6,16 +6,6 @@ $type_klant_result = $mysqli->query($type_klant);
 $soort_incident = 'SELECT * from soortincident';
 $soort_incident_result = $mysqli->query($soort_incident);
 ?>
-<html>
-<head>
-    <link rel="stylesheet" href="AdminLTE/AdminLTE.min.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <title>IMS</title>
-</head>
-<body>
 <form method="post" action="" id="formulier">
     <div class="container change" id="change">
         <div class="box">
@@ -219,6 +209,4 @@ $soort_incident_result = $mysqli->query($soort_incident);
         </div>
     </div>
 </form>
-</body>
-</html>
 
