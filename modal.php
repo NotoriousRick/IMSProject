@@ -1,5 +1,3 @@
-
-
 <div id="fModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg" style="min-width: 1200px">
 

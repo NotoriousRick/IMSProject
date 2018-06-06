@@ -1,9 +1,9 @@
 <?php
 include "config.php";
-$type_klant = 'SELECT * from typeklant';
+$type_klant = 'SELECT * from TypeKlant';
 $type_klant_result = $mysqli->query($type_klant);
 
-$soort_incident = 'SELECT * from soortincident';
+$soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
 $getDate = date("Y-m-d");
 ?>
@@ -211,72 +211,73 @@ $getDate = date("Y-m-d");
 
 </script>
 <?php
-//if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//    $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
-//    $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
-//    $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
-//    $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
-//
-//    $insert_klant = 'INSERT INTO klant(
-//    Naam,
-//    Telefoon,
-//    Email,
-//    Type_ID
-//    )
-//    VALUES(
-//    "' . $klant_name . '",
-//    "' . $klant_phone . '",
-//    "' . $klant_email . '",
-//    "' . $klant_customer_type . '"
-//    )';
-//
-//    $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
-//    $incident_treated_by = mysqli_real_escape_string($mysqli,$_POST['Behandelaar']);
-//    $incident_description = mysqli_real_escape_string($mysqli,$_POST['Omschrijving']);
-//    $incident_action = mysqli_real_escape_string($mysqli,$_POST['Actie']);
-//    $incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
-//    $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
-//    $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
-//    $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
-//    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
-//    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
-//
-//    $insert_incident = 'INSERT INTO incident(
-//    Datum,
-//    Baliemedewerker,
-//    Behandelaar,
-//    Omschrijving,
-//    Actie,
-//    VervolgActie,
-//    UitgevoerdeWerkzaamheden,
-//    Afspraken,
-//    SoortIncident_ID,
-//    GereedVoorSluiten,
-//    IncidentGesloten
-//    )
-//    VALUES(
-//    "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
-//    "' . $incident_treated_by . '", "' . $incident_description . '",
-//    "' . $incident_action . '", "' . $incident_follow_up_action . '",
-//    "' . $incident_executed_work . '", "' . $incident_appointments . '",
-//    "' . $incident_type . '", "' . $incident_ready_for_closing . '",
-//    "' . $incident_closed . '"
-//    )';
-//
-//    if(mysqli_query($mysqli, $insert_klant))
-//    {
-//        echo 'Klant saved' . '<br />';
-//    }
-//    else{
-//        echo $mysqli->error;
-//    }
-//
-//    if(mysqli_query($mysqli, $insert_incident))
-//    {
-//        echo 'Incident saved.';
-//    }
-//    else
-//    {
-//        echo $mysqli->error;
-//    }
-//}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
+    $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
+    $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
+    $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
+
+    $insert_klant = 'INSERT INTO Klant(
+    Naam,
+    Telefoon,
+    Email,
+    Type_ID
+    )
+    VALUES(
+    "' . $klant_name . '",
+    "' . $klant_phone . '",
+    "' . $klant_email . '",
+    "' . $klant_customer_type . '"
+    )';
+
+    $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
+    $incident_treated_by = mysqli_real_escape_string($mysqli,$_POST['Behandelaar']);
+    $incident_description = mysqli_real_escape_string($mysqli,$_POST['Omschrijving']);
+    $incident_action = mysqli_real_escape_string($mysqli,$_POST['Actie']);
+    $incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
+    $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
+    $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
+    $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
+    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
+    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
+
+    $insert_incident = 'INSERT INTO Incident(
+    Datum,
+    Baliemedewerker,
+    Behandelaar,
+    Omschrijving,
+    Actie,
+    VervolgActie,
+    UitgevoerdeWerkzaamheden,
+    Afspraken,
+    SoortIncident_ID,
+    GereedVoorSluiten,
+    IncidentGesloten
+    )
+    VALUES(
+    "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
+    "' . $incident_treated_by . '", "' . $incident_description . '",
+    "' . $incident_action . '", "' . $incident_follow_up_action . '",
+    "' . $incident_executed_work . '", "' . $incident_appointments . '",
+    "' . $incident_type . '", "' . $incident_ready_for_closing . '",
+    "' . $incident_closed . '"
+    )';
+
+    if(mysqli_query($mysqli, $insert_klant))
+    {
+        echo 'Klant saved' . '<br />';
+    }
+    else{
+        echo $mysqli->error;
+    }
+
+    if(mysqli_query($mysqli, $insert_incident))
+    {
+        echo 'Incident saved.';
+    }
+    else
+    {
+        echo $mysqli->error;
+    }
+}
+

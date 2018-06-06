@@ -332,7 +332,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
 $(document).on('click', '#logoutBut', function () {
     $('#modalLogOut').modal('hide');
     $.ajax({
-        url: 'logout.php',
+        url: 'Jetske/logout.php',
         method: 'post',
         success: function () {
 
@@ -344,7 +344,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = window.location.href + 'login.php'
+                window.location = window.location.href + 'Jetske/login.php'
             }, 1000);
         }
     });
@@ -376,11 +376,15 @@ $(content).on("click", ".btn-right", function (e) {
 
 // Nieuw incident melden page
 $(document).ready(function(){
-    $('#incident').click(function(){
+    $('#incident').click(function(e){
         $(content).empty();
         $.ajax({
             url: 'incident_formulier.php',
+<<<<<<< HEAD
             type: 'get',
+=======
+            type:'get',
+>>>>>>> 4ec889d499b51a93edcb4fe55454ace8d859b01f
             success: function (response) {
                 if (response == null){
                     alert('error');
@@ -411,11 +415,12 @@ $(document).ready(function(){
 
 // Rapportages page
 $(document).ready(function(){
+    // Load the initial UI on click
     $('#rapport').click(function(){
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
-            type: 'post',
+            type: 'get',
             success: function (response) {
                 if (response == null){
                     alert('error');
@@ -426,5 +431,57 @@ $(document).ready(function(){
                 }
             }
         });
-    })
+
+        // Submit custom query
+        $(content).on('click','#submitRapport', function(e){
+            e.preventDefault();
+            $('#result').empty();
+            // var datum = $('#datum').val();
+            // var einddatum = $('#einddatum').val();
+            // var incident = $('#incident').val();
+            // var soortincident = $('#soortincident').val();
+            // var typeklant = $('#typeklant').val();
+            // var baliemedewerker = $('#baliemedewerker').val();
+            // var behandelaar = $('#behandelaar').val();
+            var formdata = $("#rapporatgeForm").serialize();
+            $.ajax({
+                url: "Pim/Result.php",
+                type: "post",
+                data: formdata,
+                // data: {datum: datum, einddatum: einddatum, incident: incident, soortincident: soortincident, typeklant: typeklant, baliemedewerker: baliemedewerker, behandelaar: behandelaar},
+                success: function(response){
+                    //console.log(response);
+                    if (response === 0){
+                        alert('error');
+                    }
+                    $('#result').append(response);
+//                        $('#form').each(function(){
+//                            this.reset();
+//                        });
+                }
+
+            });
+        });
+
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    });
 });
+
+// Pim rapportages

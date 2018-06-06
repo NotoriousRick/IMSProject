@@ -1,8 +1,3 @@
-<?php
-include 'config.php';
-
-?>
-
 <div id="sticky2" class="sticky-top">
     <table class="table" id="testData">
         <thead class="table-bordered headerIncident">

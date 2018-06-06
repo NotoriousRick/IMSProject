@@ -1,9 +1,9 @@
 <?php
 include "config.php";
-$type_klant = 'SELECT * from typeklant';
+$type_klant = 'SELECT * from TypeKlant';
 $type_klant_result = $mysqli->query($type_klant);
 
-$soort_incident = 'SELECT * from soortincident';
+$soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
 ?>
 <form method="post" action="" id="formulier">
