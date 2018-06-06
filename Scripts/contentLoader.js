@@ -7,6 +7,7 @@
 var content = "#content"; // Content div for generated ajax content
 var table = $('#testData').DataTable();  // Datatable initialization for incident list
 
+    // initial page load
 $(document).ready(function () {
     // $(content).empty();
     $.ajax({
@@ -180,19 +181,19 @@ $(content).on('click', 'tbody > tr > td', function (){
 });
 
 // Form submit
-$(content).on('submit', '#formulier', function (e) {
-    var formdata = $("#formulier").serialize();
-    $.ajax({
-        type: "POST",
-        url: "incident_formulier.php",
-        data: formdata,
-        success: function()
-        {
-            alert(formdata);
-        }
-    });
-    e.preventDefault(); // prevent page reload
-});
+// $(content).on('submit', '#formulier', function (e) {
+//     var formdata = $("#formulier").serialize();
+//     $.ajax({
+//         type: "POST",
+//         url: "incident_formulier.php",
+//         data: formdata,
+//         success: function()
+//         {
+//             alert(formdata);
+//         }
+//     });
+//     e.preventDefault(); // prevent page reload
+// });
 
 // When a button is clicked, it will have a different color until its clicked again
 $(content).on('click', ".btn-warning, .btn-danger, .btn-outline-info", function () {
@@ -373,66 +374,36 @@ $(content).on("click", ".btn-right", function (e) {
     //if (id);
 });
 
-// Overzicht incidenten
-// $(document).ready(function(){
-//     $('#overzicht').click(function(){
-//         $(content).empty();
-//         $.ajax({
-//             url: 'overzicht_incidenten(old).php',
-//             type: 'post',
-//             success: function (response) {
-//                 if (response == null) {
-//                     alert('error');
-//                 }
-//                 $(content).append(response);
-//
-//                 // Check the state of the navbar settings
-//                 if (!$('#autoscroll').hasClass('fas fa-check')) {
-//                     $('#sticky').removeClass('sticky-top').css('padding-top','6px');
-//                 }
-//
-//                 // Pre-load blank forms
-//                 $.ajax({
-//                     url: 'blank_form.php',
-//                     method: 'post',
-//                     success: function (response) {
-//                         $('.incident-form').append(response);
-//                         $('.VervolgActie').hide();
-//                         // remove change class so that autoscroll function will ignore this div
-//                         $('.change').removeClass('change');
-//
-//                         $('.delet').hide();
-//                     }
-//                 });
-//
-//                 // if (!$('#set3').hasClass('fas fa-check')){
-//                 //  //do stuff with 3rd setting off
-//                 // }
-//                 // else{
-//                 //  //do stuff with 3rd setting on
-//                 // }
-//             }
-//         });
-//     })
-// });
-
 // Nieuw incident melden page
 $(document).ready(function(){
     $('#incident').click(function(){
         $(content).empty();
         $.ajax({
             url: 'incident_formulier.php',
-            type: 'post',
+            type: 'get',
             success: function (response) {
                 if (response == null){
                     alert('error');
                 }
                 $(content).append(response);
+                // Hide stuff here
                 $('#VervolgActie').hide();
-
+                $('.id_number').hide();
                 if($('#autoscroll').hasClass('fas fa-check')) {
                     $('.change').css('padding-top', '75px');
                 }
+            }
+        });
+        $(content).on('change', '.TypeKlant', function () {
+            var value = $(this).val();
+            var type_klant_value = value.replace('selected', '');
+            if (type_klant_value == 'Student' || type_klant_value == 'Docent')
+            {
+                $('.id_number').show();
+            }
+            else
+            {
+                $('.id_number').hide();
             }
         });
     })
