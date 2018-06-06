@@ -186,9 +186,9 @@ $(content).on('submit', '#formulier', function (e) {
         type: "POST",
         url: "incident_formulier.php",
         data: formdata,
-        success: function()
+        success: function(response)
         {
-            alert(formdata);
+            alert(response);
         }
     });
     e.preventDefault(); // prevent page reload
@@ -375,11 +375,11 @@ $(content).on("click", ".btn-right", function (e) {
 
 // Nieuw incident melden page
 $(document).ready(function(){
-    $('#incident').click(function(){
+    $('#incident').click(function(e){
         $(content).empty();
         $.ajax({
             url: 'incident_formulier.php',
-            type: 'post',
+            type:'get',
             success: function (response) {
                 if (response == null){
                     alert('error');
@@ -397,11 +397,12 @@ $(document).ready(function(){
 
 // Rapportages page
 $(document).ready(function(){
+    // Load the initial UI on click
     $('#rapport').click(function(){
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
-            type: 'post',
+            type: 'get',
             success: function (response) {
                 if (response == null){
                     alert('error');
@@ -412,5 +413,57 @@ $(document).ready(function(){
                 }
             }
         });
-    })
+
+        // Submit custom query
+        $(content).on('click','#submitRapport', function(e){
+            e.preventDefault();
+            $('#result').empty();
+            // var datum = $('#datum').val();
+            // var einddatum = $('#einddatum').val();
+            // var incident = $('#incident').val();
+            // var soortincident = $('#soortincident').val();
+            // var typeklant = $('#typeklant').val();
+            // var baliemedewerker = $('#baliemedewerker').val();
+            // var behandelaar = $('#behandelaar').val();
+            var formdata = $("#rapporatgeForm").serialize();
+            $.ajax({
+                url: "Pim/Result.php",
+                type: "post",
+                data: formdata,
+                // data: {datum: datum, einddatum: einddatum, incident: incident, soortincident: soortincident, typeklant: typeklant, baliemedewerker: baliemedewerker, behandelaar: behandelaar},
+                success: function(response){
+                    //console.log(response);
+                    if (response === 0){
+                        alert('error');
+                    }
+                    $('#result').append(response);
+//                        $('#form').each(function(){
+//                            this.reset();
+//                        });
+                }
+
+            });
+        });
+
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    });
 });
+
+// Pim rapportages
