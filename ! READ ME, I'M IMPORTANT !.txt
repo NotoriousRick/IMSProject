@@ -1,4 +1,7 @@
-						Notes after merging, 
+                        Update on the great merge conflict,
+Hopefully fixed all the buggy commits and merges, ye boi
+
+						Notes after merging,
 
 Iedereen moet zijn eigen config en connection files renamen naar "config.php" en daarin je eigen connectie maken, 
 !!! DIE FILE MOET JE NOOIT PUSHEN !!!
