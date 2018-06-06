@@ -15,15 +15,13 @@ else //geen admin = geen toegang tot UserOverzicht pagina
     exit;
 }
 ?>
-<HTML>
-    <HEAD>
-        <META charset="uft-8">
-        <TITLE></TITLE>
-        <! --
-        linkjes/scripts voor css, boodstrap, javascript, jquery etc etc
-        -->
-    </HEAD>
-    <BODY>
+<html>
+    <head>
+        <meta charset="uft-8">
+        <title></title>
+        <link rel="stylesheet" href="../Style/bootstrap.min.css">
+    </head>
+    <body>
         <?php
         $sql = "SELECT User_ID, UserName, IsAdmin FROM User";
         if (!$result = $link->query($sql))
@@ -50,5 +48,16 @@ else //geen admin = geen toegang tot UserOverzicht pagina
         $link->close();
         ?>
         <a href="CreateUser.php">Nieuwe gebruiker</a>
-    </BODY> 
-</HTML>
+    </body>
+    <!--Main jQuery library-->
+    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
+
+    <!--Popper.js plugin for bootstrap-->
+    <script src="../Scripts/popper.js"></script>
+
+    <!--Bootstrap script library-->
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+    <!--Jetske's special script-->
+    <script src="../Scripts/PassRequirements.js"></script>
+</html>

@@ -120,24 +120,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 }
 ?>
 
-<HTML>
-    <HEAD>
-        <META charset="uft-8">
-        <TITLE></TITLE>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/passRequirements.js"></script>
-    </HEAD>
-    <BODY>
-        <script>
-            $(document).ready(function()
-            {
-               $( ":password" ).PassRequirements(); 
-            });
-        </script>
-        <FORM method="post">
-            <DIV>
+<html>
+    <head>
+        <meta charset="uft-8">
+        <title></title>
+        <link rel="stylesheet" href="../Style/bootstrap.min.css">
+    </head>
+    <body>
+
+        <form method="post">
+            <div>
                 <label>Gebruikersnaam: </label><br>
                 <input type="text" name="UserName" value="<?php if (isset($user)) print $user['UserName']; ?>" required/><br><br>
                 <label>Wachtwoord: </label><br>
@@ -145,7 +137,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 <label>Is Admin?</label>
                 <input type="checkbox" name="IsAdmin" <?php if (isset($user) && $user['IsAdmin'] == 1) print 'checked="true"' ?>/>
                 <input type="submit" value="opslaan">
-            </DIV>
-        </FORM>
-    </BODY>
-</HTML>
+            </div>
+        </form>
+    </body>
+
+    <script>
+        $(document).ready(function()
+        {
+            $( ":password" ).PassRequirements();
+        });
+    </script>
+
+    <!--Main jQuery library-->
+    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
+
+    <!--Popper.js plugin for bootstrap-->
+    <script src="../Scripts/popper.js"></script>
+
+    <!--Bootstrap script library-->
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+    <!--Jetske's special script-->
+    <script src="../Scripts/PassRequirements.js"></script>
+</html>

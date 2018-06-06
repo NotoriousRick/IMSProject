@@ -54,6 +54,7 @@ echo "no really, there is nothing here, go away<br>
     <head>
         <meta charset="uft-8">
         <title></title>
+        <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
         <form method="post">
@@ -66,4 +67,15 @@ echo "no really, there is nothing here, go away<br>
             </div>
         </form>
     </body>
+    <!--Main jQuery library-->
+    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
+
+    <!--Popper.js plugin for bootstrap-->
+    <script src="../Scripts/popper.js"></script>
+
+    <!--Bootstrap script library-->
+    <script src="../Scripts/bootstrap.min.js"></script>
+
+    <!--Jetske's special script-->
+    <script src="../Scripts/PassRequirements.js"></script>
 </html>

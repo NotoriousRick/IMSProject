@@ -397,7 +397,7 @@ $(document).ready(function(){
         $(content).on('change', '.TypeKlant', function () {
             var value = $(this).val();
             var type_klant_value = value.replace('selected', '');
-            if (type_klant_value == 'Student' || type_klant_value == 'Docent')
+            if (type_klant_value === 'Student' || type_klant_value === 'Docent')
             {
                 $('.id_number').show();
             }
