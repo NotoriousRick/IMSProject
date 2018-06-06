@@ -37,7 +37,7 @@ CREATE TABLE `Incident` (
   `Datum` datetime DEFAULT NULL,
   `Baliemedewerker` varchar(255) DEFAULT NULL,
   `Behandelaar` varchar(255) DEFAULT NULL,
-  `Omschijving` text,
+  `Omschrijving` text,
   `Actie` text,
   `VervolgActie` text,
   `UitgevoerdeWerkzaamheden` text,

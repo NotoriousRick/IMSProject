@@ -1,4 +1,5 @@
-<?php include 'DBConnection.php';
+<?php 
+//include 'DBConnection.php';
 //$sql_klant = 'INSERT INTO klant(Naam, Telefoon, E-mail, Type_ID) VALUES ("peter", "08374983743", "example@example.com", $_POST[''])';
 //if(mysqli_query($mysqli, $sql_klant)){
 //    echo "Records inserted successfully.";
@@ -6,14 +7,13 @@
 //    echo "ERROR: Could not able to execute $sql_klant. " . mysqli_error($mysqli);
 //}
 
-$type_klant = 'SELECT * from typeklant';
-$type_klant_result = $mysqli->query($type_klant);
+//$type_klant = 'SELECT * from typeklant';
+//$type_klant_result = $mysqli->query($type_klant);
 
 ?>
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="Custom.css">
     <link rel="stylesheet" href="AdminLTE.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
@@ -86,9 +86,9 @@ $type_klant_result = $mysqli->query($type_klant);
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
 //                              Here are all types of customers in a select box.
-                                while ($row = $type_klant_result->fetch_assoc()) {
-                                echo '<option>' . $row["TypeKlant"] . '</option>';
-                                }
+//                                while ($row = $type_klant_result->fetch_assoc()) {
+//                                echo '<option>' . $row["TypeKlant"] . '</option>';
+//                                }
                                 ?>
                             </select>
                         </div>
@@ -222,10 +222,10 @@ $type_klant_result = $mysqli->query($type_klant);
     </div>
 </form>
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $sql = "INSERT INTO klant()";
-    echo $_POST["collaborator"];
-}
+//if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//    $sql = "INSERT INTO klant()";
+//    echo $_POST["collaborator"];
+//}
 
 ?>
 </body>
@@ -241,8 +241,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <!--SELECT 2 PLUGIN-->
 <script>
-    $(document).ready(function () {
-        $('.select_two').select2();
-    });
+//    $(document).ready(function () {
+//        $('.select_two').select2();
+//    });
 </script>
 </html>
