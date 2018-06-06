@@ -1,6 +1,14 @@
 <?php
 include "../config.php";
 
+//$datum = "";
+//$einddatum = "";
+//$incident = "";
+//$soortincident = "";
+//$typeklant = "";
+//$baliemedewerker = "";
+//$behandelaar = "";
+
 $datum = $_POST['datum'];
 $einddatum = $_POST['einddatum'];
 $incident = $_POST['incident'];
@@ -9,7 +17,7 @@ $typeklant = $_POST['typeklant'];
 $baliemedewerker = $_POST['baliemedewerker'];
 $behandelaar = $_POST['behandelaar'];
 $where = 'WHERE';
-$test = 'select * FROM incident ';
+$test = 'select * FROM Incident ';
 if (!empty($datum)){
     $test = $test . $where . " datum >= :datum ";
     $where = 'AND';
