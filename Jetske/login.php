@@ -50,23 +50,20 @@ echo "no really, there is nothing here, go away<br>
 //}
 //
 //?>
-<HTML>
-    <HEAD>
-        <META charset="uft-8">
-        <TITLE></TITLE>
-        <! --
-        linkjes/scripts voor css, boodstrap, javascript, jquery etc etc
-        -->
-    </HEAD>
-    <BODY>
-        <FORM method="post">
-            <DIV>
+<html>
+    <head>
+        <meta charset="uft-8">
+        <title></title>
+    </head>
+    <body>
+        <form method="post">
+            <div>
                 <label>Gebruikersnaam: </label><br>
                 <input type="text" name="UserName" required/><br><br>
                 <label>Wachtwoord: </label><br>
                 <input type="password" name="Password" required/><br><br>
                 <input type="submit" value="inloggen">
-            </DIV>
-        </FORM>
-    </BODY>
-</HTML>
+            </div>
+        </form>
+    </body>
+</html>

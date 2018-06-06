@@ -411,6 +411,7 @@ $(document).ready(function(){
 
 // Rapportages page
 $(document).ready(function(){
+
     // Load the initial UI on click
     $('#rapport').click(function(){
         $(content).empty();
