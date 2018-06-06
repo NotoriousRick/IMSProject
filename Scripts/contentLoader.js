@@ -380,11 +380,7 @@ $(document).ready(function(){
         $(content).empty();
         $.ajax({
             url: 'incident_formulier.php',
-<<<<<<< HEAD
-            type: 'get',
-=======
             type:'get',
->>>>>>> 4ec889d499b51a93edcb4fe55454ace8d859b01f
             success: function (response) {
                 if (response == null){
                     alert('error');
