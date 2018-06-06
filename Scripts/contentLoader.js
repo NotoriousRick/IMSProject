@@ -331,7 +331,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
 $(document).on('click', '#logoutBut', function () {
     $('#modalLogOut').modal('hide');
     $.ajax({
-        url: 'logout.php',
+        url: 'Jetske/logout.php',
         method: 'post',
         success: function () {
 
@@ -343,7 +343,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = window.location.href + 'login.php'
+                window.location = window.location.href + 'Jetske/login.php'
             }, 1000);
         }
     });
@@ -372,49 +372,6 @@ $(content).on("click", ".btn-right", function (e) {
     alert("button id: "+ id +" button function:  "+ val);
     //if (id);
 });
-
-// Overzicht incidenten
-// $(document).ready(function(){
-//     $('#overzicht').click(function(){
-//         $(content).empty();
-//         $.ajax({
-//             url: 'overzicht_incidenten(old).php',
-//             type: 'post',
-//             success: function (response) {
-//                 if (response == null) {
-//                     alert('error');
-//                 }
-//                 $(content).append(response);
-//
-//                 // Check the state of the navbar settings
-//                 if (!$('#autoscroll').hasClass('fas fa-check')) {
-//                     $('#sticky').removeClass('sticky-top').css('padding-top','6px');
-//                 }
-//
-//                 // Pre-load blank forms
-//                 $.ajax({
-//                     url: 'blank_form.php',
-//                     method: 'post',
-//                     success: function (response) {
-//                         $('.incident-form').append(response);
-//                         $('.VervolgActie').hide();
-//                         // remove change class so that autoscroll function will ignore this div
-//                         $('.change').removeClass('change');
-//
-//                         $('.delet').hide();
-//                     }
-//                 });
-//
-//                 // if (!$('#set3').hasClass('fas fa-check')){
-//                 //  //do stuff with 3rd setting off
-//                 // }
-//                 // else{
-//                 //  //do stuff with 3rd setting on
-//                 // }
-//             }
-//         });
-//     })
-// });
 
 // Nieuw incident melden page
 $(document).ready(function(){

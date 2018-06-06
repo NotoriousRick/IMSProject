@@ -1,9 +1,9 @@
 <?php
 include "config.php";
-$type_klant = 'SELECT * from typeklant';
+$type_klant = 'SELECT * from TypeKlant';
 $type_klant_result = $mysqli->query($type_klant);
 
-$soort_incident = 'SELECT * from soortincident';
+$soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
 $getDate = date("Y-m-d");
 ?>
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
     $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
 
-    $insert_klant = 'INSERT INTO klant(
+    $insert_klant = 'INSERT INTO Klant(
     Naam,
     Telefoon,
     Email,
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
     $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
 
-    $insert_incident = 'INSERT INTO incident(
+    $insert_incident = 'INSERT INTO Incident(
     Datum,
     Baliemedewerker,
     Behandelaar,

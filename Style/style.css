@@ -1,3 +1,4 @@
+/*Main incident form modal style*/
 #fModal.modal-dialog{
     width: 1200px;
     margin: auto;
@@ -5,6 +6,8 @@
 tbody > tr > td:hover{
     cursor: pointer;
 }
+
+/*secret setting*/
 .ainsley:hover{
     cursor: url(../images/ainsleySmol.png), pointer;
 }
@@ -150,10 +153,6 @@ color: black;
 }
 
 /*custom stylesheet incident_formulier*/
-body{
-    /*font-family: monospace;*/
-    /*background-color: #f8f9fa;*/
-}
 #input_margin_radius_padding{
     margin-bottom: 2vh;
     padding:3px;
