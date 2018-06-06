@@ -8,7 +8,7 @@ echo "no really, there is nothing here, go away<br>
 /* Include config file */
 //require_once 'Config_dbIMS.php';
 /* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+//session_start();
 
 //if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //

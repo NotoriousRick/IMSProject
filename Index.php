@@ -1,7 +1,6 @@
 <?php
 include "config.php";
 
-
 $query = $db->prepare('select Incident_ID, Datum, Behandelaar from incident order by Datum asc');
 $query->execute();
 $row = $query->fetchAll(PDO::FETCH_OBJ);
