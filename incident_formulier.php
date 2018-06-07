@@ -22,7 +22,7 @@ $getDate = date("Y-m-d");
             if (dataObj[field.name] == "")
             {
                 columnNames += field.name + '<br />';
-            };
+            }
         });
         $(function(){
             new PNotify({

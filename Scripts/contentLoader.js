@@ -438,21 +438,16 @@ $(document).ready(function(){
                     success: function (response) {
 
                         $(container).empty();
-                        //$(container).append('<tr>');
-                        $.each(response, function (index, result) {
-                            console.log("m00: " + result);
-                            console.log("koe: " + $('#rapportTableHead').length);
-                            $("#rapportTableHead").append('<th width="6.9%" class="btn-warning">'+result+'</th>');
 
+                        $.each(response, function (index, result) {
+                            $("#rapportTableHead").append('<th width="6.9%" class="btn-warning">'+result+'</th>');
                         });
-                        //$(container).append('</tr>');
                     }
                 });
 
             }
         });
         var container = '#rapportTableHead';
-    // Pre-load the table
 
         // Submit custom query
         $(content).on('click','#submitRapport', function(e){
