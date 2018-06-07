@@ -95,6 +95,10 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
     </div>
     <?php   // Incdient form modal
      include "modal.php";
+     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+     echo print_r($_POST);
+        }
+
     ?>
     </body>
 

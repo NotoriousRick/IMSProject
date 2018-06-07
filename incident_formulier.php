@@ -1,10 +1,10 @@
 <?php
 include "config.php";
-$type_klant = 'SELECT * from TypeKlant';
-$type_klant_result = $mysqli->query($type_klant);
+$type_customer = 'SELECT * from TypeKlant';
+$type_customer_result = $mysqli->query($type_klant);
 
-$soort_incident = 'SELECT * from SoortIncident';
-$soort_incident_result = $mysqli->query($soort_incident);
+$type_incident = 'SELECT * from SoortIncident';
+$type_incident_result = $mysqli->query($soort_incident);
 $getDate = date("Y-m-d");
 ?>
 <form method="post" id="formulier">
@@ -72,7 +72,7 @@ $getDate = date("Y-m-d");
                             <select class="select_two TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border:none;">
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
-                                while ($row = $type_klant_result->fetch_assoc()) {
+                                while ($row = $type_customer_result->fetch_assoc()) {
                                     echo '<option value=' . $row["TypeKlant"] . '>' . $row["TypeKlant"] . '</option>';
                                 }
                                 ?>
@@ -116,7 +116,7 @@ $getDate = date("Y-m-d");
                             <select class="select_two" name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
-                                while($row = $soort_incident_result->fetch_assoc())
+                                while($row = $type_incident_result->fetch_assoc())
                                 {
                                     echo '<option value="' . $row['SoortIncident'] . '">' . $row['SoortIncident'] . '</option>';
                                 }
@@ -211,6 +211,7 @@ $getDate = date("Y-m-d");
 
 </script>
 <?php
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
     $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
@@ -240,6 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
     $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
     $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
+    $incident_closed_date = mysqli_real_escape_string($mysqli, $_POST['SluitDatum']);
 
     $insert_incident = 'INSERT INTO Incident(
     Datum,
@@ -252,6 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Afspraken,
     SoortIncident_ID,
     GereedVoorSluiten,
+    SluitDatum,
     IncidentGesloten
     )
     VALUES(
@@ -259,25 +262,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     "' . $incident_treated_by . '", "' . $incident_description . '",
     "' . $incident_action . '", "' . $incident_follow_up_action . '",
     "' . $incident_executed_work . '", "' . $incident_appointments . '",
-    "' . $incident_type . '", "' . $incident_ready_for_closing . '",
-    "' . $incident_closed . '"
+    "' . $incident_type . '", "' . $incident_ready_for_closing . '", 
+    "' . $incident_closed_date . '", "' . $incident_closed . '", 
     )';
-
-    if(mysqli_query($mysqli, $insert_klant))
-    {
-        echo 'Klant saved' . '<br />';
-    }
-    else{
-        echo $mysqli->error;
-    }
-
-    if(mysqli_query($mysqli, $insert_incident))
-    {
-        echo 'Incident saved.';
-    }
-    else
-    {
-        echo $mysqli->error;
-    }
 }
 
