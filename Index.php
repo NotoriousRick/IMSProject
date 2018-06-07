@@ -15,6 +15,7 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
     <link rel="stylesheet" href="fontawesome-5.0.13/web-fonts-with-css/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="DataTables/datatables.min.css"/>
     <link rel="stylesheet" href="Style/style.css">
+    <link href="Style/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -120,6 +121,8 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
 <!--Main script of this app-->
 <script src="Scripts/contentLoader.js"></script>
 
+<!--Pnotify plugin-->
+<script type="text/javascript" src="Scripts/pnotify.custom.min.js"></script>
 </html>
 
 <?php

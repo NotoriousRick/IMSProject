@@ -16,14 +16,20 @@ $getDate = date("Y-m-d");
     {
         var dataArray  = $( ":input" ).serializeArray(),
         dataObj = {};
-        var i = 0;
-        var i_length = 0;
+        var columnNames = '';
         $(dataArray).each(function(i, field){
             dataObj[field.name] = field.value;
             if (dataObj[field.name] == "")
             {
-                alert('hoi');
+                columnNames += field.name + '<br />';
             };
+        });
+        $(function(){
+            new PNotify({
+                title: 'Verplichte velden',
+                text: columnNames,
+                type: 'error'
+            });
         });
     }
 </script>
@@ -228,6 +234,7 @@ $getDate = date("Y-m-d");
 </form>
 <script>
     $('.select_two').select2();
+
 </script>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -306,5 +313,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $mysqli->error;
     }
     }
-
+    ?>
 
