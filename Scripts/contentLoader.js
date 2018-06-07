@@ -7,7 +7,7 @@
 var content = "#content"; // Content div for generated ajax content
 var table = $('#testData').DataTable();  // Datatable initialization for incident list
 
-    // initial page load
+// Initial page load
 $(document).ready(function () {
     // $(content).empty();
     $.ajax({
@@ -31,7 +31,7 @@ $(document).ready(function () {
                     { "data": "incidentId" },
                     { "data": "datum" },
                     { "data": "duration" },
-                    { "data": "behandelaar" }
+                    { "data": "naam" }
                 ],
                 "order": [[ 1, "asc" ]],
                 "createdRow": function ( row, data, index) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
                         { "data": "incidentId" },
                         { "data": "datum" },
                         { "data": "duration" },
-                        { "data": "behandelaar" }
+                        { "data": "naam" }
                     ],
                     "order": [[ 1, "asc" ]],
                     "createdRow": function ( row, data, index) {
@@ -181,19 +181,20 @@ $(content).on('click', 'tbody > tr > td', function (){
 });
 
 // Form submit
-// $(content).on('submit', '#formulier', function (e) {
-//     var formdata = $("#formulier").serialize();
-//     $.ajax({
-//         type: "POST",
-//         url: "incident_formulier.php",
-//         data: formdata,
-//         success: function()
-//         {
-//             alert(formdata);
-//         }
-//     });
-//     e.preventDefault(); // prevent page reload
-// });
+$(content).on('submit', '#formulier', function (e) {
+    var formdata = $("#formulier").serialize();
+    $.ajax({
+        type: "post",
+        url: "incident_formulier.php",
+        data: formdata,
+        success: function(response)
+        {
+            console.log(formdata);
+            console.log(response);
+        }
+    });
+    e.preventDefault(); // prevent page reload
+});
 
 // When a button is clicked, it will have a different color until its clicked again
 $(content).on('click', ".btn-warning, .btn-danger, .btn-outline-info", function () {
@@ -376,6 +377,8 @@ $(content).on("click", ".btn-right", function (e) {
 
 // Nieuw incident melden page
 $(document).ready(function(){
+
+    // Load the page
     $('#incident').click(function(e){
         $(content).empty();
         $.ajax({
@@ -394,10 +397,12 @@ $(document).ready(function(){
                 }
             }
         });
+
+        // Show or hide the right fields
         $(content).on('change', '.TypeKlant', function () {
             var value = $(this).val();
             var type_klant_value = value.replace('selected', '');
-            if (type_klant_value === 'Student' || type_klant_value === 'Docent')
+            if (type_klant_value == 1 || type_klant_value == 2)
             {
                 $('.id_number').show();
             }
@@ -480,5 +485,3 @@ $(document).ready(function(){
         };
     });
 });
-
-// Pim rapportages

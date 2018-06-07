@@ -73,7 +73,7 @@ $getDate = date("Y-m-d");
                                 <option selected="true" disabled="disabled"></option>
                                 <?php
                                 while ($row = $type_klant_result->fetch_assoc()) {
-                                    echo '<option value=' . $row["TypeKlant"] . '>' . $row["TypeKlant"] . '</option>';
+                                    echo '<option value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -118,7 +118,8 @@ $getDate = date("Y-m-d");
                                 <?php
                                 while($row = $soort_incident_result->fetch_assoc())
                                 {
-                                    echo '<option value="' . $row['SoortIncident'] . '">' . $row['SoortIncident'] . '</option>';
+                                    // value= $row['SoortIncident_ID'] dit moet het oplossen
+                                    echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -174,13 +175,13 @@ $getDate = date("Y-m-d");
                     <div class="col">
                         <div class="form-group">
                             <label><h6>Behandelaar</h6></label>
-                            <input type="checkbox" name="GereedVoorSluiten">
+                            <input type="checkbox" name="GereedVoorSluiten1">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label><h6>Balie medewerker</h6></label>
-                            <input type="checkbox" name="nogwat" value="1">
+                            <input type="checkbox" name="GereedVoorSluiten2" value="1">
                         </div>
                     </div>
                     <div class="col">
@@ -208,13 +209,14 @@ $getDate = date("Y-m-d");
 </form>
 <script>
     $('.select_two').select2();
-
 </script>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
     $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
     $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
+
+    // TODO hoe krijg je type klant omgezet naar Type_ID???
     $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
 
     $insert_klant = 'INSERT INTO Klant(
@@ -237,9 +239,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
     $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
     $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
-    $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident_ID']);
-    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
-    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
+    $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident']);
+
+//    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
+//    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
+    $incident_ready_for_closing = 0;
+    $incident_closed = 0;
+    $client_id = 3;
 
     $insert_incident = 'INSERT INTO Incident(
     Datum,
@@ -252,24 +258,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Afspraken,
     SoortIncident_ID,
     GereedVoorSluiten,
-    IncidentGesloten
-    )
+    IncidentGesloten, 
+    Klant_ID
+    )  
     VALUES(
     "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
     "' . $incident_treated_by . '", "' . $incident_description . '",
     "' . $incident_action . '", "' . $incident_follow_up_action . '",
     "' . $incident_executed_work . '", "' . $incident_appointments . '",
     "' . $incident_type . '", "' . $incident_ready_for_closing . '",
-    "' . $incident_closed . '"
+    "' . $incident_closed . '", "'.$client_id.'"
     )';
 
-    if(mysqli_query($mysqli, $insert_klant))
-    {
-        echo 'Klant saved' . '<br />';
-    }
-    else{
-        echo $mysqli->error;
-    }
+//    if(mysqli_query($mysqli, $insert_klant))
+//    {
+//        echo 'Klant saved' . '<br />';
+//    }
+//    else{
+//        echo $mysqli->error;
+//    }
 
     if(mysqli_query($mysqli, $insert_incident))
     {
@@ -279,5 +286,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     {
         echo $mysqli->error;
     }
-}
+    }
+
 
