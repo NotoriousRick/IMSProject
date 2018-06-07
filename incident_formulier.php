@@ -239,9 +239,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
     $incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
     $incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
-
-    // TODO je kreeg SoortIncident als value binnen, niet SoortIncident_ID
-    // post van $_POST['SoortIncident_ID'] geeft geen ID terug, maar naam, daarom heb ik het veranderd naar $_POST['SoortIncident']
     $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident']);
 
 //    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);

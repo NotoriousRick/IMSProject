@@ -31,7 +31,7 @@ $(document).ready(function () {
                     { "data": "incidentId" },
                     { "data": "datum" },
                     { "data": "duration" },
-                    { "data": "behandelaar" }
+                    { "data": "naam" }
                 ],
                 "order": [[ 1, "asc" ]],
                 "createdRow": function ( row, data, index) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
                         { "data": "incidentId" },
                         { "data": "datum" },
                         { "data": "duration" },
-                        { "data": "behandelaar" }
+                        { "data": "naam" }
                     ],
                     "order": [[ 1, "asc" ]],
                     "createdRow": function ( row, data, index) {
