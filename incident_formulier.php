@@ -7,7 +7,27 @@ $soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
 $getDate = date("Y-m-d");
 ?>
-<form method="post" id="formulier">
+<style>
+    /* webkit solution */  ::-webkit-input-placeholder { text-align:right; }
+    /* mozilla solution */  input:-moz-placeholder { text-align:right; }
+</style>
+<script>
+    function check()
+    {
+        var dataArray  = $( ":input" ).serializeArray(),
+        dataObj = {};
+        var i = 0;
+        var i_length = 0;
+        $(dataArray).each(function(i, field){
+            dataObj[field.name] = field.value;
+            if (dataObj[field.name] == "")
+            {
+                alert('hoi');
+            };
+        });
+    }
+</script>
+<form method="post" id="formulier" onsubmit="return check()">
     <div class="container change" id="change">
         <div class="box">
             <div class="box-header with-border">
@@ -61,7 +81,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Naam">
+                                   name="Naam" placeholder="*">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -70,7 +90,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
                             <select class="select_two TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border:none;">
-                                <option selected="true" disabled="disabled"></option>
+                                <option selected="true" disabled="disabled">*</option>
                                 <?php
                                 while ($row = $type_klant_result->fetch_assoc()) {
                                     echo '<option value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . '</option>';
@@ -87,7 +107,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Telefoon">
+                                   name="Telefoon"  placeholder="*">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -105,7 +125,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Email</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Email">
+                                   name="Email" placeholder="*">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -114,7 +134,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                             </div>
                             <select class="select_two" name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
-                                <option selected="true" disabled="disabled"></option>
+                                <option selected disabled>*</option>
                                 <?php
                                 while($row = $soort_incident_result->fetch_assoc())
                                 {
@@ -130,18 +150,17 @@ $getDate = date("Y-m-d");
                 <div class="row">
                     <div class="col">
                         <label><h6>Omschrijving incident</h6></label>
-                        <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5" placeholder="*"></textarea>
                     </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col">
                         <label><h6>Actie</h6></label>
-                        <textarea class="form-control" name="Actie" id="" cols="30" rows="5"></textarea>
+                        <textarea class="form-control" name="Actie" id="" cols="30" rows="5" placeholder="*"></textarea>
                     </div>
                 </div>
                 <br />
-
                 <div class="row" id="VervolgActie">
                     <div class="col">
                         <label><h6>Vervolg actie</h6></label>
@@ -153,7 +172,7 @@ $getDate = date("Y-m-d");
                     <div class="col">
                         <label><h6>Behandeld door</h6></label>
                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                               name="Behandelaar">
+                               name="Behandelaar" placeholder="*">
                     </div>
                 </div>
                 <br />
@@ -174,13 +193,13 @@ $getDate = date("Y-m-d");
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label><h6>Behandelaar</h6></label>
+                            <label><h6>Gereed voor sluiten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten1">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label><h6>Balie medewerker</h6></label>
+                            <label><h6>Incident gesloten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten2" value="1">
                         </div>
                     </div>
