@@ -32,16 +32,15 @@ include "../config.php";
     &emsp;Behandelaar: <input type="text" name="behandelaar" id="behandelaar">
     <br><br><input type="submit" id="submitRapport">
 </form>
-<table class="table" id="rapportTable">
-    <thead>
-        <tr>
-            <?php
-            get_rapport($db);
-            ?>
-        </tr>
-    </thead>
-</table>
-    <div id="result">
-            
-    </div>
+<div id="result">
+    <table class="table" id="rapportTable">
+        <thead class="table-bordered headerIncident">
+            <tr id="rapportTableHead">
+
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 <?php

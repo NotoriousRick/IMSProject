@@ -5,9 +5,7 @@ $query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
                                  right join Klant k 
                                  on i.Klant_ID = k.Klant_ID');
 $query->execute();
-//$row = $query->fetch(PDO::FETCH_OBJ);
 
-$mysql_data[]= array();
 $dataIncident["data"] = array();
 
 while($row = $query->fetch(PDO::FETCH_OBJ)) {

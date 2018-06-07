@@ -82,13 +82,3 @@ echo '
 ';
 }
 }
-
-function get_rapport($db){
-    $q = $db->prepare("DESCRIBE Incident");
-    $q->execute();
-    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-    //print_array($table_fields);
-    foreach($table_fields as $col){
-        echo '<th width="6.9%" class="btn-warning>' . $col . '</th>';
-    }
-}

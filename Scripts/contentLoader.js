@@ -418,7 +418,7 @@ $(document).ready(function(){
 $(document).ready(function(){
 
     // Load the initial UI on click
-    $('#rapport').click(function(){
+    $('#rapport').on('click',function(){
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
@@ -431,35 +431,47 @@ $(document).ready(function(){
                 if($('#autoscroll').hasClass('fas fa-check')) {
                     $('.change').css('padding-top', '64px');
                 }
+
+                $.getJSON({
+                    url: 'Pim/get_rapport_table.php',
+                    type: 'get',
+                    success: function (response) {
+
+                        $(container).empty();
+                        //$(container).append('<tr>');
+                        $.each(response, function (index, result) {
+                            console.log("m00: " + result);
+                            console.log("koe: " + $('#rapportTableHead').length);
+                            $("#rapportTableHead").append('<th width="6.9%" class="btn-warning">'+result+'</th>');
+
+                        });
+                        //$(container).append('</tr>');
+                    }
+                });
+
             }
         });
+        var container = '#rapportTableHead';
+    // Pre-load the table
 
         // Submit custom query
         $(content).on('click','#submitRapport', function(e){
             e.preventDefault();
             $('#result').empty();
-            // var datum = $('#datum').val();
-            // var einddatum = $('#einddatum').val();
-            // var incident = $('#incident').val();
-            // var soortincident = $('#soortincident').val();
-            // var typeklant = $('#typeklant').val();
-            // var baliemedewerker = $('#baliemedewerker').val();
-            // var behandelaar = $('#behandelaar').val();
+
             var formdata = $("#rapporatgeForm").serialize();
+
+            // Custom query submition
             $.ajax({
                 url: "Pim/Result.php",
                 type: "post",
                 data: formdata,
-                // data: {datum: datum, einddatum: einddatum, incident: incident, soortincident: soortincident, typeklant: typeklant, baliemedewerker: baliemedewerker, behandelaar: behandelaar},
                 success: function(response){
                     //console.log(response);
                     if (response === 0){
                         alert('error');
                     }
-                    $('#result').append(response);
-//                        $('#form').each(function(){
-//                            this.reset();
-//                        });
+                    // $('#result').append(response);
                 }
 
             });
