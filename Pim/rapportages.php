@@ -35,12 +35,12 @@ include "../config.php";
 <div id="result">
     <table class="table" id="rapportTable">
         <thead class="table-bordered headerIncident">
-            <tr id="rapportTableHead">
+            <tr>
 
             </tr>
         </thead>
-        <tbody>
-        </tbody>
     </table>
 </div>
-<?php
+<script>
+
+</script>

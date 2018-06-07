@@ -84,11 +84,31 @@ if (!empty($behandelaar)){
     $query->bindparam(':behandelaar', $behandelaar);
 }
 $query->execute();
-$row = $query->fetchAll(PDO::FETCH_ASSOC);
-print_array($row);
+
+//$row = $query->fetchAll(PDO::FETCH_ASSOC);
 //echo $_POST['incident'];
 echo $test;
 //echo $_POST['einddatum'];
 //echo $row->Baliemedewerker;
 //echo "datum";
+// Gets data for DataTables plugin, page "Overzicht lopende incidenten"
+
+$dataRapport["data"] = array();
+
+while($row = $query->fetch(PDO::FETCH_OBJ)) {
+    $incident_id = $row->Incident_ID;
+    $datum = $row->Datum;
+    $naam = $row->Naam;
+    $id = $incident_id;
+    $delta_time = time() - strtotime($datum);
+    $days = floor($delta_time / 3600 / 24); // difference in days
+    $colorCheck = getTimeColor($datum);
+    $duration = getDurationIncident($datum) . ' dagen';
+    $dataRapport["data"][] = array(
+        "incidentId" => $row->Incident_ID,
+        "datum" => $row->Datum,
+        "naam" => $naam
+    );
+}
+print json_encode($dataRapport);
 ?>
