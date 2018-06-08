@@ -83,7 +83,7 @@ if (!empty($behandelaar)){
 
 $query->execute();
 
-$dataRapport["data"] = array();
+$dataRapport['data']= array();
 
 while($row = $query->fetch(PDO::FETCH_OBJ)) {
     $datum = $row->Datum;
@@ -91,7 +91,7 @@ while($row = $query->fetch(PDO::FETCH_OBJ)) {
     $days = floor($delta_time / 3600 / 24); // difference in days
     $colorCheck = getTimeColor($datum);
     $duration = getDurationIncident($datum) . ' dagen';
-    $dataRapport["data"][] = array(
+    $dataRapport['data'][] = array(
         "DT_RowId" => "id".$row->Incident_ID,
         "incidentId" => $row->Incident_ID,
         "datum" => $row->Datum,
@@ -100,5 +100,5 @@ while($row = $query->fetch(PDO::FETCH_OBJ)) {
         "days" => $days
     );
 }
-
+echo $test;
 echo json_encode($dataRapport);

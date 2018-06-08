@@ -1,15 +1,10 @@
 <?php
 // Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 include "config.php";
-if(isset($_POST['json']) && !empty($_POST['json'])){
-    $jason = $_POST['json'];
-    echo $jason;
-}
-else{
     $query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
                                  right join Klant k 
                                  on i.Klant_ID = k.Klant_ID');
-}
+
 
 $query->execute();
 
