@@ -6,7 +6,6 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 var table = $('#testData').DataTable();  // Datatable initialization for incident list
-var rapport = $('#rapportTable').DataTable();
 
 // Initial page load
 $(document).ready(function () {
@@ -419,105 +418,149 @@ $(document).ready(function(){
 $(document).ready(function(){
 
     // Load the initial UI on click
-    $('#rapport').on('click',function(){
-        $(content).empty();
-        $.ajax({
-            url: 'Pim/rapportages.php',
-            type: 'get',
-            success: function (response) {
-                if (response == null){
-                    alert('error');
-                }
-                $(content).append(response);
-                if($('#autoscroll').hasClass('fas fa-check')) {
-                    $('.change').css('padding-top', '64px');
-                }
-                $.getJSON({
-                    url: 'Pim/get_rapport_table.php',
-                    type: 'get',
-                    success: function (response) {
-
-                        $(container).empty();
-                        $.each(response, function (index, result) {
-                            $("#rapportTableHead").append('<th width="6.9%" class="btn-warning">'+result+'</th>');
-
-                        });
+    $('#rapport').on('click',function() {
+            $(content).empty();
+            $.ajax({
+                url: 'Pim/rapportages.php',
+                type: 'get',
+                success: function (response) {
+                    if (response == null) {
+                        alert('error');
                     }
-                });
-            }
-        });
-        var container = '#rapportTableHead';
-    // Pre-load the table
+                    $(content).append(response);
+                    if ($('#autoscroll').hasClass('fas fa-check')) {
+                        $('.change').css('padding-top', '64px');
+                    }
 
-        // Submit custom query
-        $(content).on('click','#submitRapport', function(e){
-            e.preventDefault();
-//            $('#result').empty();
-
-                    rapport = $('#rapportTable').DataTable( {
-                        "ajax": "Pim/Result.php",
-                        "columns": [
-                            { "data": "incidentId" },
-                            { "data": "datum" },
-                            { "data": "naam" }
-                        ],
-                        "order": [[ 1, "asc" ]],
-                        "language": {
-                            "sProcessing": "Bezig...",
-                            "sLengthMenu": "MENU resultaten weergeven",
-                            "sZeroRecords": "Geen resultaten gevonden",
-                            "sInfo": "START tot END van TOTAL resultaten",
-                            "sInfoEmpty": "Geen resultaten om weer te geven",
-                            "sInfoFiltered": " (gefilterd uit MAX resultaten)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Zoeken:",
-                            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-                            "sInfoThousands": ".",
-                            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-                            "oPaginate": {
-                                "sFirst": "Eerste",
-                                "sLast": "Laatste",
-                                "sNext": "Volgende",
-                                "sPrevious": "Vorige"
-                            },
-                            "oAria": {
-                                "sSortAscending":  ": activeer om kolom oplopend te sorteren",
-                                "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                    $.ajax({
+                        url: 'overzicht_incident.php',
+                        type: 'post',
+                        success: function (response) {
+                            if (response == null) {
+                                alert('error');
                             }
+                            $(content).append(response);
+                            $(content).css('padding', '0');
+
+                            // Check the state of the navbar settings
+                            if (!$('#autoscroll').hasClass('fas fa-check')) {
+                                $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
+                            }
+                            // DataTable initiation
+                            table = $('#testData').DataTable( {
+                                "ajax": "get_incident_data.php",
+                                "columns": [
+                                    { "data": "incidentId" },
+                                    { "data": "datum" },
+                                    { "data": "duration" },
+                                    { "data": "naam" }
+                                ],
+                                "order": [[ 1, "asc" ]],
+                                "createdRow": function ( row, data, index) {
+                                    var days = data['days'];
+                                    var color;
+                                    if (days > 356) {
+                                        color = 'btn-danger';
+                                    } else if (days > 160) {
+                                        color = 'btn-warning';
+                                    } else {
+                                        color = 'btn-outline-info';
+                                    }
+                                    $(row).addClass(color);
+                                },
+                                "language": {
+                                    "sProcessing": "Bezig...",
+                                    "sLengthMenu": "_MENU_ resultaten weergeven",
+                                    "sZeroRecords": "Geen resultaten gevonden",
+                                    "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                                    "sInfoEmpty": "Geen resultaten om weer te geven",
+                                    "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Zoeken:",
+                                    "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                                    "sInfoThousands": ".",
+                                    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                                    "oPaginate": {
+                                        "sFirst": "Eerste",
+                                        "sLast": "Laatste",
+                                        "sNext": "Volgende",
+                                        "sPrevious": "Vorige"
+                                    },
+                                    "oAria": {
+                                        "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                                        "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                                    }
+                                }
+                            });
                         }
                     });
-            var formdata = $("#rapportageForm").serialize();
-
-            // Custom query submition
-            $.ajax({
-                url: "Pim/Result.php",
-                type: "post",
-                data: formdata,
-                success: function(response){
-                    //console.log(response);
-                    // $('#result').append(response);
                 }
-
             });
+
         });
-
-        /* When the user clicks on the button,
-        toggle between hiding and showing the dropdown content */
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        };
-    });
 });
+
+// Submit custom query
+$(content).on('submit','#rapportageForm', function(e){
+
+        var formdata = $("#rapportageForm").serialize();
+
+        // Custom query submition
+        $.ajax({
+            url: "Pim/Result.php",
+            type: "post",
+            data: formdata,
+            success: function(response){
+                // DataTable initiation
+                table = $('#testData').DataTable( {
+                    "ajax": {type: 'post', url: "get_incident_data.php", data: {query: response}},
+                    "columns": [
+                        { "data": "incidentId" },
+                        { "data": "datum" },
+                        { "data": "duration" },
+                        { "data": "naam" }
+                    ],
+                    "order": [[ 1, "asc" ]],
+                    "createdRow": function ( row, data, index) {
+                        var days = data['days'];
+                        var color;
+                        if (days > 356) {
+                            color = 'btn-danger';
+                        } else if (days > 160) {
+                            color = 'btn-warning';
+                        } else {
+                            color = 'btn-outline-info';
+                        }
+                        $(row).addClass(color);
+                    },
+                    "language": {
+                        "sProcessing": "Bezig...",
+                        "sLengthMenu": "_MENU_ resultaten weergeven",
+                        "sZeroRecords": "Geen resultaten gevonden",
+                        "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                        "sInfoEmpty": "Geen resultaten om weer te geven",
+                        "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Zoeken:",
+                        "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                        "sInfoThousands": ".",
+                        "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                        "oPaginate": {
+                            "sFirst": "Eerste",
+                            "sLast": "Laatste",
+                            "sNext": "Volgende",
+                            "sPrevious": "Vorige"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                            "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                        }
+                    }
+                });
+                //console.log(response);
+                // $('#result').append(response);
+            }
+
+        });
+    e.preventDefault();
+    });

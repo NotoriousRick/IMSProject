@@ -1,14 +1,8 @@
 <?php
+
+error_reporting( error_reporting() & ~E_NOTICE );
+
 include "../config.php";
-
-//$datum = "";
-//$einddatum = "";
-//$incident = "";
-//$soortincident = "";
-//$typeklant = "";
-//$baliemedewerker = "";
-//$behandelaar = "";
-
 $datum = $_POST['datum'];
 $einddatum = $_POST['einddatum'];
 $incident = $_POST['incident'];
@@ -17,7 +11,10 @@ $typeklant = $_POST['typeklant'];
 $baliemedewerker = $_POST['baliemedewerker'];
 $behandelaar = $_POST['behandelaar'];
 $where = 'WHERE';
-$test = 'select * FROM Incident ';
+$test = 'select Incident_ID, Datum, k.Naam from Incident i
+                                 right join Klant k 
+                                 on i.Klant_ID = k.Klant_ID ';
+
 if (!empty($datum)){
     $test = $test . $where . " datum >= :datum ";
     $where = 'AND';
@@ -83,32 +80,14 @@ if (!empty($baliemedewerker)){
 if (!empty($behandelaar)){
     $query->bindparam(':behandelaar', $behandelaar);
 }
+
 $query->execute();
 
-//$row = $query->fetchAll(PDO::FETCH_ASSOC);
+$row = $query->fetchAll(PDO::FETCH_ASSOC);
+
 //echo $_POST['incident'];
 echo $test;
 //echo $_POST['einddatum'];
 //echo $row->Baliemedewerker;
 //echo "datum";
-// Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 
-$dataRapport["data"] = array();
-
-while($row = $query->fetch(PDO::FETCH_OBJ)) {
-    $incident_id = $row->Incident_ID;
-    $datum = $row->Datum;
-    $naam = $row->Naam;
-    $id = $incident_id;
-    $delta_time = time() - strtotime($datum);
-    $days = floor($delta_time / 3600 / 24); // difference in days
-    $colorCheck = getTimeColor($datum);
-    $duration = getDurationIncident($datum) . ' dagen';
-    $dataRapport["data"][] = array(
-        "incidentId" => $row->Incident_ID,
-        "datum" => $row->Datum,
-        "naam" => $naam
-    );
-}
-print json_encode($dataRapport);
-?>

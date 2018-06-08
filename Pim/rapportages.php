@@ -5,7 +5,7 @@ include "../config.php";
 <div style="padding-top: 5px">
 
 </div>
-<form id="rapporatgeForm" class="change">
+<form id="rapportageForm" class="change">
     Datum: <input type="text" name="datum" id="datum" placeholder="van jjjj-mm-dd">&emsp;<input type="text" name="einddatum" id="einddatum" placeholder="tot jjjj-mm-dd">&emsp;
     Incident:
     <select name="incident" id="incident" label=" ">
@@ -33,14 +33,5 @@ include "../config.php";
     <br><br><input type="submit" id="submitRapport">
 </form>
 <div id="result">
-    <table class="table" id="rapportTable">
-        <thead class="table-bordered headerIncident">
-            <tr>
 
-            </tr>
-        </thead>
-    </table>
 </div>
-<script>
-
-</script>

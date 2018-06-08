@@ -1,18 +1,22 @@
 <?php
 // Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 include "config.php";
-$query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
+if(isset($_POST['query']) && !empty($_POST['query'])){
+    $query = $_POST['query'];
+    echo $query;
+}
+else{
+    $query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
                                  right join Klant k 
                                  on i.Klant_ID = k.Klant_ID');
+}
+
 $query->execute();
 
 $dataIncident["data"] = array();
 
 while($row = $query->fetch(PDO::FETCH_OBJ)) {
-    $incident_id = $row->Incident_ID;
     $datum = $row->Datum;
-    $naam = $row->Naam;
-    $id = $incident_id;
     $delta_time = time() - strtotime($datum);
     $days = floor($delta_time / 3600 / 24); // difference in days
     $colorCheck = getTimeColor($datum);
@@ -22,7 +26,7 @@ while($row = $query->fetch(PDO::FETCH_OBJ)) {
         "incidentId" => $row->Incident_ID,
         "datum" => $row->Datum,
         "duration" => $days,
-        "naam" => $naam,
+        "naam" =>$row->Naam,
         "days" => $days
     );
 }
