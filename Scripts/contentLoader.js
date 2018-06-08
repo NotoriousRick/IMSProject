@@ -55,6 +55,40 @@ function initTable(source) {
     });
 }
 
+// Pnotify validation
+function check(){
+    var j = 0;
+    var post = true;
+    var dataArray  = $( ":input" ).serializeArray(),
+        dataObj = {};
+    var columnNames = '';
+    $(dataArray).each(function(i, field){
+        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie')
+            return;
+        else
+            dataObj[field.name] = field.value;
+
+        if (dataObj[field.name] == "")
+        {
+            columnNames += field.name + '<br />';
+            post = false;
+            j ++;
+        }
+    });
+
+
+    if (j !== 0) {
+        $(function () {
+            new PNotify({
+                title: 'Verplichte velden',
+                text: columnNames,
+                type: 'error'
+            });
+        });
+    }
+    return j === 0;
+}
+
 var table = initTable("get_incident_data.php");
 var rapport = initTable("Pim/Result.php");
 
@@ -145,17 +179,24 @@ $(content).on('click', 'tbody > tr > td', function (){
 // Form submit
 $(content).on('submit', '#formulier', function (e) {
     var formdata = $("#formulier").serialize();
-    $.ajax({
-        type: "post",
-        url: "incident_formulier.php",
-        data: formdata,
-        success: function(response)
-        {
-            console.log(formdata);
-            console.log(response);
-        }
-    });
-    e.preventDefault(); // prevent page reload
+    if (!check()){
+        e.preventDefault();
+        return;
+    }
+    else{
+        $.ajax({
+            type: "post",
+            url: "incident_formulier.php",
+            data: formdata,
+            success: function(response)
+            {
+                alert('submitted!');
+                // console.log(formdata);
+                console.log(response);
+            }
+        });
+    }
+    e.preventDefault();
 });
 
 // When a button is clicked, it will have a different color until its clicked again

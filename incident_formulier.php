@@ -11,41 +11,6 @@ $getDate = date("Y-m-d");
     /* webkit solution */  ::-webkit-input-placeholder { text-align:right; }
     /* mozilla solution */  input:-moz-placeholder { text-align:right; }
 </style>
-<script>
-    function check()
-    {
-        var j = 0;
-        var post = true;
-        var dataArray  = $( ":input" ).serializeArray(),
-        dataObj = {};
-        var columnNames = '';
-        $(dataArray).each(function(i, field){
-            if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie')
-                return;
-            else
-                dataObj[field.name] = field.value;
-
-            if (dataObj[field.name] == "")
-            {
-                columnNames += field.name + '<br />';
-                post = false;
-                j ++;
-            }
-        });
-
-
-        if (j !== 0) {
-            $(function () {
-                new PNotify({
-                    title: 'Verplichte velden',
-                    text: columnNames,
-                    type: 'error'
-                });
-            });
-        }
-        return j === 0;
-    }
-</script>
 
 <form method="post" id="formulier">
     <div class="container change" id="change">
@@ -332,6 +297,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     }
     ?>
-<!--<script>-->
-<!--    $('#yourButton').prop('disabled', true);-->
-<!--</script>-->
