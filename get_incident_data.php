@@ -1,10 +1,9 @@
 <?php
 // Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 include "config.php";
-    $query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
+$query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
                                  right join Klant k 
                                  on i.Klant_ID = k.Klant_ID');
-
 
 $query->execute();
 
