@@ -14,26 +14,40 @@ $getDate = date("Y-m-d");
 <script>
     function check()
     {
+        var j = 0;
+        var post = true;
         var dataArray  = $( ":input" ).serializeArray(),
         dataObj = {};
         var columnNames = '';
         $(dataArray).each(function(i, field){
-            dataObj[field.name] = field.value;
+            if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie')
+                return;
+            else
+                dataObj[field.name] = field.value;
+
             if (dataObj[field.name] == "")
             {
                 columnNames += field.name + '<br />';
+                post = false;
+                j ++;
             }
         });
-        $(function(){
-            new PNotify({
-                title: 'Verplichte velden',
-                text: columnNames,
-                type: 'error'
+
+
+        if (j !== 0) {
+            $(function () {
+                new PNotify({
+                    title: 'Verplichte velden',
+                    text: columnNames,
+                    type: 'error'
+                });
             });
-        });
+        }
+        return j === 0;
     }
 </script>
-<form method="post" id="formulier" onsubmit="return check()">
+
+<form method="post" id="formulier">
     <div class="container change" id="change">
         <div class="box">
             <div class="box-header with-border">
@@ -58,7 +72,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Balie medewerker</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Baliemedewerker">
+                                   name="Baliemedewerker" placeholder="*">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -197,20 +211,24 @@ $getDate = date("Y-m-d");
                 </div>
                 <br />
                 <div class="row">
+                    <div class="form-group">
                     <div class="col">
-                        <div class="form-group">
+
                             <label><h6>Gereed voor sluiten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten1">
-                        </div>
+
                     </div>
+                    </div>
+                    <div class="form-group">
                     <div class="col">
-                        <div class="form-group">
+
                             <label><h6>Incident gesloten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten2" value="1">
                         </div>
                     </div>
+                    <div class="form-group">
                     <div class="col">
-                        <div class="form-group">
+
                             <label><h6>Sluit datum</h6></label>
                             <input type="text" name="SluitDatum" disabled>
                         </div>
@@ -219,7 +237,7 @@ $getDate = date("Y-m-d");
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <input type="submit" class="btn btn-custom btn-info" value="Opslaan">
+                            <input type="submit" id="yourButton" class="btn btn-custom btn-info" value="Opslaan">
                         </div>
                     </div>
                     <div class="col">
@@ -314,4 +332,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     }
     ?>
-
+<!--<script>-->
+<!--    $('#yourButton').prop('disabled', true);-->
+<!--</script>-->
