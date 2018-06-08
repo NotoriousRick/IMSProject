@@ -511,56 +511,19 @@ $(content).on('submit','#rapportageForm', function(e){
             type: "post",
             data: formdata,
             success: function(response){
+
                 // DataTable initiation
-                table = $('#testData').DataTable( {
-                    "ajax": {type: 'post', url: "get_incident_data.php", data: {query: response}},
-                    "columns": [
-                        { "data": "incidentId" },
-                        { "data": "datum" },
-                        { "data": "duration" },
-                        { "data": "naam" }
-                    ],
-                    "order": [[ 1, "asc" ]],
-                    "createdRow": function ( row, data, index) {
-                        var days = data['days'];
-                        var color;
-                        if (days > 356) {
-                            color = 'btn-danger';
-                        } else if (days > 160) {
-                            color = 'btn-warning';
-                        } else {
-                            color = 'btn-outline-info';
-                        }
-                        $(row).addClass(color);
-                    },
-                    "language": {
-                        "sProcessing": "Bezig...",
-                        "sLengthMenu": "_MENU_ resultaten weergeven",
-                        "sZeroRecords": "Geen resultaten gevonden",
-                        "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
-                        "sInfoEmpty": "Geen resultaten om weer te geven",
-                        "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Zoeken:",
-                        "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-                        "sInfoThousands": ".",
-                        "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-                        "oPaginate": {
-                            "sFirst": "Eerste",
-                            "sLast": "Laatste",
-                            "sNext": "Volgende",
-                            "sPrevious": "Vorige"
-                        },
-                        "oAria": {
-                            "sSortAscending":  ": activeer om kolom oplopend te sorteren",
-                            "sSortDescending": ": activeer om kolom aflopend te sorteren"
-                        }
+                $.ajax({
+                    url: 'get_incident_data.php',
+                    type: 'post',
+                    data:{json: response},
+                    success: function (response) {
+                        table.clear();
+                        table.rows.add(response);
+                        table.draw();
                     }
                 });
-                //console.log(response);
-                // $('#result').append(response);
             }
-
         });
     e.preventDefault();
     });

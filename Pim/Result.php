@@ -83,11 +83,22 @@ if (!empty($behandelaar)){
 
 $query->execute();
 
-$row = $query->fetchAll(PDO::FETCH_ASSOC);
+$dataRapport["data"] = array();
 
-//echo $_POST['incident'];
-echo $test;
-//echo $_POST['einddatum'];
-//echo $row->Baliemedewerker;
-//echo "datum";
+while($row = $query->fetch(PDO::FETCH_OBJ)) {
+    $datum = $row->Datum;
+    $delta_time = time() - strtotime($datum);
+    $days = floor($delta_time / 3600 / 24); // difference in days
+    $colorCheck = getTimeColor($datum);
+    $duration = getDurationIncident($datum) . ' dagen';
+    $dataRapport["data"][] = array(
+        "DT_RowId" => "id".$row->Incident_ID,
+        "incidentId" => $row->Incident_ID,
+        "datum" => $row->Datum,
+        "duration" => $days,
+        "naam" =>$row->Naam,
+        "days" => $days
+    );
+}
 
+echo json_encode($dataRapport);

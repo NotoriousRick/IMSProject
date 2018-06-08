@@ -1,9 +1,9 @@
 <?php
 // Gets data for DataTables plugin, page "Overzicht lopende incidenten"
 include "config.php";
-if(isset($_POST['query']) && !empty($_POST['query'])){
-    $query = $_POST['query'];
-    echo $query;
+if(isset($_POST['json']) && !empty($_POST['json'])){
+    $jason = $_POST['json'];
+    echo $jason;
 }
 else{
     $query = $db->prepare('select Incident_ID, Datum, k.Naam from Incident i
