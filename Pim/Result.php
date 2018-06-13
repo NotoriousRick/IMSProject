@@ -96,29 +96,25 @@ $query = $db->prepare($sql);
 $query->execute();
 
 $dataRapport["data"] = array();
-$columns = array();
 
-$keysArr = array_keys($keys = $query->fetch(PDO::FETCH_ASSOC));
-
-while($result = $query->fetch(PDO::FETCH_ASSOC)){
-
-    $dataRapport["data"][] = $result;
-
+while($row = $query->fetch(PDO::FETCH_OBJ)) {
+    $datum = $row->Datum;
+    $delta_time = time() - strtotime($datum);
+    $days = floor($delta_time / 3600 / 24); // difference in days
+    $duration = getDurationIncident($datum) . ' dagen';
+    $dataRapport["data"][] = array(
+        "DT_RowId" => "id".$row->Incident_ID,
+        "Incident_ID" => $row->Incident_ID,
+        "Datum" => $row->Datum,
+        "duration" => $days,
+        "Naam" =>$row->Naam,
+        "Baliemedewerker" => $row->Baliemedewerker,
+        "Behandelaar" => $row->Behandelaar,
+        "SluitDatum" => $row->SluitDatum,
+        "IncidentGesloten" => $row->IncidentGesloten,
+        "Klant_ID" => $row->Klant_ID,
+        "SoortIncident_ID" => $row->SoortIncident_ID
+    );
 }
-foreach($keysArr as $col){
-    $dataRapport['columns'][] = ["data"=>$col];
-}
-
 
 echo json_encode($dataRapport);
-
-//foreach ($row = $query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
-//    $dataRapport['data'][] = array($key => $value);
-//}
-
-
-//while($row = $query->fetch(PDO::FETCH_ASSOC)) {
-//
-//
-//}
-

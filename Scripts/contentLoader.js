@@ -53,56 +53,54 @@ function initTable(source) {
 
 // Datatable for rapportages page
 function initRapport() {
-    var data,
-        tableName= '#demotable',
-        columns,
-        str,
-        jqxhr = $.ajax('Pim/Result.php')
-            .done(function () {
-                data = JSON.parse(jqxhr.responseText);
-            });
-    var table = $('#testData').DataTable({
-        retrieve: true,
-       // "ajax": "Pim/Result.php",
-        "data":data['data'],
-        "columns":data.columns,
-        "order": [[1, "asc"]],
-        "createdRow": function (row, data) {
-            var days = data['days'];
-            var color;
-            if (days > 356) {
-                color = 'btn-danger';
-            } else if (days > 160) {
-                color = 'btn-warning';
-            } else {
-                color = 'btn-outline-info';
-            }
-            $(row).addClass(color);
-        },
-        "language": {
-            "sProcessing": "Bezig...",
-            "sLengthMenu": "_MENU_ resultaten weergeven",
-            "sZeroRecords": "Geen resultaten gevonden",
-            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
-            "sInfoEmpty": "Geen resultaten om weer te geven",
-            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
-            "sInfoPostFix": "",
-            "sSearch": "Zoeken:",
-            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-            "sInfoThousands": ".",
-            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-            "oPaginate": {
-                "sFirst": "Eerste",
-                "sLast": "Laatste",
-                "sNext": "Volgende",
-                "sPrevious": "Vorige"
+
+        return table = $('#testData').DataTable({
+            retrieve: true,
+            "ajax": "Pim/Result.php",
+            "columns": [
+                {"data": "Incident_ID"},
+                {"data": "Datum"},
+                {"data": "duration"},
+                {"data": "Naam"}
+            ],
+            "order": [[1, "asc"]],
+            "createdRow": function (row, data) {
+                var days = data['days'];
+                var color;
+                if (days > 356) {
+                    color = 'btn-danger';
+                } else if (days > 160) {
+                    color = 'btn-warning';
+                } else {
+                    color = 'btn-outline-info';
+                }
+                $(row).addClass(color);
             },
-            "oAria": {
-                "sSortAscending": ": activeer om kolom oplopend te sorteren",
-                "sSortDescending": ": activeer om kolom aflopend te sorteren"
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
             }
-        }
-    });
+        });
+
 }
 
 // Pnotify validation
@@ -149,7 +147,6 @@ function check(){
     }
     return j === 0;
 }
-
 
 var table = initTable("get_incident_data.php");
 var rapport = initTable("Pim/Result.php");
@@ -513,7 +510,6 @@ $(document).ready(function(){
 
                     }
                 });
-                initRapport();
             }
         });
     });
@@ -530,8 +526,7 @@ $(content).on('submit','#rapportageForm', function(e){
         type: "post",
         data: formdata,
         success: function(response){
-            console.log(response['data'], response['columns']);
-
+            initRapport();
         }
     });
     e.preventDefault();
