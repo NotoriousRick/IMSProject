@@ -98,19 +98,20 @@ $query->execute();
 $dataRapport["data"] = array();
 $columns = array();
 
-$keys = $query->fetch(PDO::FETCH_ASSOC);
+while($keys = $query->fetch(PDO::FETCH_ASSOC)){
+    
+    $dataRapport["data"][] = $keys;
+}
+echo json_encode($dataRapport);
 $keysArr = array_keys($keys);
-foreach($keysArr as $col){
-    $columns['columns'][] = array("data"=>$col);
-}
+//foreach($keysArr as $col){
+//    $columns['columns'][] = array("data"=>$col);
+//}
 
-while($row = $query->fetch(PDO::FETCH_ASSOC)){
+//foreach ($row = $query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
+//    $dataRapport['data'][] = array($key => $value);
+//}
 
-    foreach ($row as $key => $value) {
-        $dataRapport['data'][] = array($key => $value);
-    }
-
-}
 //$rows = $query->fetchAll(PDO::FETCH_OBJ);
 //$row = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -130,4 +131,4 @@ while($row = $query->fetch(PDO::FETCH_ASSOC)){
 //echo json_encode($columns);
 
 //print_array($dataRapport);
-echo json_encode($dataRapport);
+//echo json_encode($dataRapport);
