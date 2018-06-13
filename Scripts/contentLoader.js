@@ -1,6 +1,24 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 
+// DataTables custom search
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('#min').val(), 10 );
+        var max = parseInt( $('#max').val(), 10 );
+        var age = parseFloat( data[3] ) || 0; // use data for the age column
+
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+            ( isNaN( min ) && age <= max ) ||
+            ( min <= age   && isNaN( max ) ) ||
+            ( min <= age   && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+
 // Datatable initialization for incident list
 function initTable(source) {
      return $('#testData').DataTable({
@@ -484,7 +502,7 @@ $(document).ready(function(){
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
-            type: 'post',
+            type: 'get',
             success: function (response) {
                 if (response == null) {
                     alert('error');
@@ -496,8 +514,8 @@ $(document).ready(function(){
 
                 // Load the table
                 $.ajax({
-                    url: 'overzicht_incident.php',
-                    type: 'post',
+                    url: 'overzicht_rapport.php',
+                    type: 'get',
                     success: function (response) {
                         if (response == null) {
                             alert('error');
@@ -505,29 +523,22 @@ $(document).ready(function(){
                         $(content).append(response);
                         $(content).css('padding', '0');
 
-                        $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
-                        // rapport = initTable("Pim/Result.php");
+                        if (!$('#autoscroll').hasClass('fas fa-check')) {
+                            $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+                        }
 
+                        // Load the data for the table
+                        initRapport();
+
+                        // Custom filter options trigger
+                        $('#min, #max').on('keyup', function() {
+                            table.draw();
+                        } );
                     }
                 });
             }
         });
+
     });
-});
 
-// Submit custom query
-$(content).on('submit','#rapportageForm', function(e){
-
-    var formdata = $("#rapportageForm").serialize();
-
-    // Custom query submition
-    $.getJSON({
-        url: "Pim/Result.php",
-        type: "post",
-        data: formdata,
-        success: function(response){
-            initRapport();
-        }
-    });
-    e.preventDefault();
 });
