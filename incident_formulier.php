@@ -11,7 +11,6 @@ $getDate = date("Y-m-d");
     /* webkit solution */  ::-webkit-input-placeholder { text-align:right; }
     /* mozilla solution */  input:-moz-placeholder { text-align:right; }
 </style>
-
 <form method="post" id="formulier">
     <div class="container change" id="change">
         <div class="box">
@@ -178,22 +177,18 @@ $getDate = date("Y-m-d");
                 <div class="row">
                     <div class="form-group">
                     <div class="col">
-
                             <label><h6>Gereed voor sluiten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten1">
-
                     </div>
                     </div>
                     <div class="form-group">
                     <div class="col">
-
                             <label><h6>Incident gesloten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten2" value="1">
                         </div>
                     </div>
                     <div class="form-group">
                     <div class="col">
-
                             <label><h6>Sluit datum</h6></label>
                             <input type="text" name="SluitDatum" disabled>
                         </div>
@@ -207,7 +202,7 @@ $getDate = date("Y-m-d");
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <a class="btn btn-default" onclick="window.print()">Print</a>
+                            <button class="btn btn-custom-print btn-light" onclick="window.print()">Print</button>
                         </div>
                     </div>
                 </div>

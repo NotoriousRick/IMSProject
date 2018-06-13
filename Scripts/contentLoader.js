@@ -59,14 +59,25 @@ function initTable(source) {
 function check(){
     var j = 0;
     var post = true;
-    var dataArray  = $( ":input" ).serializeArray(),
-        dataObj = {};
+    var extern = false;
+    var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
     var columnNames = '';
     $(dataArray).each(function(i, field){
-        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie')
+        if (field.name == 'TypeKlant')
+        {
+            console.log(field.value);
+            if (field.value === 3)
+            {
+                extern = true
+            }
+        }
+
+        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || extern == true)
             return;
         else
             dataObj[field.name] = field.value;
+
+
 
         if (dataObj[field.name] == "")
         {
