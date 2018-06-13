@@ -11,7 +11,7 @@ include "../config.php";
 //$baliemedewerker = $_POST['baliemedewerker'];
 //$behandelaar = $_POST['behandelaar'];
 //$where = 'WHERE';
-$sql = 'select i.*, k.Naam, k.Telefoon, k.Email, s.SoortIncident, t.TypeKlant from Incident i
+$sql = 'select i.*, k.Naam, s.SoortIncident, t.TypeKlant from Incident i
         right join Klant k 
         on i.Klant_ID = k.Klant_ID
         right join SoortIncident s
@@ -100,19 +100,17 @@ $columns = array();
 
 $keysArr = array_keys($keys = $query->fetch(PDO::FETCH_ASSOC));
 
-
-
-
 while($result = $query->fetch(PDO::FETCH_ASSOC)){
+
     $dataRapport["data"][] = $result;
-    foreach($keysArr as $col){
-        $columns['columns'][] = array("data"=>$col);
-    }
-    $dataRapport[] = $columns;
- }
+
+}
+foreach($keysArr as $col){
+    $dataRapport['columns'][] = ["data"=>$col];
+}
+
 
 echo json_encode($dataRapport);
-//echo json_encode($columns);
 
 //foreach ($row = $query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
 //    $dataRapport['data'][] = array($key => $value);
@@ -121,8 +119,6 @@ echo json_encode($dataRapport);
 
 //while($row = $query->fetch(PDO::FETCH_ASSOC)) {
 //
-//    $delta_time = time() - strtotime($datum);
-//    $days = floor($delta_time / 3600 / 24); // difference in days
-//    $colorCheck = getTimeColor($datum);
-//    $duration = getDurationIncident($datum) . ' dagen';
+//
 //}
+

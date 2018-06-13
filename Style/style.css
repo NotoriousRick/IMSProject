@@ -76,7 +76,7 @@ body{
     padding:0;
 }
 .btn-link{
-color: black;
+    color: black;
 }
 
 /*Custom time-based color scheme on incident forms*/
@@ -133,6 +133,10 @@ color: black;
     background-color: rgba(0, 150, 136, 0.6);
 }
 
+.btn-light:hover{
+    background-color: rgba(0, 0, 0, 0.59);
+}
+
 /*adds custom color to navbar buttons*/
 .btn-custom  {
     padding: 10px;
@@ -140,6 +144,13 @@ color: black;
     color: #474040;
     background-color: rgba(27, 178, 189, 0.0);
     border-color: rgba(0, 150, 136, 0.6);
+}
+.btn-custom-print {
+    padding: 10px;
+    margin: 6px;
+    /*color: #474040;*/
+    background-color: rgba(0, 0, 0, 0.59);
+    border-color: rgba(0, 0, 0, 0.59);
 }
 
 /*Buttons on the right of each incident form*/

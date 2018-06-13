@@ -52,12 +52,20 @@ function initTable(source) {
 }
 
 // Datatable for rapportages page
-function initRapport(data, col) {
-
-    return $('#testData').DataTable({
+function initRapport() {
+    var data,
+        tableName= '#demotable',
+        columns,
+        str,
+        jqxhr = $.ajax('Pim/Result.php')
+            .done(function () {
+                data = JSON.parse(jqxhr.responseText);
+            });
+    var table = $('#testData').DataTable({
         retrieve: true,
-        "data": data,
-        "columns": col,
+       // "ajax": "Pim/Result.php",
+        "data":data['data'],
+        "columns":data.columns,
         "order": [[1, "asc"]],
         "createdRow": function (row, data) {
             var days = data['days'];
@@ -97,18 +105,29 @@ function initRapport(data, col) {
     });
 }
 
-// Pnotify validation check
+// Pnotify validation
 function check(){
     var j = 0;
     var post = true;
-    var dataArray  = $( ":input" ).serializeArray(),
-        dataObj = {};
+    var extern = false;
+    var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
     var columnNames = '';
     $(dataArray).each(function(i, field){
-        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie')
+        if (field.name == 'TypeKlant')
+        {
+            console.log(field.value);
+            if (field.value === 3)
+            {
+                extern = true
+            }
+        }
+
+        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || extern == true)
             return;
         else
             dataObj[field.name] = field.value;
+
+
 
         if (dataObj[field.name] == "")
         {
@@ -130,6 +149,7 @@ function check(){
     }
     return j === 0;
 }
+
 
 var table = initTable("get_incident_data.php");
 var rapport = initTable("Pim/Result.php");
@@ -493,6 +513,7 @@ $(document).ready(function(){
 
                     }
                 });
+                initRapport();
             }
         });
     });
@@ -509,7 +530,8 @@ $(content).on('submit','#rapportageForm', function(e){
         type: "post",
         data: formdata,
         success: function(response){
-            initRapport(response['data'], response['columns']);
+            console.log(response['data'], response['columns']);
+
         }
     });
     e.preventDefault();
