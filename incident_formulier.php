@@ -217,7 +217,6 @@ $getDate = date("Y-m-d");
 </form>
 <script>
     $('.select_two').select2();
-
 </script>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

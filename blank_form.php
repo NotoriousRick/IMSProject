@@ -31,7 +31,7 @@ $soort_incident_result = $mysqli->query($soort_incident);
                                 <span class="input-group-text" id="span_margin_radius_padding">Balie medewerker</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Baliemedewerker" disabled>
+                                   name="Baliemedewerker">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -60,7 +60,7 @@ $soort_incident_result = $mysqli->query($soort_incident);
                                 <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Naam" disabled>
+                                   name="Naam">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -68,7 +68,7 @@ $soort_incident_result = $mysqli->query($soort_incident);
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
-                            <input name="TypeKlant" class="form-control form-control-sm" id="input_margin_radius_padding" disabled>
+                            <input name="TypeKlant" class="form-control form-control-sm" id="input_margin_radius_padding">
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ $soort_incident_result = $mysqli->query($soort_incident);
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Telefoon" disabled>
+                                   name="Telefoon>
                         </div>
                     </div>
                     <div class="col-lg-6">
