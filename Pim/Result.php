@@ -98,24 +98,27 @@ $query->execute();
 $dataRapport["data"] = array();
 $columns = array();
 
-while($keys = $query->fetch(PDO::FETCH_ASSOC)){
-    
-    $dataRapport["data"][] = $keys;
-}
+$keysArr = array_keys($keys = $query->fetch(PDO::FETCH_ASSOC));
+
+
+
+
+while($result = $query->fetch(PDO::FETCH_ASSOC)){
+    $dataRapport["data"][] = $result;
+    foreach($keysArr as $col){
+        $columns['columns'][] = array("data"=>$col);
+    }
+    $dataRapport[] = $columns;
+ }
+
 echo json_encode($dataRapport);
-$keysArr = array_keys($keys);
-//foreach($keysArr as $col){
-//    $columns['columns'][] = array("data"=>$col);
-//}
+//echo json_encode($columns);
 
 //foreach ($row = $query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
 //    $dataRapport['data'][] = array($key => $value);
 //}
 
-//$rows = $query->fetchAll(PDO::FETCH_OBJ);
-//$row = $query->fetchAll(PDO::FETCH_OBJ);
 
-//$row = $query->fetch(PDO::FETCH_ASSOC);
 //while($row = $query->fetch(PDO::FETCH_ASSOC)) {
 //
 //    $delta_time = time() - strtotime($datum);
@@ -123,12 +126,3 @@ $keysArr = array_keys($keys);
 //    $colorCheck = getTimeColor($datum);
 //    $duration = getDurationIncident($datum) . ' dagen';
 //}
-
-
-
-
-
-//echo json_encode($columns);
-
-//print_array($dataRapport);
-//echo json_encode($dataRapport);

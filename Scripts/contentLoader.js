@@ -52,18 +52,14 @@ function initTable(source) {
 }
 
 // Datatable for rapportages page
-function initRapport(source) {
+function initRapport(data, col) {
+
     return $('#testData').DataTable({
         retrieve: true,
-        "ajax": source,
-        "columns": [
-            {"data": "incidentId"},
-            {"data": "datum"},
-            {"data": "duration"},
-            {"data": "naam"}
-        ],
+        "data": data,
+        "columns": col,
         "order": [[1, "asc"]],
-        "createdRow": function (row, data, index) {
+        "createdRow": function (row, data) {
             var days = data['days'];
             var color;
             if (days > 356) {
@@ -494,6 +490,7 @@ $(document).ready(function(){
 
                         $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
                         // rapport = initTable("Pim/Result.php");
+
                     }
                 });
             }
@@ -507,12 +504,12 @@ $(content).on('submit','#rapportageForm', function(e){
     var formdata = $("#rapportageForm").serialize();
 
     // Custom query submition
-    $.ajax({
+    $.getJSON({
         url: "Pim/Result.php",
         type: "post",
         data: formdata,
         success: function(response){
-            console.log(response);
+            initRapport(response['data'], response['columns']);
         }
     });
     e.preventDefault();
