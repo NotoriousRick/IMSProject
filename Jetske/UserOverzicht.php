@@ -38,9 +38,8 @@ else //geen admin = geen toegang tot UserOverzicht pagina
         print "<TABLE border='1'><TR><TH>Username</TH><TH>Is Administrator</TH><TH>Acties</TH></TR>";
         while ($user = $result->fetch_assoc())
         {
-            print "<TR>" . "<TD>" . $user['UserName'] . "</TD>" . "<TD>" . $user['IsAdmin'] . "</TD>" . "<TD>" . "<a href='CreateUser.php?User_ID=" . $user['User_ID'] . "'><IMG src='user-edit-icon.png' alt='edit user' width='50px'/></a>" . "<a href='CreateUser.php'><IMG src='trash-bin-icon.png' alt='delete user' width='50px'/></a>" . "</TD>" . "</TR>";
+            print "<TR>" . "<TD>" . $user['UserName'] . "</TD>" . "<TD>" . $user['IsAdmin'] . "</TD>" . "<TD>" . "<a href='CreateUser.php?User_ID=" . $user['User_ID'] . "'><IMG src='user-edit-icon.png' alt='edit user' width='50px'/></a>" . "<a href='CreateUser.php?Delete_ID=" . $user['User_ID'] . "'><IMG src='trash-bin-icon.png' alt='delete user' width='50px'/></a>" . "</TD>" . "</TR>";
         }
-
 
         print "</TABLE>";
 

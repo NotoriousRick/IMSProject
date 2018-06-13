@@ -21,7 +21,7 @@ while($row = $query->fetch(PDO::FETCH_OBJ)) {
         "datum" => $row->Datum,
         "duration" => $days,
         "naam" =>$row->Naam,
-        "days" => $days
+        "days" => $days,
     );
 }
 print json_encode($dataIncident);
