@@ -1,14 +1,10 @@
-    // Unique id's description
-// l+number = unique id for the inner form div
-// id+number = unique id from the header div
-// i+number = unique id from button group
-
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 
 // Datatable initialization for incident list
 function initTable(source) {
      return $('#testData').DataTable({
+         retrieve: true,
         "ajax": source,
         "columns": [
             {"data": "incidentId"},
@@ -55,7 +51,57 @@ function initTable(source) {
     });
 }
 
-// Pnotify validation
+// Datatable for rapportages page
+function initRapport(source) {
+    return $('#testData').DataTable({
+        retrieve: true,
+        "ajax": source,
+        "columns": [
+            {"data": "incidentId"},
+            {"data": "datum"},
+            {"data": "duration"},
+            {"data": "naam"}
+        ],
+        "order": [[1, "asc"]],
+        "createdRow": function (row, data, index) {
+            var days = data['days'];
+            var color;
+            if (days > 356) {
+                color = 'btn-danger';
+            } else if (days > 160) {
+                color = 'btn-warning';
+            } else {
+                color = 'btn-outline-info';
+            }
+            $(row).addClass(color);
+        },
+        "language": {
+            "sProcessing": "Bezig...",
+            "sLengthMenu": "_MENU_ resultaten weergeven",
+            "sZeroRecords": "Geen resultaten gevonden",
+            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+            "sInfoEmpty": "Geen resultaten om weer te geven",
+            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+            "sInfoPostFix": "",
+            "sSearch": "Zoeken:",
+            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+            "sInfoThousands": ".",
+            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+            "oPaginate": {
+                "sFirst": "Eerste",
+                "sLast": "Laatste",
+                "sNext": "Volgende",
+                "sPrevious": "Vorige"
+            },
+            "oAria": {
+                "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                "sSortDescending": ": activeer om kolom aflopend te sorteren"
+            }
+        }
+    });
+}
+
+// Pnotify validation check
 function check(){
     var j = 0;
     var post = true;
@@ -142,7 +188,7 @@ $(document).ready(function () {
     });
 });
 
-// DataTable event
+// Add DataTable event on click
 $(content).on('click', 'tbody > tr > td', function (){
 
     // Get incident form id from database
@@ -174,29 +220,6 @@ $(content).on('click', 'tbody > tr > td', function (){
         }
     });
     form.modal('show');
-});
-
-// Form submit
-$(content).on('submit', '#formulier', function (e) {
-    var formdata = $("#formulier").serialize();
-    if (!check()){
-        e.preventDefault();
-        return;
-    }
-    else{
-        $.ajax({
-            type: "post",
-            url: "incident_formulier.php",
-            data: formdata,
-            success: function(response)
-            {
-                alert('submitted!');
-                // console.log(formdata);
-                console.log(response);
-            }
-        });
-    }
-    e.preventDefault();
 });
 
 // When a button is clicked, it will have a different color until its clicked again
@@ -378,7 +401,7 @@ $(content).on("click", ".btn-right", function (e) {
     //if (id);
 });
 
-// Nieuw incident melden page
+// New incident registration page
 $(document).ready(function(){
 
     // Load the page
@@ -417,6 +440,29 @@ $(document).ready(function(){
     })
 });
 
+// New incident form submit
+$(content).on('submit', '#formulier', function (e) {
+        var formdata = $("#formulier").serialize();
+        if (!check()){
+            e.preventDefault();
+            return;
+        }
+        else{
+            $.ajax({
+                type: "post",
+                url: "incident_formulier.php",
+                data: formdata,
+                success: function(response)
+                {
+                    alert('submitted!');
+                    // console.log(formdata);
+                    console.log(response);
+                }
+            });
+        }
+        e.preventDefault();
+    });
+
 // Rapportages page
 $(document).ready(function(){
 
@@ -435,6 +481,7 @@ $(document).ready(function(){
                     $('.change').css('padding-top', '64px');
                 }
 
+                // Load the table
                 $.ajax({
                     url: 'overzicht_incident.php',
                     type: 'post',
@@ -445,11 +492,8 @@ $(document).ready(function(){
                         $(content).append(response);
                         $(content).css('padding', '0');
 
-                        // Check the state of the navbar settings
-                        if (!$('#autoscroll').hasClass('fas fa-check')) {
-                            $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
-                        }
-                         rapport = initTable("Pim/Result.php");
+                        $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
+                        // rapport = initTable("Pim/Result.php");
                     }
                 });
             }
@@ -468,8 +512,7 @@ $(content).on('submit','#rapportageForm', function(e){
         type: "post",
         data: formdata,
         success: function(response){
-            // rapport.clear();
-            // rapport.rows.add(response).draw();
+            console.log(response);
         }
     });
     e.preventDefault();
