@@ -52,12 +52,20 @@ function initTable(source) {
 }
 
 // Datatable for rapportages page
-function initRapport(data, col) {
-
-    return $('#testData').DataTable({
+function initRapport() {
+    var data,
+        tableName= '#demotable',
+        columns,
+        str,
+        jqxhr = $.ajax('Pim/Result.php')
+            .done(function () {
+                data = JSON.parse(jqxhr.responseText);
+            });
+    var table = $('#testData').DataTable({
         retrieve: true,
-        "data": data,
-        "columns": col,
+       // "ajax": "Pim/Result.php",
+        "data":data['data'],
+        "columns":data.columns,
         "order": [[1, "asc"]],
         "createdRow": function (row, data) {
             var days = data['days'];
@@ -504,6 +512,7 @@ $(document).ready(function(){
 
                     }
                 });
+                initRapport();
             }
         });
     });
@@ -520,7 +529,8 @@ $(content).on('submit','#rapportageForm', function(e){
         type: "post",
         data: formdata,
         success: function(response){
-            initRapport(response['data'], response['columns']);
+            console.log(response['data'], response['columns']);
+
         }
     });
     e.preventDefault();
