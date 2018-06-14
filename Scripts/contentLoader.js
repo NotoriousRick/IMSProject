@@ -1,6 +1,24 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 
+// DataTables custom search
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('#min').val(), 10 );
+        var max = parseInt( $('#max').val(), 10 );
+        var age = parseFloat( data[3] ) || 0; // use data for the age column
+
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+            ( isNaN( min ) && age <= max ) ||
+            ( min <= age   && isNaN( max ) ) ||
+            ( min <= age   && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+
 // Datatable initialization for incident list
 function initTable(source) {
      return $('#testData').DataTable({
@@ -52,52 +70,58 @@ function initTable(source) {
 }
 
 // Datatable for rapportages page
-function initRapport(data, col) {
+function initRapport() {
 
-    return $('#testData').DataTable({
-        retrieve: true,
-        "data": data,
-        "columns": col,
-        "order": [[1, "asc"]],
-        "createdRow": function (row, data) {
-            var days = data['days'];
-            var color;
-            if (days > 356) {
-                color = 'btn-danger';
-            } else if (days > 160) {
-                color = 'btn-warning';
-            } else {
-                color = 'btn-outline-info';
-            }
-            $(row).addClass(color);
-        },
-        "language": {
-            "sProcessing": "Bezig...",
-            "sLengthMenu": "_MENU_ resultaten weergeven",
-            "sZeroRecords": "Geen resultaten gevonden",
-            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
-            "sInfoEmpty": "Geen resultaten om weer te geven",
-            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
-            "sInfoPostFix": "",
-            "sSearch": "Zoeken:",
-            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-            "sInfoThousands": ".",
-            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-            "oPaginate": {
-                "sFirst": "Eerste",
-                "sLast": "Laatste",
-                "sNext": "Volgende",
-                "sPrevious": "Vorige"
+        return table = $('#testData').DataTable({
+            retrieve: true,
+            "ajax": "Pim/Result.php",
+            "columns": [
+                {"data": "Incident_ID"},
+                {"data": "Datum"},
+                {"data": "duration"},
+                {"data": "Naam"}
+            ],
+            "order": [[1, "asc"]],
+            "createdRow": function (row, data) {
+                var days = data['days'];
+                var color;
+                if (days > 356) {
+                    color = 'btn-danger';
+                } else if (days > 160) {
+                    color = 'btn-warning';
+                } else {
+                    color = 'btn-outline-info';
+                }
+                $(row).addClass(color);
             },
-            "oAria": {
-                "sSortAscending": ": activeer om kolom oplopend te sorteren",
-                "sSortDescending": ": activeer om kolom aflopend te sorteren"
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
             }
-        }
-    });
+        });
+
 }
 
-// Pnotify validation check
+// Pnotify validation
 function check(){
     var j = 0;
     var post = true;
@@ -478,7 +502,7 @@ $(document).ready(function(){
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
-            type: 'post',
+            type: 'get',
             success: function (response) {
                 if (response == null) {
                     alert('error');
@@ -490,8 +514,8 @@ $(document).ready(function(){
 
                 // Load the table
                 $.ajax({
-                    url: 'overzicht_incident.php',
-                    type: 'post',
+                    url: 'overzicht_rapport.php',
+                    type: 'get',
                     success: function (response) {
                         if (response == null) {
                             alert('error');
@@ -499,29 +523,22 @@ $(document).ready(function(){
                         $(content).append(response);
                         $(content).css('padding', '0');
 
-                        $('#sticky2').removeClass('sticky-top').css('padding-top','6px');
-                        // rapport = initTable("Pim/Result.php");
+                        if (!$('#autoscroll').hasClass('fas fa-check')) {
+                            $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+                        }
 
+                        // Load the data for the table
+                        initRapport();
+
+                        // Custom filter options trigger
+                        $('#min, #max').on('keyup', function() {
+                            table.draw();
+                        } );
                     }
                 });
             }
         });
+
     });
-});
 
-// Submit custom query
-$(content).on('submit','#rapportageForm', function(e){
-
-    var formdata = $("#rapportageForm").serialize();
-
-    // Custom query submition
-    $.getJSON({
-        url: "Pim/Result.php",
-        type: "post",
-        data: formdata,
-        success: function(response){
-            initRapport(response['data'], response['columns']);
-        }
-    });
-    e.preventDefault();
 });

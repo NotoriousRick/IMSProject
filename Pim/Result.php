@@ -11,7 +11,7 @@ include "../config.php";
 //$baliemedewerker = $_POST['baliemedewerker'];
 //$behandelaar = $_POST['behandelaar'];
 //$where = 'WHERE';
-$sql = 'select i.*, k.Naam, k.Telefoon, k.Email, s.SoortIncident, t.TypeKlant from Incident i
+$sql = 'select i.*, k.Naam, s.SoortIncident, t.TypeKlant from Incident i
         right join Klant k 
         on i.Klant_ID = k.Klant_ID
         right join SoortIncident s
@@ -96,33 +96,25 @@ $query = $db->prepare($sql);
 $query->execute();
 
 $dataRapport["data"] = array();
-$columns = array();
 
-$keysArr = array_keys($keys = $query->fetch(PDO::FETCH_ASSOC));
-
-
-
-
-while($result = $query->fetch(PDO::FETCH_ASSOC)){
-    $dataRapport["data"][] = $result;
-    foreach($keysArr as $col){
-        $columns['columns'][] = array("data"=>$col);
-    }
-    $dataRapport[] = $columns;
- }
+while($row = $query->fetch(PDO::FETCH_OBJ)) {
+    $datum = $row->Datum;
+    $delta_time = time() - strtotime($datum);
+    $days = floor($delta_time / 3600 / 24); // difference in days
+    $duration = getDurationIncident($datum) . ' dagen';
+    $dataRapport["data"][] = array(
+        "DT_RowId" => "id".$row->Incident_ID,
+        "Incident_ID" => $row->Incident_ID,
+        "Datum" => $row->Datum,
+        "duration" => $days,
+        "Naam" =>$row->Naam,
+        "Baliemedewerker" => $row->Baliemedewerker,
+        "Behandelaar" => $row->Behandelaar,
+        "SluitDatum" => $row->SluitDatum,
+        "IncidentGesloten" => $row->IncidentGesloten,
+        "Klant_ID" => $row->Klant_ID,
+        "SoortIncident_ID" => $row->SoortIncident_ID
+    );
+}
 
 echo json_encode($dataRapport);
-//echo json_encode($columns);
-
-//foreach ($row = $query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
-//    $dataRapport['data'][] = array($key => $value);
-//}
-
-
-//while($row = $query->fetch(PDO::FETCH_ASSOC)) {
-//
-//    $delta_time = time() - strtotime($datum);
-//    $days = floor($delta_time / 3600 / 24); // difference in days
-//    $colorCheck = getTimeColor($datum);
-//    $duration = getDurationIncident($datum) . ' dagen';
-//}

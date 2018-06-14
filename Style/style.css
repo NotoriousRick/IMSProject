@@ -17,6 +17,7 @@ tbody > tr > td:hover{
     padding-right: 7px;
     padding-left: 7px;
 }
+
 #toggle{
     height: 10px;
     padding: 8px;
@@ -76,7 +77,7 @@ body{
     padding:0;
 }
 .btn-link{
-color: black;
+    color: black;
 }
 
 /*Custom time-based color scheme on incident forms*/

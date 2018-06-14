@@ -176,19 +176,19 @@ $getDate = date("Y-m-d");
                 <br />
                 <div class="row">
                     <div class="form-group">
-                    <div class="col">
+                        <div class="col">
                             <label><h6>Gereed voor sluiten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten1">
-                    </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                    <div class="col">
+                        <div class="col">
                             <label><h6>Incident gesloten</h6></label>
                             <input type="checkbox" name="GereedVoorSluiten2" value="1">
                         </div>
                     </div>
                     <div class="form-group">
-                    <div class="col">
+                        <div class="col">
                             <label><h6>Sluit datum</h6></label>
                             <input type="text" name="SluitDatum" disabled>
                         </div>
@@ -212,6 +212,7 @@ $getDate = date("Y-m-d");
 </form>
 <script>
     $('.select_two').select2();
+
 </script>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -283,5 +284,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     {
         echo $mysqli->error;
     }
-    }
-    ?>
+}
+?>
