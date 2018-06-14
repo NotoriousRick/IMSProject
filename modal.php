@@ -1,3 +1,11 @@
+<?php
+$type_klant = 'SELECT * from TypeKlant';
+$type_klant_result = $mysqli->query($type_klant);
+
+$soort_incident = 'SELECT * from SoortIncident';
+$soort_incident_result = $mysqli->query($soort_incident);
+$getDate = date("Y-m-d");
+?>
 <div id="fModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg" style="min-width: 1200px">
 
@@ -19,7 +27,7 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="" id="formulier">
+                <form method="post" id="formulier">
                     <div class="container change" id="change">
                         <div class="box">
                             <div class="box-header with-border">
@@ -44,7 +52,7 @@
                                                 <span class="input-group-text" id="span_margin_radius_padding">Balie medewerker</span>
                                             </div>
                                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                   name="Baliemedewerker" disabled>
+                                                   name="Baliemedewerker" placeholder="*">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -52,8 +60,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="span_margin_radius_padding">Datum</span>
                                             </div>
-                                            <input  class="form-control form-control-sm" id="input_margin_radius_padding" disabled
-                                                    name="Datum">
+                                            <input placeholder="<?=$getDate?>" class="form-control form-control-sm" id="input_margin_radius_padding" disabled
+                                                   name="Datum">
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +81,7 @@
                                                 <span class="input-group-text" id="span_margin_radius_padding">Naam</span>
                                             </div>
                                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                   name="Naam" disabled>
+                                                   name="Naam" placeholder="*">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -81,7 +89,14 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                                             </div>
-                                            <input name="TypeKlant" class="form-control form-control-sm" id="input_margin_radius_padding" disabled>
+                                            <select class="TypeKlant sel form-control form-control-sm" name="TypeKlant" id="TypeKlant" style="width:60%; border:none;">
+                                                <option selected="true" disabled>*</option>
+                                                <?php
+                                                while ($row = $type_klant_result->fetch_assoc()) {
+                                                    echo '<option  value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -92,16 +107,16 @@
                                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                                             </div>
                                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                   name="Telefoon" disabled>
+                                                   name="Telefoon"  placeholder="*">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="span_margin_radius_padding">ID nummer</span>
+                                                <span class="input-group-text id_number" id="span_margin_radius_padding">ID nummer</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                   name="ID_nummer" disabled>
+                                            <input type="text" class="form-control form-control-sm id_number" id="input_margin_radius_padding"
+                                                   name="ID_nummer">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -110,7 +125,7 @@
                                                 <span class="input-group-text" id="span_margin_radius_padding">Email</span>
                                             </div>
                                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                   name="Email" disabled>
+                                                   name="Email" placeholder="*">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -118,32 +133,38 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                                             </div>
-                                            <input class="form-control form-control-sm" name="SoortIncident" id="input_margin_radius_padding"  disabled>
-                                            </input>
+                                            <select class="sel form-control form-control-sm" name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
+                                                <option selected disabled>*</option>
+                                                <?php
+                                                while($row = $soort_incident_result->fetch_assoc())
+                                                {
+                                                    // value= $row['SoortIncident_ID'] dit moet het oplossen
+                                                    echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-
                                 <hr>
-
                                 <div class="row">
                                     <div class="col">
                                         <label><h6>Omschrijving incident</h6></label>
-                                        <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5" disabled></textarea>
+                                        <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5" placeholder="*"></textarea>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col">
                                         <label><h6>Actie</h6></label>
-                                        <textarea class="form-control" name="Actie" id="" cols="30" rows="5" disabled></textarea>
+                                        <textarea class="form-control" name="Actie" id="" cols="30" rows="5" placeholder="*"></textarea>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="row VervolgActie">
+                                <div class="row" id="VervolgActie">
                                     <div class="col">
                                         <label><h6>Vervolg actie</h6></label>
-                                        <textarea class="form-control" name="VervolgActie" cols="30" rows="5" disabled></textarea>
+                                        <textarea class="form-control" name="VervolgActie" id="" cols="30" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <br />
@@ -151,41 +172,39 @@
                                     <div class="col">
                                         <label><h6>Behandeld door</h6></label>
                                         <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                               name="Behandelaar" disabled>
+                                               name="Behandelaar" placeholder="*">
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col">
                                         <label><h6>Uitgevoerde werkzaamheden</h6></label>
-                                        <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5" disabled></textarea>
+                                        <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col">
                                         <label><h6>Afspraken</h6></label>
-                                        <textarea class="form-control" name="Afspraken" cols="30" rows="5" disabled></textarea>
+                                        <textarea class="form-control" name="Afspraken" cols="30" rows="5"></textarea>
                                     </div>
                                 </div>
-
                                 <br />
-
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label><h6>Behandelaar</h6></label>
-                                            <input type="checkbox" name="GereedVoorSluiten" value="1">
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <label><h6>Gereed voor sluiten</h6></label>
+                                            <input type="checkbox" name="GereedVoorSluiten1">
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label><h6>Balie medewerker</h6></label>
-                                            <input type="checkbox" name="nogwat" value="1">
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <label><h6>Incident gesloten</h6></label>
+                                            <input type="checkbox" name="GereedVoorSluiten2" value="1">
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="col">
                                             <label><h6>Sluit datum</h6></label>
                                             <input type="text" name="SluitDatum" disabled>
                                         </div>
@@ -200,12 +219,12 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary" value="Opslaan">
+                            <input type="submit" id="yourButton" class="btn btn-custom btn-info" value="Opslaan">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <a class="btn btn-default" onclick="window.print()">Print</a>
+                            <button class="btn btn-custom-print btn-light" onclick="window.print()">Printen</button>
                         </div>
                     </div>
                 </div>

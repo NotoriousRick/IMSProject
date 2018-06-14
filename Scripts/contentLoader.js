@@ -1,6 +1,7 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 
+
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
@@ -167,7 +168,6 @@ function check(){
 }
 
 var table = initTable("get_incident_data.php");
-var rapport = initTable("Pim/Result.php");
 
 // Initial page load
 $(document).ready(function () {
@@ -186,7 +186,8 @@ $(document).ready(function () {
             if (!$('#autoscroll').hasClass('fas fa-check')) {
                 $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
             }
-           table = initTable("get_incident_data.php");
+            table = initTable("get_incident_data.php");
+
         }
     });
     $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
@@ -270,52 +271,52 @@ $(".dropdown-menu").click(function(e){
 });
 
 // Pre-load blank forms for index page
-$(document).ready(function() {
-
-    $.ajax({
-        url: 'blank_form.php',
-        method: 'post',
-        success: function (response) {
-            $('.incident-form').append(response);
-            $('.VervolgActie').hide();
-            // remove change class so that autoscroll function will ignore this div
-            $('.change').removeClass('change');
-
-            // disable inputs
-
-        }
-    });
-});
+// $(document).ready(function() {
+//
+//     $.ajax({
+//         url: 'blank_form.php',
+//         method: 'post',
+//         success: function (response) {
+//             $('.incident-form').append(response);
+//             $('.VervolgActie').hide();
+//             // remove change class so that autoscroll function will ignore this div
+//             $('.change').removeClass('change');
+//
+//             // disable inputs
+//
+//         }
+//     });
+// });
 
 // Fill in the form
-$(content).on('click','.incident', function () {
-
-    // Get incident form id from database
-    var id = $(this).attr('id');
-    var incidentID = id.replace('id', '');
-    var form = $('#l' + incidentID);
-    $.getJSON({
-        url: 'get_form_data.php',
-        method: 'post',
-        data: {id: incidentID},
-        success: function (response) {
-            $.each(response, function(name, value){
-
-                var type = $('[name="'+name+'"]').attr('type');
-                if (type === 'select-one'){
-                    form.find($('[name='+name+']')).val( value ).trigger("change");
-                    // $('#'+form+' option').filter(function () { return $(this).html() === value; }).val(value)
-                }
-                else if($('[name="'+name+'"]').is(':checkbox')){
-                  if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
-                }
-                else {
-                    form.find($('[name='+name+']')).val(value)
-               }
-            })
-        }
-    });
-});
+// $(content).on('click','.incident', function () {
+//
+//     // Get incident form id from database
+//     var id = $(this).attr('id');
+//     var incidentID = id.replace('id', '');
+//     var form = $('#l' + incidentID);
+//     $.getJSON({
+//         url: 'get_form_data.php',
+//         method: 'post',
+//         data: {id: incidentID},
+//         success: function (response) {
+//             $.each(response, function(name, value){
+//
+//                 var type = $('[name="'+name+'"]').attr('type');
+//                 if (type === 'select-one'){
+//                     form.find($('[name='+name+']')).val( value ).trigger("change");
+//                     // $('#'+form+' option').filter(function () { return $(this).html() === value; }).val(value)
+//                 }
+//                 else if($('[name="'+name+'"]').is(':checkbox')){
+//                   if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
+//                 }
+//                 else {
+//                     form.find($('[name='+name+']')).val(value)
+//                }
+//             })
+//         }
+//     });
+// });
 
 // Navbar settings button
 $(document).ready(function () {
@@ -453,6 +454,7 @@ $(document).ready(function(){
                     $('.change').css('padding-top', '75px');
                 }
             }
+
         });
 
         // Show or hide the right fields

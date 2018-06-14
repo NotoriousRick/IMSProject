@@ -96,12 +96,10 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
     </div>
     <?php   // Incdient form modal
      include "modal.php";
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     echo print_r($_POST);
-//        }
-
     ?>
     </body>
+
+
 
 <!--JQuery main library-->
 <script src="Scripts/jquery-3.3.1.slim.js"></script>
@@ -123,6 +121,7 @@ $row = $query->fetchAll(PDO::FETCH_OBJ);
 
 <!--Pnotify plugin-->
 <script type="text/javascript" src="Scripts/pnotify.custom.min.js"></script>
+
 </html>
 
 <?php
