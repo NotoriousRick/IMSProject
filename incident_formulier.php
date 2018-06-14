@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VALUES(
     ?,?,?,?)');
     // TODO select existing client id for form submit,  from database or choose the next client id based on last client made
-    $insert_klant->bind_param('sss',$klant_name,$klant_phone, $klant_email, $klant_customer_type);
+    $insert_klant->bind_param('ssss',$klant_name,$klant_phone, $klant_email, $klant_customer_type);
     $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
     $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
     $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VALUES(
     ?,?,?,?,?,?,?,?,?,?,?,?
     )');
-    $insert_incident->bind_param('sss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type);
+    $insert_incident->bind_param('ssssssssssss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type);
     $insert_incident->execute();
     $insert_incident->close();
 //    if(mysqli_query($mysqli, $insert_klant))

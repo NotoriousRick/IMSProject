@@ -216,18 +216,20 @@ $getDate = date("Y-m-d");
                 </form>
             </div>
             <div class="modal-footer">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <input type="submit" id="yourButton" class="btn btn-custom btn-info" value="Opslaan">
+                <form method="post" action="" id="formFull">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="submit" id="yourButton" class="btn btn-custom btn-info" value="Opslaan">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <button class="btn btn-custom-print btn-light" onclick="window.print()">Printen</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <button class="btn btn-custom-print btn-light" onclick="window.print()">Printen</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
 

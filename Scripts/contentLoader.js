@@ -502,7 +502,7 @@ $(content).on('submit', '#formulier', function (e) {
 });
 
 // Form edit
-$(content).on('submit', '#formFull', function (e) {
+$('#fModal').on('submit', '#formFull', function (e) {
     var formdata = $("#formFull").serialize();
     if (!check()){
         e.preventDefault();
