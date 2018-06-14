@@ -97,10 +97,10 @@ $getDate = date("Y-m-d");
                     <div class="col-lg-6">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text id_number" id="span_margin_radius_padding">ID nummer</span>
+                                <span class="input-group-text id_number" id="span_margin_radius_padding">ID Nummer</span>
                             </div>
                             <input type="text" class="form-control form-control-sm id_number" id="input_margin_radius_padding"
-                                   name="ID_nummer">
+                                   name="ID_Nummer">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -122,7 +122,6 @@ $getDate = date("Y-m-d");
                                 <?php
                                 while($row = $soort_incident_result->fetch_assoc())
                                 {
-                                    // value= $row['SoortIncident_ID'] dit moet het oplossen
                                     echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . '</option>';
                                 }
                                 ?>

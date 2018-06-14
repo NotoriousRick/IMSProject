@@ -234,19 +234,24 @@ $(content).on('click', 'tbody > tr > td', function (){
         success: function (response) {
             $.each(response, function(name, value){
 
+                var selector = $('[name="'+name+'"]');
                 var type = $('[name="'+name+'"]').attr('type');
-                if (type === 'select-one'){
-                    form.find($('[name='+name+']')).val( value ).trigger("change");
+                if (selector.hasClass('sel')){
+                    console.log(name + " " + value);
+                    form.find($('[name='+name+'] option')).filter(function() {
+                        return ($(this).text() == value);
+                    }).prop('selected', true).trigger("change");
+
                 }
-                else if($('[name="'+name+'"]').is(':checkbox')){
+                else if(selector.is(':checkbox')){
                     if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
                 }
                 else {
                     if (value === "0000-00-00"){
-                        form.find($('[name='+name+']')).val(' ')
+                        form.find(selector).val(' ')
                     }
                     else
-                    form.find($('[name='+name+']')).val(value)
+                    form.find(selector).val(value)
                 }
             })
         }
