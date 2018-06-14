@@ -1,7 +1,7 @@
 <?php
 include "config.php";
 $type_klant = 'SELECT * from TypeKlant';
-$type_klant->bind_param('sss',$klant_name, $klant_phone, $klant_email, $klant_customer_type);
+$type_klant_result = $mysqli->query($type_klant);
 
 $soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
