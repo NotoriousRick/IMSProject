@@ -1,7 +1,7 @@
 <?php
 include "config.php";
 $type_klant = 'SELECT * from TypeKlant';
-$type_klant_result = $mysqli->query($type_klant);
+$type_klant->bind_param('sss',$klant_name, $klant_phone, $klant_email, $klant_customer_type);
 
 $soort_incident = 'SELECT * from SoortIncident';
 $soort_incident_result = $mysqli->query($soort_incident);
@@ -215,26 +215,23 @@ $getDate = date("Y-m-d");
 </script>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
-    $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
-    $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
-
-    // TODO hoe krijg je type klant omgezet naar Type_ID???
-    $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
-
-    $insert_klant = 'INSERT INTO Klant(
+    $insert_klant = $mysqli->prepare('INSERT INTO Klant(
     Naam,
     Telefoon,
     Email,
     Type_ID
     )
     VALUES(
-    "' . $klant_name . '",
-    "' . $klant_phone . '",
-    "' . $klant_email . '",
-    "' . $klant_customer_type . '"
-    )';
-
+    ?,?,?,?)');
+    $insert_klant->bind_param('sss',$klant_name,$klant_phone, $klant_email, $klant_customer_type);
+    $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
+    $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
+    $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
+    // TODO hoe krijg je type klant omgezet naar Type_ID???
+    $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
+    $insert_klant->execute();
+    $insert_klant->close();
+    
     $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
     $incident_treated_by = mysqli_real_escape_string($mysqli,$_POST['Behandelaar']);
     $incident_description = mysqli_real_escape_string($mysqli,$_POST['Omschrijving']);
@@ -250,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_closed = 0;
     $client_id = 3;
 
-    $insert_incident = 'INSERT INTO Incident(
+    $insert_incident = $mysqli->prepare('INSERT INTO Incident(
     Datum,
     Baliemedewerker,
     Behandelaar,
@@ -265,14 +262,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Klant_ID
     )  
     VALUES(
-    "' . date("Y-m-d") . '", "' . $incident_collaborator . '",
-    "' . $incident_treated_by . '", "' . $incident_description . '",
-    "' . $incident_action . '", "' . $incident_follow_up_action . '",
-    "' . $incident_executed_work . '", "' . $incident_appointments . '",
-    "' . $incident_type . '", "' . $incident_ready_for_closing . '",
-    "' . $incident_closed . '", "'.$client_id.'"
-    )';
-
+    ?,?,?,?,?,?,?,?,?,?,?,?
+    )');
+    $insert_incident->bind_param('sss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type);
+    $insert_incident->execute();
+    $insert_incident->close();
 //    if(mysqli_query($mysqli, $insert_klant))
 //    {
 //        echo 'Klant saved' . '<br />';
