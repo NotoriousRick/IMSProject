@@ -499,7 +499,34 @@ $(content).on('submit', '#formulier', function (e) {
             });
         }
         e.preventDefault();
-    });
+});
+
+// Form edit
+$(content).on('submit', '#formFull', function (e) {
+    var formdata = $("#formFull").serialize();
+    if (!check()){
+        e.preventDefault();
+        return;
+    }
+    else{
+        $.ajax({
+            type: "post",
+            url: "edit_incident.php",
+            data: formdata,
+            success: function(response)
+            {
+                if (response === "noice"){
+                    alert('incident edited!');
+                }
+                else{
+                    alert('something went wrong');
+                }
+                console.log(response);
+            }
+        });
+    }
+    e.preventDefault();
+});
 
 // Rapportages page
 $(document).ready(function(){

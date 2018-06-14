@@ -222,11 +222,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     )
     VALUES(
     ?,?,?,?)');
+    // TODO select existing client id for form submit,  from database or choose the next client id based on last client made
     $insert_klant->bind_param('sss',$klant_name,$klant_phone, $klant_email, $klant_customer_type);
     $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
     $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
     $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
-    // TODO hoe krijg je type klant omgezet naar Type_ID???
     $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
     $insert_klant->execute();
     $insert_klant->close();
@@ -242,6 +242,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 //    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
 //    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
+
+    // TODO Fix this please
     $incident_ready_for_closing = 0;
     $incident_closed = 0;
     $client_id = 3;

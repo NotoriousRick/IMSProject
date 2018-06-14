@@ -12,7 +12,7 @@ $getDate = date("Y-m-d");
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <form method="post" action="" id="formulier">
+                <form method="post" action="" id="formFull">
                     <div class="row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -27,7 +27,7 @@ $getDate = date("Y-m-d");
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <form method="post" id="formulier">
+                <form method="post" id="formFull">
                     <div class="container change" id="change">
                         <div class="box">
                             <div class="box-header with-border">
