@@ -33,18 +33,17 @@ $edit_incident = $mysqli->prepare('update Incident
     Afspraken = ?,
     SoortIncident_ID = ?,
     GereedVoorSluiten = ?,
-    IncidentGesloten = ?,
-    Klant_ID = ?
-    ');
+    IncidentGesloten = ?
+');
 
 $edit_customer = $mysqli->prepare('update Klant
     set
-    Klant.Naam = ?,
-    Klant.Telefoon = ?,
-    Klant.Email = ?,
-    Klant.Type_ID = ?
+    Naam = ?,
+    Telefoon = ?,
+    Email = ?,
+    Where  Type_ID = '.$result_id.'
 ');
-$edit_incident->bind_param('sssssssssss', $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing, $incident_closed, $client_id);
+$edit_incident->bind_param('sssssssssss', $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing, $incident_closed);
 $edit_incident->bind_param('sss',$klant_name, $klant_phone, $klant_email, $klant_customer_type);
 $edit_incident->execute();
 $edit_customer->execute();
