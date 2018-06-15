@@ -129,21 +129,11 @@ function check(){
     var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
     var columnNames = '';
     $(dataArray).each(function(i, field){
-        if (field.name == 'TypeKlant')
-            {
-            console.log(field.value);
-            if (field.value === 3)
-            {
-                extern = true
-            }
-        }
 
-        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || extern == true)
+        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || field.name === "ID_Nummer")
             return;
         else
             dataObj[field.name] = field.value;
-
-
 
         if (dataObj[field.name] == "")
         {
@@ -152,7 +142,6 @@ function check(){
             j ++;
         }
     });
-
 
     if (j !== 0) {
         $(function () {
@@ -471,6 +460,7 @@ $(document).ready(function(){
             }
             else
             {
+                $('.id_number').val("");
                 $('.id_number').hide();
             }
         });
@@ -483,6 +473,20 @@ $(content).on('submit', '#formulier', function (e) {
         if (!check()){
             e.preventDefault();
             return;
+        }
+        else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+        {
+            if($('.id_number').val() === ""){
+                $(function () {
+                    new PNotify({
+                        title: 'Attentie',
+                        text: 'Vul alstublieft de ID Nummer in',
+                        type: 'warning'
+                    });
+                });
+                e.preventDefault();
+                return;
+            }
         }
         else{
             $.ajax({
@@ -500,7 +504,7 @@ $(content).on('submit', '#formulier', function (e) {
         e.preventDefault();
 });
 
-// Show or hide the right fields
+// Show or hide the right fields on modal
 $('#fModal').on('change', '.TypeKlant', function () {
     var value = $(this).val();
     var type_klant_value = value.replace('selected', '');
@@ -510,6 +514,7 @@ $('#fModal').on('change', '.TypeKlant', function () {
     }
     else
     {
+        $('.id_number').val("");
         $('.id_number').hide();
     }
 });
@@ -521,6 +526,20 @@ $('#fModal').on('submit', '#formFull', function (e) {
     if (!check()){
         e.preventDefault();
         return;
+    }
+    else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+    {
+        if($('.id_number').val() === ""){
+            $(function () {
+                new PNotify({
+                    title: 'Attentie',
+                    text: 'Vul alstublieft de ID Nummer in',
+                    type: 'warning'
+                });
+            });
+            e.preventDefault();
+            return;
+        }
     }
     else{
         $.ajax({

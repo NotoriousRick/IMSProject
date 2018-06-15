@@ -91,7 +91,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Telefoon"  placeholder="*" minlength="10" maxlength="13">
+                                   name="Telefoon"  placeholder="*">
                         </div>
                     </div>
                     <div class="col-lg-6">
