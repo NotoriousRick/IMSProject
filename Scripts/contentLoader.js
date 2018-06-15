@@ -1,7 +1,6 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
 
-
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
@@ -131,7 +130,7 @@ function check(){
     var columnNames = '';
     $(dataArray).each(function(i, field){
         if (field.name == 'TypeKlant')
-        {
+            {
             console.log(field.value);
             if (field.value === 3)
             {
@@ -501,8 +500,23 @@ $(content).on('submit', '#formulier', function (e) {
         e.preventDefault();
 });
 
+// Show or hide the right fields
+$('#fModal').on('change', '.TypeKlant', function () {
+    var value = $(this).val();
+    var type_klant_value = value.replace('selected', '');
+    if (type_klant_value == 1 || type_klant_value == 2)
+    {
+        $('.id_number').show();
+    }
+    else
+    {
+        $('.id_number').hide();
+    }
+});
+
 // Form edit
 $('#fModal').on('submit', '#formFull', function (e) {
+
     var formdata = $("#formFull").serialize();
     if (!check()){
         e.preventDefault();

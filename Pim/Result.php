@@ -1,6 +1,6 @@
 <?php
 
-error_reporting( error_reporting() & ~E_NOTICE );
+
 
 include "../config.php";
 //$datum = $_POST['datum'];
