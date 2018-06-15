@@ -91,7 +91,7 @@ $getDate = date("Y-m-d");
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Telefoon"  placeholder="*">
+                                   name="Telefoon"  placeholder="*" minlength="10" maxlength="13">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -222,6 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     )
     VALUES(
     ?,?,?,?)');
+
     // TODO select existing client id for form submit,  from database or choose the next client id based on last client made
     $insert_klant->bind_param('ssss',$klant_name,$klant_phone, $klant_email, $klant_customer_type);
     $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);

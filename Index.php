@@ -89,7 +89,9 @@ include "config.php";
     <div id="content" style="">
 
     </div>
-    <?php   // Incdient form modal
+
+    <?php
+    // Incdient form modal
      include "modal.php";
     ?>
     </body>
