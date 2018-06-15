@@ -229,7 +229,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
     $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
     $klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
-    $insert_klant->execute();
+
+    $result = $mysqli->prepare('select Klant_ID from klant
+     where (Naam = ' . $klant_name . ' and Telefoon = ' . $klant_phone . ' and Email = ' . $klant_email . ')');
+
+    if($row = $query->fetch(PDO::FETCH_OBJ))
+    {
+        //als klant bestaat, return klant_id
+        $klant_id = $result["Klant_ID"];
+    }
+    else if(isset($insert_klant, $klant_name, $klant_phone, $klant_email, $klant_customer_type))
+    {
+        // als klant niet bestaat, return last klant_id +1
+
+        // result = select last_auto_increment van Klant_ID
+        // klant_id = result +1
+
+        // maak klant aan
+        $insert_klant->execute();
+    }
+    else{
+        // doe wat
+    }
+
     $insert_klant->close();
     
     $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
@@ -269,6 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insert_incident->bind_param('ssssssssssss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type);
     $insert_incident->execute();
     $insert_incident->close();
+    
 //    if(mysqli_query($mysqli, $insert_klant))
 //    {
 //        echo 'Klant saved' . '<br />';
