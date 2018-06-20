@@ -186,19 +186,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
-
+        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%;overflow: hidden;background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png');">
+                &nbsp;
+        </div>
         <form method="post">
-            <div>
-                <label>Gebruikersnaam: </label><br>
-                <input type="text" name="UserName" value="<?php if (isset($user)) print $user['UserName']; ?>" required/><br><br>
-                <?php if (isset($GeenUsername)) print '<span style="color:red">Voer alstublieft een username in.</span><br>'; ?>
-                <label>Wachtwoord: </label><br>
-                <input type="password" name="Password" value="<?php if (isset($user)) print 'niet het wachtwoord' ?>" required/><br><br>
-                <?php if (isset($GeenPassword)) print '<span style="color:red">' . $PwdFouten . '</span><br>'; ?>
-                <label>Is Admin?</label>
-                <input type="checkbox" name="IsAdmin" <?php if (isset($user) && $user['IsAdmin'] == 1) print 'checked="true"' ?>/>
-                <input type="submit" value="opslaan">
-                <a href="UserOverzicht.php">annuleren</a>
+            <div class="container">
+                <div class="row justify-content-around">
+                    <div class="col-4">
+                        <label>Gebruikersnaam: </label><br>
+                        <input class="form-control" type="text" name="UserName" value="<?php if (isset($user)) print $user['UserName']; ?>" required/><br><br>
+                        <?php if (isset($GeenUsername)) print '<span style="color:red">Voer alstublieft een username in.</span><br>'; ?>
+                        <label>Wachtwoord: </label><br>
+                        <input class="form-control" type="password" name="Password" value="<?php if (isset($user)) print 'niet het wachtwoord' ?>" required/><br><br>
+                        <?php if (isset($GeenPassword)) print '<span style="color:red">' . $PwdFouten . '</span><br>'; ?>
+                        <label>Is Admin?</label>
+                        <input type="checkbox" name="IsAdmin" <?php if (isset($user) && $user['IsAdmin'] == 1) print 'checked="true"' ?>/><br>
+                        <input class="btn btn-primary" type="submit" value="opslaan">
+                        <a class="btn btn-warning" href="UserOverzicht.php" role="button">annuleren</a>
+                    </div>
+                </div>
             </div>
         </form>
     </body>

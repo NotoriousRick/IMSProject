@@ -67,13 +67,20 @@ if (isset($_SESSION['user']))
         <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
+        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%;overflow: hidden;background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png');">
+                &nbsp;
+        </div>
         <form method="post">
-            <div>
-                <label>Gebruikersnaam: </label><br>
-                <input type="text" name="UserName" required/><br><br>
-                <label>Wachtwoord: </label><br>
-                <input type="password" name="Password" required/><br><br>
-                <input type="submit" value="inloggen">
+            <div class="container">
+                <div class="row justify-content-around">
+                    <div class="col-4">
+                        <label>Gebruikersnaam: </label><br>
+                        <input type="text" name="UserName" required/><br><br>
+                        <label>Wachtwoord: </label><br>
+                        <input type="password" name="Password" required/><br><br>
+                        <input type="submit" value="inloggen">
+                    </div>
+                </div>
             </div>
         </form>
     </body>
