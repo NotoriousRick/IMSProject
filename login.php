@@ -2,6 +2,9 @@
 /* Include config file */
 require_once 'config.php';
 
+// Use this to bypass login
+//$_SESSION['user'] = 'haha, i can log in';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     //username & password uit de post halen
@@ -41,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $_SESSION['user'] = $user['UserName'];
         $_SESSION['isadmin'] = $user['IsAdmin'];
         /* Redirect to UserOverzicht page */
-        header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+        header('Location: http://localhost/IMS/'); //dit moet de index pagina worden
     }
     else
     {
@@ -55,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //dan wordt hij/zij terug naar de index pagina gestuurd
 if (isset($_SESSION['user']))
 {
-    header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+    header('Location: http://localhost/IMS/'); //dit moet de index pagina worden
 }
 ?>
 <HTML>

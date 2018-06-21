@@ -1,5 +1,10 @@
 <?php
 include "config.php";
+
+// Redirect to login page if people are not logged in
+if(!isset($_SESSION['user'])){
+    header('location:login.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

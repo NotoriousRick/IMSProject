@@ -348,7 +348,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = window.location.href + 'login.php'
+                window.location = 'login.php'
             }, 1000);
         }
     });
