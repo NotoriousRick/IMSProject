@@ -20,12 +20,12 @@ $getDate = date("Y-m-d");
                         <h3>INCIDENT FORMULIER</h3>
                     </div>
                     <div class="col-lg-6">
-                        <div class="input-group  sr-only">
+                        <div class="input-group sr-only">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">ID</span>
                             </div>
                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                   name="Incident_ID" disabled>
+                                   name="Incident_ID">
                         </div>
                     </div>
                 </div>
@@ -73,11 +73,18 @@ $getDate = date("Y-m-d");
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
-                            <select class="select_two TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border:none;">
-                                <option selected="true" disabled="disabled">*</option>
+                            <select class="TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%;">
                                 <?php
-                                while ($row = $type_klant_result->fetch_assoc()) {
-                                    echo '<option value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . '</option>';
+                                while ($row = $type_klant_result->fetch_assoc())
+                                {
+                                    if ($row["TypeKlant"] === 'Student')
+                                    {
+                                        echo '<option value=' . $row["Type_ID"] . ' selected>' . $row["TypeKlant"] . ' *' . '</option>';
+                                    }
+                                    else
+                                    {
+                                        echo '<option value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . ' *' . '</option>';
+                                    }
                                 }
                                 ?>
                             </select>
@@ -90,7 +97,7 @@ $getDate = date("Y-m-d");
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Telefoon</span>
                             </div>
-                            <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
+                            <input type="tel" class="form-control form-control-sm" id="input_margin_radius_padding"
                                    name="Telefoon"  placeholder="*" minlength="10" maxlength="13">
                         </div>
                     </div>
@@ -117,12 +124,12 @@ $getDate = date("Y-m-d");
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                             </div>
-                            <select class="select_two" name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
-                                <option selected disabled>*</option>
+                            <select name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
+                                <option value="" selected disabled>Kies uw incident *</option>
                                 <?php
                                 while($row = $soort_incident_result->fetch_assoc())
                                 {
-                                    echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . '</option>';
+                                    echo '<option value="' . $row['SoortIncident_ID'] . '">' . $row['SoortIncident'] . ' *' .'</option>';
                                 }
                                 ?>
                             </select>
@@ -272,23 +279,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_id = 3;
 
     $insert_incident = $mysqli->prepare('INSERT INTO Incident(
-    Datum,
-    Baliemedewerker,
-    Behandelaar,
-    Omschrijving,
-    Actie,
-    VervolgActie,
-    UitgevoerdeWerkzaamheden,
-    Afspraken,
-    SoortIncident_ID,
-    GereedVoorSluiten,
-    IncidentGesloten, 
+    Datum = :datum,
+    Baliemedewerker = :baliemedewerker,
+    Behandelaar = :behandelaar,
+    Omschrijving = :omschrijving,
+    Actie = :actie,
+    VervolgActie = :vervolgactie,
+    UitgevoerdeWerkzaamheden = :uitgevoerdewerkzaamheden,
+    Afspraken = :afspraken,
+    SoortIncident_ID = soortincident_id,
+    GereedVoorSluiten = :gereedvoorsluiten,
+    IncidentGesloten = :incidentgesloten, 
     Klant_ID
     )  
     VALUES(
     ?,?,?,?,?,?,?,?,?,?,?,?
     )');
-    $insert_incident->bind_param('ssssssssssss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type);
+    $insert_incident->bind_param('ssssssssssss', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing, $incident_closed);
     $insert_incident->execute();
     $insert_incident->close();
     

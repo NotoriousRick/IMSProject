@@ -122,48 +122,43 @@ function initRapport() {
 }
 
 // Pnotify validation
-function check(){
-    var j = 0;
-    var post = true;
-    var extern = false;
-    var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
-    var columnNames = '';
-    $(dataArray).each(function(i, field){
-        if (field.name == 'TypeKlant')
-            {
-            console.log(field.value);
-            if (field.value === 3)
-            {
-                extern = true
-            }
-        }
-
-        if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || extern == true)
-            return;
-        else
-            dataObj[field.name] = field.value;
-
-
-
-        if (dataObj[field.name] == "")
+function newIncidentCheck(){
+    var forms_input = document.forms["formulier"].querySelectorAll("input, textarea, select");
+    var empty_required_columns = '';
+    $(forms_input).each(function(i, field) {
+        if (field.name === 'ID_Nummer' || field.name === 'UitgevoerdeWerkzaamheden' ||
+            field.name === 'Afspraken' || field.name === 'GereedVoorSluiten1' ||
+            field.name === 'GereedVoorSluiten2' || field.name === 'SluitDatum' ||
+            field.name === 'VervolgActie' || field.name === 'Datum')
         {
-            columnNames += field.name + '<br />';
-            post = false;
-            j ++;
+            // do nothing hu?
+        }
+        else if (field.value === '')
+        {
+            if (field.name === 'SoortIncident')
+            {
+               console.log(document.getElementById('SoortIncident'));
+            }
+            field.style.borderColor = 'red';
+            empty_required_columns += field.name + '<br />';
+        }
+        else
+        {
+            field.style.borderColor = '';
         }
     });
-
-
-    if (j !== 0) {
-        $(function () {
-            new PNotify({
-                title: 'Verplichte velden',
-                text: columnNames,
-                type: 'error'
-            });
+    $(function () {
+        new PNotify({
+            title: 'Verplichte velden',
+            text: empty_required_columns,
+            type: 'error'
         });
-    }
-    return j === 0;
+    });
+    // $('#formulier').submit(function(ev) {
+    //     ev.preventDefault(); // to stop the form from submitting
+    //
+    //     this.submit(); // If all the validations succeeded
+    // })
 }
 
 var table = initTable("get_incident_data.php");
@@ -326,14 +321,14 @@ $(".dropdown-menu").click(function(e){
 $(document).ready(function () {
     $('.set').click(function () {
 
-        // check if we need to disable or enable the setting
-        // fas fa-check is a class attribute for checkbox checked sign and is also used to see if the setting is enabled or disabled
+        // newIncidentCheck if we need to disable or enable the setting
+        // fas fa-newIncidentCheck is a class attribute for checkbox checked sign and is also used to see if the setting is enabled or disabled
         if($(this).hasClass('fas fa-check')){
 
             // disable the setting
             $(this).removeClass('fas fa-check');
 
-            // check what setting to disable
+            // newIncidentCheck what setting to disable
             if ($(this).attr('value') === "autoscroll"){
                 $('.navbar-main').removeClass('fixed-top');
                 $('#sticky').removeClass('sticky-top').css('padding-top', '6px');
@@ -350,7 +345,7 @@ $(document).ready(function () {
             // enable the setting
             $(this).addClass('fas fa-check');
 
-            // check what setting to enable
+            // newIncidentCheck what setting to enable
             // enable sticky navbars
             if ($(this).attr('value') === "autoscroll"){
                 $('.navbar-main').addClass('fixed-top');
@@ -480,7 +475,7 @@ $(document).ready(function(){
 // New incident form submit
 $(content).on('submit', '#formulier', function (e) {
         var formdata = $("#formulier").serialize();
-        if (!check()){
+        if (!newIncidentCheck()){
             e.preventDefault();
             return;
         }
@@ -518,7 +513,7 @@ $('#fModal').on('change', '.TypeKlant', function () {
 $('#fModal').on('submit', '#formFull', function (e) {
 
     var formdata = $("#formFull").serialize();
-    if (!check()){
+    if (!newIncidentCheck()){
         e.preventDefault();
         return;
     }
@@ -586,7 +581,5 @@ $(document).ready(function(){
                 });
             }
         });
-
     });
-
 });
