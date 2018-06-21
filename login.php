@@ -1,9 +1,8 @@
 <?php
 /* Include config file */
-require_once 'config.php';
-
-// Use this to bypass login
-//$_SESSION['user'] = 'haha, i can log in';
+require_once 'Config_dbIMS.php';
+/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $_SESSION['user'] = $user['UserName'];
         $_SESSION['isadmin'] = $user['IsAdmin'];
         /* Redirect to UserOverzicht page */
-        header('Location: http://localhost/IMS/'); //dit moet de index pagina worden
+        header('Location: UserOverzicht.php'); //dit moet de index pagina worden
     }
     else
     {
@@ -58,42 +57,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //dan wordt hij/zij terug naar de index pagina gestuurd
 if (isset($_SESSION['user']))
 {
-    header('Location: http://localhost/IMS/'); //dit moet de index pagina worden
+    header('Location: UserOverzicht.php'); //dit moet de index pagina worden
 }
 ?>
 <HTML>
     <head>
         <meta charset="uft-8">
         <title></title>
-        <link rel="stylesheet" href="Style/bootstrap.min.css">
+        <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
-        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%;overflow: hidden;background-image: url('images/logo ims2.0.png');">
+        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 100%;overflow: hidden; background-size: 100% auto; background-repeat: no-repeat; background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png')">
                 &nbsp;
         </div>
         <form method="post">
-            <div class="container">
-                <div class="row justify-content-around">
-                    <div class="col-4">
+            <div class="container" style="height:95%">
+                <div class="row justify-content-around" style="height:100%">
+                    <div class="col-4" style="margin:auto">
+                        <h2 align="center" style="color: #17a2b8">Log in</h2><br>
                         <label>Gebruikersnaam: </label><br>
-                        <input type="text" name="UserName" required/><br><br>
+                        <input class="form-control" type="text" name="UserName" required/><br><br>
                         <label>Wachtwoord: </label><br>
-                        <input type="password" name="Password" required/><br><br>
-                        <input type="submit" value="inloggen">
+                        <input class="form-control" type="password" name="Password" required/><br><br>
+                        <input class="btn btn-outline-info btn-custom" type="submit" value="Inloggen">
                     </div>
                 </div>
             </div>
         </form>
     </body>
     <!--Main jQuery library-->
-    <script src="Scripts/jquery-3.3.1.slim.js"></script>
+    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
 
     <!--Popper.js plugin for bootstrap-->
-    <script src="Scripts/popper.js"></script>
+    <script src="../Scripts/popper.js"></script>
 
     <!--Bootstrap script library-->
-    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
 
     <!--Jetske's special script-->
-    <script src="Scripts/PassRequirements.js"></script>
+    <script src="../Scripts/PassRequirements.js"></script>
 </html>

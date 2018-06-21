@@ -1,9 +1,15 @@
 <?php
-/* Need this to start the application, otherwise it will not work */
+/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
 session_start();
 
-/* Remove all session variables */
+/*remove all session variables*/
 session_unset();
 
-/* Destroy session */
+/*destroy session*/
 session_destroy();
+
+
+/*Redirect to login page*/
+header('Location: login.php');
+exit;
+?>
