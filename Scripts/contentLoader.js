@@ -561,3 +561,27 @@ $(document).ready(function(){
     });
 
 });
+
+//Admin knop
+$(document).ready(function () {
+    $('#admin').click(function () {
+        $(content).empty();
+        $.ajax({
+            url: 'UserOverzicht.php',
+            type: 'get',
+            success: function (response) {
+                if (response == null) {
+                    alert('error');
+                }
+                $(content).append(response);
+                $(content).css('padding', '0');
+
+                // Check the state of the navbar settings
+                if (!$('#autoscroll').hasClass('fas fa-check')) {
+                    $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
+                }
+            }
+        });
+        $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
+    });
+});

@@ -1,8 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+require_once 'config.php';
 
 //controleer of de user een admin is
 if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1) == false)
@@ -223,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 {
                     $.ajax({
                         type: "post",
-                        url: "Jetske/CreateUser.php",
+                        url: "CreateUser.php",
                         data: $("#formuser").serialize(),
                         success: function (response)
                         {
@@ -242,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $('#canceluser').click(function () {
                 $(content).empty();
                 $.ajax({
-                    url: 'Jetske/UserOverzicht.php',
+                    url: 'UserOverzicht.php',
                     type: 'get',
                     success: function (response) {
                         if (response == null) {

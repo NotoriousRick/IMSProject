@@ -16,6 +16,10 @@ tbody > tr > td:hover{
 #content{
     padding-right: 7px;
     padding-left: 7px;
+    /*
+    voor login/useroverzicht/createuser
+    */
+    height:100%;
 }
 
 #toggle{
@@ -67,6 +71,18 @@ td{
 }
 body{
     overflow-y: scroll;
+    /*
+    voor login/useroverzicht/createuser
+    */  
+    height:100%;
+}
+
+/*
+voor login/useroverzicht/createuser
+*/
+html
+{
+    height:100%;
 }
 
 /*Navbar customization*/

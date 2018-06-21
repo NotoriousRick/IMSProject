@@ -1,8 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+require_once 'config.php';
 
 //geen admin = geen toegang tot UserOverzicht pagina
 if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1) == false)
@@ -63,7 +61,7 @@ if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadm
             event.preventDefault();
             $(content).empty();
             $.ajax({
-                url: 'Jetske/CreateUser.php?User_ID=' + id,
+                url: 'CreateUser.php?User_ID=' + id,
                 type: 'get',
                 success: function (response) {
                     if (response == null) {
@@ -89,7 +87,7 @@ if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadm
                 $(content).empty();
 
                 $.ajax({
-                    url: 'Jetske/CreateUser.php?Delete_ID=' + id,
+                    url: 'CreateUser.php?Delete_ID=' + id,
                     type: 'get',
                     success: function (response) {
                         if (response == null) {
@@ -113,7 +111,7 @@ if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadm
             $('#createuser').click(function () {
                 $(content).empty();
                 $.ajax({
-                    url: 'Jetske/CreateUser.php',
+                    url: 'CreateUser.php',
                     type: 'get',
                     success: function (response) {
                         if (response == null) {

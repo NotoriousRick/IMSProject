@@ -1,8 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+require_once 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -42,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
         $_SESSION['user'] = $user['UserName'];
         $_SESSION['isadmin'] = $user['IsAdmin'];
-        /* Redirect to UserOverzicht page */
-        header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+        /* Redirect to Index page */
+        header('Location: Index.php');
     }
     else
     {
@@ -57,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //dan wordt hij/zij terug naar de index pagina gestuurd
 if (isset($_SESSION['user']))
 {
-    header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+    header('Location: Index.php');
 }
 ?>
 <HTML>
