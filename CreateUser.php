@@ -1,16 +1,12 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+require_once 'config.php';
 
 //controleer of de user een admin is
-if (isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1)
+if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1) == false)
 {
-    print 'Welkom ' . $_SESSION['user'] . "<br /><br />";
-}
-else //geen admin = geen toegang tot Creat(/update/delete)User pagina
-{
+    //print 'Welkom ' . $_SESSION['user'] . "<br /><br />";
+    //geen admin = geen toegang tot Creat(/update/delete)User pagina
     /* Redirect to login page */
     header('Location: login.php'); // deze location moet nog veranderd worden in de indexpagina van Vlad
     exit;
@@ -95,13 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $GeenPassword = true;
         $PwdFouten = $PwdFouten . "<br>" . "Uw invoer dient minimaal 1 kleine letter";
     }
-    
+
     if (preg_match("([A-Z])", $pwd) === 0)
     {
         $GeenPassword = true;
         $PwdFouten = $PwdFouten . "<br>" . "Uw invoer dient minimaal 1 hoofdletter";
     }
-    
+
     if (preg_match("([0-9])", $pwd) === 0)
     {
         $GeenPassword = true;
@@ -112,12 +108,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     if (!isset($GeenUsername) && !isset($GeenPassword))
     {
         //als er een user_id bekend is komen we in deze edit/update functie en vullen we dat bij behorende username alvast in
-        if (isset($_GET['User_ID']))
+        if (isset($_POST['User_ID']))
         {
             $isadmin = isset($_POST['IsAdmin']) ? true : false;
 
             //als er geen nieuw wachtwoord wordt ingesteld dan blijft het oude wachtwoord in de database staan 
-            if ($_POST['Password'] !== 'niet het wachtwoord')
+            if ($_POST['Password'] !== 'N1#t het wachtwoord')
             {
                 $password = password_hash($_POST['Password'], PASSWORD_BCRYPT);
             }
@@ -135,11 +131,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             //als er wel een nieuw wachtwoord wordt ingesteld dan wordt de passwordhash geupdate
             if (isset($password))
             {
-                $stmt->bind_param("sisi", $username, $isadmin, $password, $_GET['User_ID']);
+                $stmt->bind_param("sisi", $username, $isadmin, $password, $_POST['User_ID']);
             }
             else //als er geen nieuw wachtwoord wordt ingesteld
             {
-                $stmt->bind_param("sii", $username, $isadmin, $_GET['User_ID']);
+                $stmt->bind_param("sii", $username, $isadmin, $_POST['User_ID']);
             }
 
             print($sql);
@@ -183,42 +179,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <head>
         <meta charset="uft-8">
         <title></title>
-        <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
-
-        <form method="post">
-            <div>
-                <label>Gebruikersnaam: </label><br>
-                <input type="text" name="UserName" value="<?php if (isset($user)) print $user['UserName']; ?>" required/><br><br>
-                <?php if (isset($GeenUsername)) print '<span style="color:red">Voer alstublieft een username in.</span><br>'; ?>
-                <label>Wachtwoord: </label><br>
-                <input type="password" name="Password" value="<?php if (isset($user)) print 'niet het wachtwoord' ?>" required/><br><br>
-                <?php if (isset($GeenPassword)) print '<span style="color:red">' . $PwdFouten . '</span><br>'; ?>
-                <label>Is Admin?</label>
-                <input type="checkbox" name="IsAdmin" <?php if (isset($user) && $user['IsAdmin'] == 1) print 'checked="true"' ?>/>
-                <input type="submit" value="opslaan">
-                <a href="UserOverzicht.php">annuleren</a>
+        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%; background-size: 100% auto; background-repeat: no-repeat; overflow: hidden;background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png');">
+            &nbsp;
+        </div>
+        <form id="formuser" method="post" style="height:100%">
+            <div class="container" style="height:95%">
+                <div class="row justify-content-around" style="height:100%">
+                    <div class="col-4" style="margin: auto">
+                        <h2 align="center" style="color: #17a2b8">Nieuwe gebruiker aanmaken</h2><br>
+                        <label>Gebruikersnaam: </label><br>
+                        <?php if (isset($user)) print '<input name="User_ID" type="hidden" value="'.$user["User_ID"].'" />'; ?>
+                        <input class="form-control" type="text" name="UserName" value="<?php if (isset($user)) print $user['UserName']; ?>" required/><br><br>
+                        <?php if (isset($GeenUsername)) print '<span style="color:red">Voer alstublieft een username in.</span><br>'; ?>
+                        <label>Wachtwoord: </label><br>
+                        <input class="form-control" type="password" name="Password" value="<?php if (isset($user)) print 'N1#t het wachtwoord' ?>" required/><br><br>
+                        <?php if (isset($GeenPassword)) print '<span style="color:red">' . $PwdFouten . '</span><br>'; ?>
+                        <label>Is Admin?</label>
+                        <input type="checkbox" name="IsAdmin" <?php if (isset($user) && $user['IsAdmin'] == 1) print 'checked="true"' ?>/><br>
+                        <input class="btn btn-outline-info btn-custom" type="submit" value="Opslaan">
+                        <a id="canceluser" class="btn btn-outline-warning" href="#" role="button">Annuleren</a>
+                    </div>
+                </div>
             </div>
         </form>
     </body>
-    <!--Main jQuery library-->
-    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
 
-    <!--Popper.js plugin for bootstrap-->
-    <script src="../Scripts/popper.js"></script>
-
-    <!--Bootstrap script library-->
-    <script src="../Scripts/bootstrap.min.js"></script>
-
-    <!--Jetske's special script-->
-    <script src="../Scripts/PassRequirements.js"></script>
-    
-    
     <script>
-        $(document).ready(function()
+        //deze scripts zijn hier nodig om Vlad z'n scripts to omzeilen (anders werken de buttons niet goed en komt de navbar onder aan mijn pagina's)
+        $(document).ready(function ()
         {
-            $( ":password" ).PassRequirements();
+            //Start password controle
+            $(":password").PassRequirements();
+            
+            //Knop opslaan
+            $("#formuser").submit(function (event) {
+                event.preventDefault();
+
+                if ($(':password').data('password-valid') == true)
+                {
+                    $.ajax({
+                        type: "post",
+                        url: "CreateUser.php",
+                        data: $("#formuser").serialize(),
+                        success: function (response)
+                        {
+                            $(content).empty();
+                            $(content).append(response);
+                        }
+                    });
+                } else
+                {
+                    $(":password").focus();
+                    return false;
+                }
+            });
+
+            //Cancel knop
+            $('#canceluser').click(function () {
+                $(content).empty();
+                $.ajax({
+                    url: 'UserOverzicht.php',
+                    type: 'get',
+                    success: function (response) {
+                        if (response == null) {
+                            alert('error');
+                        }
+                        $(content).append(response);
+                        $(content).css('padding', '0');
+
+                        // Check the state of the navbar settings
+                        if (!$('#autoscroll').hasClass('fas fa-check')) {
+                            $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
+                        }
+                    }
+                });
+                $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
+            });
         });
     </script>
 </html>

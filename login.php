@@ -1,8 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
+require_once 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -42,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
         $_SESSION['user'] = $user['UserName'];
         $_SESSION['isadmin'] = $user['IsAdmin'];
-        /* Redirect to UserOverzicht page */
-        header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+        /* Redirect to Index page */
+        header('Location: Index.php');
     }
     else
     {
@@ -53,11 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $link->close();
 }
 
-//mochten een ingelogde gebruiker onverhoopt toch terugkomen op deze login pagina 
+//mochten een ingelogde gebruiker onverhoopt toch terugkomen op deze login pagina
 //dan wordt hij/zij terug naar de index pagina gestuurd
 if (isset($_SESSION['user']))
 {
-    header('Location: UserOverzicht.php'); //dit moet de index pagina worden
+    header('Location: Index.php');
 }
 ?>
 <HTML>
@@ -67,13 +65,21 @@ if (isset($_SESSION['user']))
         <link rel="stylesheet" href="../Style/bootstrap.min.css">
     </head>
     <body>
+        <div style=" position: absolute;opacity: 0.1;width: 100%; height: 100%;overflow: hidden; background-size: 100% auto; background-repeat: no-repeat; background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png')">
+                &nbsp;
+        </div>
         <form method="post">
-            <div>
-                <label>Gebruikersnaam: </label><br>
-                <input type="text" name="UserName" required/><br><br>
-                <label>Wachtwoord: </label><br>
-                <input type="password" name="Password" required/><br><br>
-                <input type="submit" value="inloggen">
+            <div class="container" style="height:95%">
+                <div class="row justify-content-around" style="height:100%">
+                    <div class="col-4" style="margin:auto">
+                        <h2 align="center" style="color: #17a2b8">Log in</h2><br>
+                        <label>Gebruikersnaam: </label><br>
+                        <input class="form-control" type="text" name="UserName" required/><br><br>
+                        <label>Wachtwoord: </label><br>
+                        <input class="form-control" type="password" name="Password" required/><br><br>
+                        <input class="btn btn-outline-info btn-custom" type="submit" value="Inloggen">
+                    </div>
+                </div>
             </div>
         </form>
     </body>

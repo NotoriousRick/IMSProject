@@ -51,6 +51,7 @@ $edit_customer = $db->prepare('update Klant
     Email = :email,
     Where  Type_ID = '.$result_id.'
 ');
+
 $edit_incident->bindParam(':balie',$incident_collaborator);
 $edit_incident->bindParam(':bahandelaar',$incident_treated_by);
 $edit_incident->bindParam(':omschrijving',$incident_description);

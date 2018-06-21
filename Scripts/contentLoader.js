@@ -118,7 +118,6 @@ function initRapport() {
                 }
             }
         });
-
 }
 
 // Pnotify validation
@@ -129,37 +128,72 @@ function newIncidentCheck(){
         if (field.name === 'ID_Nummer' || field.name === 'UitgevoerdeWerkzaamheden' ||
             field.name === 'Afspraken' || field.name === 'GereedVoorSluiten1' ||
             field.name === 'GereedVoorSluiten2' || field.name === 'SluitDatum' ||
-            field.name === 'VervolgActie' || field.name === 'Datum')
-        {
+            field.name === 'VervolgActie' || field.name === 'Datum') {
             // do nothing hu?
         }
-        else if (field.value === '')
-        {
-            if (field.name === 'SoortIncident')
-            {
-               console.log(document.getElementById('SoortIncident'));
+        else if (field.value === '') {
+            if (field.name === 'SoortIncident') {
+                console.log(document.getElementById('SoortIncident'));
             }
             field.style.borderColor = 'red';
             empty_required_columns += field.name + '<br />';
         }
-        else
-        {
+        else {
             field.style.borderColor = '';
         }
     });
+
     $(function () {
         new PNotify({
             title: 'Verplichte velden',
             text: empty_required_columns,
             type: 'error'
-        });
-    });
+        })
+    })
     // $('#formulier').submit(function(ev) {
     //     ev.preventDefault(); // to stop the form from submitting
     //
     //     this.submit(); // If all the validations succeeded
     // })
 }
+// =======
+// function check(){
+//     var j = 0;
+//     var post = true;
+//     var extern = false;
+//     var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
+//     var columnNames = '';
+//     $(dataArray).each(function(i, field){
+//
+//         if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || field.name === "ID_Nummer")
+//             return;
+//         else
+//             dataObj[field.name] = field.value;
+//
+//         if (dataObj[field.name] == "")
+// >>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
+
+    // });
+// <<<<<<< HEAD
+
+// =======
+//
+//     if (j !== 0) {
+//         $(function () {
+//             new PNotify({
+//                 title: 'Verplichte velden',
+//                 text: columnNames,
+//                 type: 'error'
+//             });
+// >>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
+//         });
+//     });
+    // $('#formulier').submit(function(ev) {
+    //     ev.preventDefault(); // to stop the form from submitting
+    //
+    //     this.submit(); // If all the validations succeeded
+    // })
+// }
 
 var table = initTable("get_incident_data.php");
 
@@ -269,54 +303,6 @@ $(".dropdown-menu").click(function(e){
     e.stopPropagation();
 });
 
-// Pre-load blank forms for index page
-// $(document).ready(function() {
-//
-//     $.ajax({
-//         url: 'blank_form.php',
-//         method: 'post',
-//         success: function (response) {
-//             $('.incident-form').append(response);
-//             $('.VervolgActie').hide();
-//             // remove change class so that autoscroll function will ignore this div
-//             $('.change').removeClass('change');
-//
-//             // disable inputs
-//
-//         }
-//     });
-// });
-
-// Fill in the form
-// $(content).on('click','.incident', function () {
-//
-//     // Get incident form id from database
-//     var id = $(this).attr('id');
-//     var incidentID = id.replace('id', '');
-//     var form = $('#l' + incidentID);
-//     $.getJSON({
-//         url: 'get_form_data.php',
-//         method: 'post',
-//         data: {id: incidentID},
-//         success: function (response) {
-//             $.each(response, function(name, value){
-//
-//                 var type = $('[name="'+name+'"]').attr('type');
-//                 if (type === 'select-one'){
-//                     form.find($('[name='+name+']')).val( value ).trigger("change");
-//                     // $('#'+form+' option').filter(function () { return $(this).html() === value; }).val(value)
-//                 }
-//                 else if($('[name="'+name+'"]').is(':checkbox')){
-//                   if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
-//                 }
-//                 else {
-//                     form.find($('[name='+name+']')).val(value)
-//                }
-//             })
-//         }
-//     });
-// });
-
 // Navbar settings button
 $(document).ready(function () {
     $('.set').click(function () {
@@ -390,7 +376,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
 $(document).on('click', '#logoutBut', function () {
     $('#modalLogOut').modal('hide');
     $.ajax({
-        url: 'Jetske/logout.php',
+        url: 'logout.php',
         method: 'post',
         success: function () {
 
@@ -402,7 +388,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = window.location.href + 'Jetske/login.php'
+                window.location = 'login.php'
             }, 1000);
         }
     });
@@ -466,6 +452,7 @@ $(document).ready(function(){
             }
             else
             {
+                $('.id_number').val("");
                 $('.id_number').hide();
             }
         });
@@ -478,6 +465,20 @@ $(content).on('submit', '#formulier', function (e) {
         if (!newIncidentCheck()){
             e.preventDefault();
             return;
+        }
+        else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+        {
+            if($('.id_number').val() === ""){
+                $(function () {
+                    new PNotify({
+                        title: 'Attentie',
+                        text: 'Vul alstublieft de ID Nummer in',
+                        type: 'warning'
+                    });
+                });
+                e.preventDefault();
+                return;
+            }
         }
         else{
             $.ajax({
@@ -495,7 +496,7 @@ $(content).on('submit', '#formulier', function (e) {
         e.preventDefault();
 });
 
-// Show or hide the right fields
+// Show or hide the right fields on modal
 $('#fModal').on('change', '.TypeKlant', function () {
     var value = $(this).val();
     var type_klant_value = value.replace('selected', '');
@@ -505,6 +506,7 @@ $('#fModal').on('change', '.TypeKlant', function () {
     }
     else
     {
+        $('.id_number').val("");
         $('.id_number').hide();
     }
 });
@@ -516,6 +518,20 @@ $('#fModal').on('submit', '#formFull', function (e) {
     if (!newIncidentCheck()){
         e.preventDefault();
         return;
+    }
+    else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+    {
+        if($('.id_number').val() === ""){
+            $(function () {
+                new PNotify({
+                    title: 'Attentie',
+                    text: 'Vul alstublieft de ID Nummer in',
+                    type: 'warning'
+                });
+            });
+            e.preventDefault();
+            return;
+        }
     }
     else{
         $.ajax({
@@ -582,4 +598,33 @@ $(document).ready(function(){
             }
         });
     });
+<<<<<<< HEAD
 });
+=======
+
+});
+
+//Admin knop
+$(document).ready(function () {
+    $('#admin').click(function () {
+        $(content).empty();
+        $.ajax({
+            url: 'UserOverzicht.php',
+            type: 'get',
+            success: function (response) {
+                if (response == null) {
+                    alert('error');
+                }
+                $(content).append(response);
+                $(content).css('padding', '0');
+
+                // Check the state of the navbar settings
+                if (!$('#autoscroll').hasClass('fas fa-check')) {
+                    $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
+                }
+            }
+        });
+        $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
+    });
+});
+>>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
