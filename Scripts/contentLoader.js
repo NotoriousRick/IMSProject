@@ -263,54 +263,6 @@ $(".dropdown-menu").click(function(e){
     e.stopPropagation();
 });
 
-// Pre-load blank forms for index page
-// $(document).ready(function() {
-//
-//     $.ajax({
-//         url: 'blank_form.php',
-//         method: 'post',
-//         success: function (response) {
-//             $('.incident-form').append(response);
-//             $('.VervolgActie').hide();
-//             // remove change class so that autoscroll function will ignore this div
-//             $('.change').removeClass('change');
-//
-//             // disable inputs
-//
-//         }
-//     });
-// });
-
-// Fill in the form
-// $(content).on('click','.incident', function () {
-//
-//     // Get incident form id from database
-//     var id = $(this).attr('id');
-//     var incidentID = id.replace('id', '');
-//     var form = $('#l' + incidentID);
-//     $.getJSON({
-//         url: 'get_form_data.php',
-//         method: 'post',
-//         data: {id: incidentID},
-//         success: function (response) {
-//             $.each(response, function(name, value){
-//
-//                 var type = $('[name="'+name+'"]').attr('type');
-//                 if (type === 'select-one'){
-//                     form.find($('[name='+name+']')).val( value ).trigger("change");
-//                     // $('#'+form+' option').filter(function () { return $(this).html() === value; }).val(value)
-//                 }
-//                 else if($('[name="'+name+'"]').is(':checkbox')){
-//                   if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
-//                 }
-//                 else {
-//                     form.find($('[name='+name+']')).val(value)
-//                }
-//             })
-//         }
-//     });
-// });
-
 // Navbar settings button
 $(document).ready(function () {
     $('.set').click(function () {
@@ -384,7 +336,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
 $(document).on('click', '#logoutBut', function () {
     $('#modalLogOut').modal('hide');
     $.ajax({
-        url: 'Jetske/logout.php',
+        url: 'logout.php',
         method: 'post',
         success: function () {
 
@@ -396,7 +348,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = window.location.href + 'Jetske/login.php'
+                window.location = window.location.href + 'login.php'
             }, 1000);
         }
     });

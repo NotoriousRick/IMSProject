@@ -53,7 +53,7 @@ include "config.php";
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <button id="autoscroll" class="set dropdown-item list-group-item-action fas fa-check" value="autoscroll">Autoscroll</button>
                                 <button id="autohide" class="set dropdown-item list-group-item-action" value="autohide">Autohide</button>
-                                <button id="cursor" class="set dropdown-item list-group-item-action" value="secret">Secret setting :)</button>
+<!--                                <button id="cursor" class="set dropdown-item list-group-item-action" value="secret">Secret setting :)</button>-->
                         </div>
                     </li>
 

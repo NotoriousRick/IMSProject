@@ -1,6 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
+require_once 'config.php';
 /* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
 session_start();
 
@@ -12,7 +12,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmi
 else //geen admin = geen toegang tot Creat(/update/delete)User pagina
 {
     /* Redirect to login page */
-    header('Location: login.php'); // deze location moet nog veranderd worden in de indexpagina van Vlad
+    header('Location: Index.php'); // deze location moet nog veranderd worden in de indexpagina van Vlad
     exit;
 }
 
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <head>
         <meta charset="uft-8">
         <title></title>
-        <link rel="stylesheet" href="../Style/bootstrap.min.css">
+        <link rel="stylesheet" href="Style/bootstrap.min.css">
     </head>
     <body>
         <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%;overflow: hidden;background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png');">
@@ -209,16 +209,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         </form>
     </body>
     <!--Main jQuery library-->
-    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
+    <script src="Scripts/jquery-3.3.1.slim.js"></script>
 
     <!--Popper.js plugin for bootstrap-->
-    <script src="../Scripts/popper.js"></script>
+    <script src="Scripts/popper.js"></script>
 
     <!--Bootstrap script library-->
-    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
 
     <!--Jetske's special script-->
-    <script src="../Scripts/PassRequirements.js"></script>
+    <script src="Scripts/PassRequirements.js"></script>
     
     
     <script>

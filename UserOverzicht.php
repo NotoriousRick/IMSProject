@@ -1,6 +1,6 @@
 <?php
 /* Include config file */
-require_once 'Config_dbIMS.php';
+require_once 'config.php';
 /* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
 session_start();
 
@@ -19,7 +19,7 @@ else //geen admin = geen toegang tot UserOverzicht pagina
     <head>
         <meta charset="uft-8">
         <title></title>
-        <link rel="stylesheet" href="../Style/bootstrap.min.css" >
+        <link rel="stylesheet" href="Style/bootstrap.min.css" >
     </head>
     <body>
         <div style=" position: absolute;opacity: 0.1;width: 100%; height: 95%;overflow: hidden;background-image: url('http://localhost/IMSProject/images/logo%20ims2.0.png');">
@@ -41,7 +41,7 @@ else //geen admin = geen toegang tot UserOverzicht pagina
         print "<div class='container-fluid'><div class='row justify-content-around'><div class='col-3'><TABLE class='table table-hover'><thead><TR><TH>Username</TH><TH>Is Administrator</TH><TH>Acties</TH></TR></thead><tbody>";
         while ($user = $result->fetch_assoc())
         {
-            print "<TR>" . "<TD>" . $user['UserName'] . "</TD>" . "<TD>" . $user['IsAdmin'] . "</TD>" . "<TD>" . "<a href='CreateUser.php?User_ID=" . $user['User_ID'] . "'><IMG src='user-edit-icon.png' alt='edit user' width='40px'/></a>" . "<a href='CreateUser.php?Delete_ID=" . $user['User_ID'] . "'><IMG src='trash-bin-icon.png' alt='delete user' width='40px'/></a>" . "</TD>" . "</TR>";
+            print "<TR>" . "<TD>" . $user['UserName'] . "</TD>" . "<TD>" . $user['IsAdmin'] . "</TD>" . "<TD>" . "<a href='CreateUser.php?User_ID=" . $user['User_ID'] . "'><IMG src='images/user-edit-icon.png' alt='edit user' width='40px'/></a>" . "<a href='CreateUser.php?Delete_ID=" . $user['User_ID'] . "'><IMG src='images/trash-bin-icon.png' alt='delete user' width='40px'/></a>" . "</TD>" . "</TR>";
         }
 
         print "</tbody></TABLE></div></div></div>";
@@ -52,14 +52,14 @@ else //geen admin = geen toegang tot UserOverzicht pagina
         <a  href="CreateUser.php">Nieuwe gebruiker</a>
     </body>
     <!--Main jQuery library-->
-    <script src="../Scripts/jquery-3.3.1.slim.js"></script>
+    <script src="Scripts/jquery-3.3.1.slim.js"></script>
 
     <!--Popper.js plugin for bootstrap-->
-    <script src="../Scripts/popper.js"></script>
+    <script src="Scripts/popper.js"></script>
 
     <!--Bootstrap script library-->
-    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
 
     <!--Jetske's special script-->
-    <script src="../Scripts/PassRequirements.js"></script>
+    <script src="Scripts/PassRequirements.js"></script>
 </html>
