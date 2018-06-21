@@ -1,8 +1,6 @@
 <?php
 /* Include config file */
 require_once 'config.php';
-/* Zonder de session_start-functie weet de applicatie niet wie je bent en werkt hij dus niet */
-session_start();
 
 //controleer of de user een admin is
 if (isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1)
