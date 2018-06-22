@@ -48,7 +48,7 @@ if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadm
                     $result->free();
                     $link->close();
                     ?>
-                    <button id="createuser" type="button" class="btn btn-info btn-custom">Nieuwe gebruiker</a>
+                    <button id="createuser" type="button" class="btn btn-info btn-custom">Nieuwe gebruiker</button>
                 </div>
             </div>
         </div>

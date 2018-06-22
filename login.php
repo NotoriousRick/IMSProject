@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $_SESSION['user'] = $user['UserName'];
         $_SESSION['isadmin'] = $user['IsAdmin'];
         /* Redirect to Index page */
-        header('Location: Index.php');
+        header('Location: http://localhost/IMS/');
     }
     else
     {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //dan wordt hij/zij terug naar de index pagina gestuurd
 if (isset($_SESSION['user']))
 {
-    header('Location: Index.php');
+    header('Location: http://localhost/IMS/');
 }
 ?>
 <HTML>

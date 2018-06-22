@@ -8,7 +8,7 @@ if ((isset($_SESSION['user']) && isset($_SESSION['isadmin']) && $_SESSION['isadm
     //print 'Welkom ' . $_SESSION['user'] . "<br /><br />";
     //geen admin = geen toegang tot Creat(/update/delete)User pagina
     /* Redirect to login page */
-    header('Location: login.php'); // deze location moet nog veranderd worden in de indexpagina van Vlad
+    header('Location: http://localhost/IMS/'); // deze location moet nog veranderd worden in de indexpagina van Vlad
     exit;
 }
 

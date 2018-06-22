@@ -159,6 +159,9 @@ function newIncidentCheck(){
             })
         })
     }
+    else {
+        return true;
+    }
 }
 
 var table = initTable("get_incident_data.php");
