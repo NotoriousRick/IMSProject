@@ -187,7 +187,8 @@ $getDate = date("Y-m-d");
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                                                 </div>
-                                                <select class="TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
+                                                <select class="select_two TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
+                                                    <option value="0"></option>
                                                     <?php
                                                     while ($row = $type_klant_result->fetch_assoc()) {
                                                         echo '<option value=' . $row["Type_ID"] . '>' . $row["TypeKlant"] . '</option>';
@@ -230,7 +231,8 @@ $getDate = date("Y-m-d");
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                                                 </div>
-                                                <select class="SoortIncident" name="SoortIncident" id="SoortIncident" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
+                                                <select class="select_two SoortIncident" name="SoortIncident" id="SoortIncident" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
+                                                    <option value="0"></option>
                                                     <?php
                                                     while($row = $soort_incident_result->fetch_assoc())
                                                     {
