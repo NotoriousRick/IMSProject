@@ -1,6 +1,9 @@
 // Main content container
 var content = "#content"; // Content div for generated ajax content
-
+var modal = "#modal"; // Content div for form modals
+var main = "#main";
+var form = $('#formulier');
+var fmodal = $('#fModal');
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
@@ -18,6 +21,10 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
+
+$('.select_two').select2({
+    placeholder: "*"
+});
 
 // Datatable initialization for incident list
 function initTable(source) {
@@ -207,28 +214,32 @@ $(document).ready(function () {
     });
 });
 
-// Add DataTable event on click
+// Add modal event to the table cell (display the modal on click)
 $(content).on('click', 'tbody > tr > td', function (){
-
     // Get incident form id from database
+    if($(modal).hasClass('submit')){
+        $(modal).removeClass('submit').addClass('edit');
+    }
     var id = table.row(this).id();
     var incidentID = id.replace('id', '');
     var form = $('#fModal');
+
+    // Fill in the form with data
     $.getJSON({
         url: 'get_form_data.php',
         method: 'post',
         data: {id: incidentID},
         success: function (response) {
             $.each(response, function(name, value){
-
+                console.log(response['Type_ID']);
                 var selector = $('[name="'+name+'"]');
                 var type = $('[name="'+name+'"]').attr('type');
-                if (selector.hasClass('sel')){
-                    console.log(name + " " + value);
-                    form.find($('[name='+name+'] option')).filter(function() {
-                        return ($(this).text() == value);
-                    }).prop('selected', true).trigger("change");
-
+                if (selector.hasClass('select_two')){
+                   $('[name="TypeKlant"]').val(response['Type_ID']).trigger("change");
+                   $('[name="SoortIncident"]').val(response['SoortIncident_ID']).trigger("change");
+                    // form.find($('[name='+name+'] option')).filter(function() {
+                    //     return ($(this).text() == value);
+                    // }).prop('selected', true).trigger("change");
                 }
                 else if(selector.is(':checkbox')){
                     if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
@@ -238,11 +249,12 @@ $(content).on('click', 'tbody > tr > td', function (){
                         form.find(selector).val(' ')
                     }
                     else
-                    form.find(selector).val(value)
+                        form.find(selector).val(value)
                 }
             })
         }
     });
+
     form.modal('show');
 });
 
@@ -360,51 +372,21 @@ $(document).ready(function(){
     })
 });
 
-// Overzicht incidenten features button
-$(content).on("click", ".btn-right", function (e) {
-    if(!e) {e = window.event; }
-    e.stopPropagation();
-
-    var id = this.id; // button id -> Depends on which incident the button was clicked
-    var val = $(this).attr('value'); // button function id -> depends on  which one of the 4 buttons was clicked
-
-    // assign what to do to id depending on the button value
-    if (val === "b1") val = "Functie 1";
-    else if(val === "b2")val = "Incident inzien";
-    else if(val === "b3")val = "Formulier uitprinten";
-    else if(val === "b4")val = "Incident afmelden";
-    alert("button id: "+ id +" button function:  "+ val);
-    //if (id);
-});
-
 // New incident registration page
 $(document).ready(function(){
 
     // Load the page
-    $('#incident').click(function(e){
-        $(content).empty();
-        $.ajax({
-            url: 'incident_formulier.php',
-            type:'get',
-            success: function (response) {
-                if (response == null){
-                    alert('error');
-                }
-                $(content).append(response);
-                // Hide stuff here
-                $('#VervolgActie').hide();
-                $('.id_number').hide();
-                if($('#autoscroll').hasClass('fas fa-check')) {
-                    $('.change').css('padding-top', '75px');
-                }
-            }
-
-        });
+    $('#incident').click( function(e){
+        $('#TypeKlant').val('').trigger('change');
+        $('#SoortIncident').val('').trigger('change');
+        form[0].reset();
+        $(modal).removeClass('edit').addClass('submit');
+        fmodal.modal('show');
 
         // Show or hide the right fields
-        $(content).on('change', '.TypeKlant', function () {
-            var value = $(this).val();
-            var type_klant_value = value.replace('selected', '');
+        fmodal.on('change', '.TypeKlant', function () {
+            var value = $('.TypeKlant').val();
+            var type_klant_value = value;
             if (type_klant_value == 1 || type_klant_value == 2)
             {
                 $('.id_number').show();
@@ -418,69 +400,18 @@ $(document).ready(function(){
     })
 });
 
-// New incident form submit
-$(content).on('submit', '#formulier', function (e) {
-        var formdata = $("#formulier").serialize();
-        if (!newIncidentCheck()){
-            e.preventDefault();
-            return;
-        }
-        else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
-        {
-            if($('.id_number').val() === ""){
-                $(function () {
-                    new PNotify({
-                        title: 'Attentie',
-                        text: 'Vul alstublieft de ID Nummer in',
-                        type: 'warning'
-                    });
-                });
-                e.preventDefault();
-                return;
-            }
-        }
-        else{
-            $.ajax({
-                type: "post",
-                url: "incident_formulier.php",
-                data: formdata,
-                success: function(response)
-                {
-                    alert('submitted!');
-                    // console.log(formdata);
-                    console.log(response);
-                }
-            });
-        }
-        e.preventDefault();
-});
+// Form submit
+$('#fModal').on('submit', '#formulier', function (e) {
 
-// Show or hide the right fields on modal
-$('#fModal').on('change', '.TypeKlant', function () {
-    var value = $(this).val();
-    var type_klant_value = value.replace('selected', '');
-    if (type_klant_value == 1 || type_klant_value == 2)
-    {
-        $('.id_number').show();
-    }
-    else
-    {
-        $('.id_number').val("");
-        $('.id_number').hide();
-    }
-});
-
-// Form edit
-$('#fModal').on('submit', '#formFull', function (e) {
-
-    var formdata = $("#formFull").serialize();
+    var formdata = form.serialize();
+    var id = $('[name="Incident_ID"]');
     if (!newIncidentCheck()){
         e.preventDefault();
         return;
     }
-    else if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+    if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
     {
-        if($('.id_number').val() === ""){
+        if($('[name="ID_Nummer"]').val() === ""){
             $(function () {
                 new PNotify({
                     title: 'Attentie',
@@ -492,24 +423,53 @@ $('#fModal').on('submit', '#formFull', function (e) {
             return;
         }
     }
-    else{
+    if ($(modal).hasClass('submit')){ // register new incident
         $.ajax({
             type: "post",
-            url: "edit_incident.php",
+            url: "incident_submission.php",
             data: formdata,
             success: function(response)
             {
+                alert('new incident submitted!');
+                console.log(formdata);
+                console.log(response);
+            }
+        });
+    }
+    else if($(modal).hasClass('edit')){ // edit existing incident
+        $.ajax({
+            type: "post",
+            url: "edit_incident.php",
+            data: formdata, Incident_ID:id,
+            success: function(response)
+            {
+                console.log(formdata);
                 if (response === "noice"){
                     alert('incident edited!');
                 }
                 else{
                     alert('something went wrong');
                 }
-                console.log(response);
             }
         });
+
     }
     e.preventDefault();
+});
+
+// Show or hide the right fields on modal
+$(form).on('change', '.TypeKlant', function () {
+    var value = $('.TypeKlant').val();
+    var type_klant_value = value;
+    if (type_klant_value == 1 || type_klant_value == 2)
+    {
+        $('.id_number').show();
+    }
+    else
+    {
+        $('.id_number').val("");
+        $('.id_number').hide();
+    }
 });
 
 // Rapportages page
@@ -558,7 +518,6 @@ $(document).ready(function(){
         });
     });
 });
-
 
 //Admin knop
 $(document).ready(function () {

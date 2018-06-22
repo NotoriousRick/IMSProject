@@ -36,6 +36,7 @@ $edit_incident = $db->prepare('update Incident
     SoortIncident_ID = :incidentid,
     GereedVoorSluiten = :gvoorsluiten,
     IncidentGesloten = :incidentgesloten
+    where Incident_ID = '.$incident_id.'
 ');
 
 $query = $db->prepare('select Type_ID from Incident where Incident_ID = '.$incident_id.'');
