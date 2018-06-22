@@ -6,15 +6,19 @@ var form = $('#formulier');
 var fmodal = $('#fModal');
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
-        var min = parseInt( $('#min').val(), 10 );
-        var max = parseInt( $('#max').val(), 10 );
-        var age = parseFloat( data[3] ) || 0; // use data for the age column
-
-        if ( ( isNaN( min ) && isNaN( max ) ) ||
-            ( isNaN( min ) && age <= max ) ||
-            ( min <= age   && isNaN( max ) ) ||
-            ( min <= age   && age <= max ) )
+    function(settings, data, dataIndex) {
+        var min = Date.parse($('#datum').val(), 10);
+        var max = Date.parse($('#einddatum').val(), 10);
+        var incident = $('#incident').val();
+        
+        var getdatum = Date.parse(data[1]) || 0; // use data for the age column
+        var getincident = parseInt(data[0]) || 0;
+        console.log(incident);
+        if ((isNaN(min) && isNaN(max)) ||
+            (isNaN(min) && getdatum <= max) ||
+            (min <= getdatum && isNaN(max)) ||
+            (min <= getdatum && getdatum <= max)
+           )
         {
             return true;
         }
@@ -156,8 +160,8 @@ function newIncidentCheck(){
                 title: 'Verplichte velden',
                 text: empty_required_columns,
                 type: 'error'
-            })
-        })
+            });
+        });
     }
     else {
         return true;
@@ -173,7 +177,7 @@ $(document).ready(function () {
         url: 'overzicht_incident.php',
         type: 'post',
         success: function (response) {
-            if (response == null) {
+            if (response === null) {
                 alert('error');
             }
             $(content).append(response);
@@ -198,7 +202,7 @@ $(document).ready(function () {
             url: 'overzicht_incident.php',
             type: 'post',
             success: function (response) {
-                if (response == null) {
+                if (response === null) {
                     alert('error');
                 }
                 $(content).append(response);
@@ -245,16 +249,16 @@ $(content).on('click', 'tbody > tr > td', function (){
                     // }).prop('selected', true).trigger("change");
                 }
                 else if(selector.is(':checkbox')){
-                    if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
+                    if (value === 1) form.find($('[value='+name+']')).prop('checked', true);
                 }
                 else {
                     if (value === "0000-00-00"){
-                        form.find(selector).val(' ')
+                        form.find(selector).val(' ');
                     }
                     else
-                        form.find(selector).val(value)
+                        form.find(selector).val(value);
                 }
-            })
+            });
         }
     });
 
@@ -362,7 +366,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = 'login.php'
+                window.location = 'login.php';
             }, 1000);
         }
     });
@@ -372,7 +376,7 @@ $(document).on('click', '#logoutBut', function () {
 $(document).ready(function(){
     $('#logout').click(function(){
         $('#modalLogOut').modal('show');
-    })
+    });
 });
 
 // New incident registration page
@@ -390,7 +394,7 @@ $(document).ready(function(){
         fmodal.on('change', '.TypeKlant', function () {
             var value = $('.TypeKlant').val();
             var type_klant_value = value;
-            if (type_klant_value == 1 || type_klant_value == 2)
+            if (type_klant_value === 1 || type_klant_value === 2)
             {
                 $('.id_number').show();
             }
@@ -400,7 +404,7 @@ $(document).ready(function(){
                 $('.id_number').hide();
             }
         });
-    })
+    });
 });
 
 // Form submit
@@ -464,7 +468,7 @@ $('#fModal').on('submit', '#formulier', function (e) {
 $(form).on('change', '.TypeKlant', function () {
     var value = $('.TypeKlant').val();
     var type_klant_value = value;
-    if (type_klant_value == 1 || type_klant_value == 2)
+    if (type_klant_value === 1 || type_klant_value === 2)
     {
         $('.id_number').show();
     }
@@ -485,7 +489,7 @@ $(document).ready(function(){
             url: 'Pim/rapportages.php',
             type: 'get',
             success: function (response) {
-                if (response == null) {
+                if (response === null) {
                     alert('error');
                 }
                 $(content).append(response);
@@ -498,7 +502,7 @@ $(document).ready(function(){
                     url: 'overzicht_rapport.php',
                     type: 'get',
                     success: function (response) {
-                        if (response == null) {
+                        if (response === null) {
                             alert('error');
                         }
                         $(content).append(response);
@@ -510,9 +514,13 @@ $(document).ready(function(){
 
                         // Load the data for the table
                         initRapport();
-
+                        var table = $('#testData').DataTable();
                         // Custom filter options trigger
-                        $('#min, #max').on('keyup', function() {
+                        $('select#incident').change(function() {
+                            var incident = this.value;
+                            table.draw();
+                        } );
+                        $('#datum, #einddatum').keyup(function() {
                             table.draw();
                         } );
                     }
@@ -530,7 +538,7 @@ $(document).ready(function () {
             url: 'UserOverzicht.php',
             type: 'get',
             success: function (response) {
-                if (response == null) {
+                if (response === null) {
                     alert('error');
                 }
                 $(content).append(response);
