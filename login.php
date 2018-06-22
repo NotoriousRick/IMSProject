@@ -2,6 +2,8 @@
 /* Include config file */
 require_once 'config.php';
 
+$_SESSION['user'] = 'random string';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     //username & password uit de post halen

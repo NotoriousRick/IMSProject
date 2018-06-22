@@ -150,50 +150,7 @@ function newIncidentCheck(){
             type: 'error'
         })
     })
-    // $('#formulier').submit(function(ev) {
-    //     ev.preventDefault(); // to stop the form from submitting
-    //
-    //     this.submit(); // If all the validations succeeded
-    // })
 }
-// =======
-// function check(){
-//     var j = 0;
-//     var post = true;
-//     var extern = false;
-//     var dataArray  = $( ":input" ).serializeArray(), dataObj = {};
-//     var columnNames = '';
-//     $(dataArray).each(function(i, field){
-//
-//         if (field.name === 'Afspraken' || field.name === 'UitgevoerdeWerkzaamheden' || field.name === 'VervolgActie' || field.name === "ID_Nummer")
-//             return;
-//         else
-//             dataObj[field.name] = field.value;
-//
-//         if (dataObj[field.name] == "")
-// >>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
-
-    // });
-// <<<<<<< HEAD
-
-// =======
-//
-//     if (j !== 0) {
-//         $(function () {
-//             new PNotify({
-//                 title: 'Verplichte velden',
-//                 text: columnNames,
-//                 type: 'error'
-//             });
-// >>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
-//         });
-//     });
-    // $('#formulier').submit(function(ev) {
-    //     ev.preventDefault(); // to stop the form from submitting
-    //
-    //     this.submit(); // If all the validations succeeded
-    // })
-// }
 
 var table = initTable("get_incident_data.php");
 
@@ -598,11 +555,8 @@ $(document).ready(function(){
             }
         });
     });
-<<<<<<< HEAD
 });
-=======
 
-});
 
 //Admin knop
 $(document).ready(function () {
@@ -627,4 +581,3 @@ $(document).ready(function () {
         $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
     });
 });
->>>>>>> 2dfcd44a25e122da945aca64dec1897c5bed3101
