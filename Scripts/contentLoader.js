@@ -124,32 +124,34 @@ function initRapport() {
 function newIncidentCheck(){
     var forms_input = document.forms["formulier"].querySelectorAll("input, textarea, select");
     var empty_required_columns = '';
+    var j = 0;
     $(forms_input).each(function(i, field) {
         if (field.name === 'ID_Nummer' || field.name === 'UitgevoerdeWerkzaamheden' ||
             field.name === 'Afspraken' || field.name === 'GereedVoorSluiten1' ||
             field.name === 'GereedVoorSluiten2' || field.name === 'SluitDatum' ||
-            field.name === 'VervolgActie' || field.name === 'Datum') {
+            field.name === 'VervolgActie' || field.name === 'Datum' || field.name === 'Incident_ID') {
             // do nothing hu?
         }
         else if (field.value === '') {
-            if (field.name === 'SoortIncident') {
-                console.log(document.getElementById('SoortIncident'));
-            }
             field.style.borderColor = 'red';
             empty_required_columns += field.name + '<br />';
+            j += 1;
         }
         else {
             field.style.borderColor = '';
         }
     });
 
-    $(function () {
-        new PNotify({
-            title: 'Verplichte velden',
-            text: empty_required_columns,
-            type: 'error'
+    if (j > 0)
+    {
+        $(function () {
+            new PNotify({
+                title: 'Verplichte velden',
+                text: empty_required_columns,
+                type: 'error'
+            })
         })
-    })
+    }
 }
 
 var table = initTable("get_incident_data.php");

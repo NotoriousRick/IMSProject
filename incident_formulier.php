@@ -73,7 +73,7 @@ $getDate = date("Y-m-d");
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Type klant</span>
                             </div>
-                            <select class="TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%;">
+                            <select class="TypeKlant" name="TypeKlant" id="TypeKlant" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
                                 <?php
                                 while ($row = $type_klant_result->fetch_assoc())
                                 {
@@ -124,7 +124,7 @@ $getDate = date("Y-m-d");
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="span_margin_radius_padding">Soort incident</span>
                             </div>
-                            <select name="SoortIncident" id="SoortIncident" style="width:60%; border:none;">
+                            <select name="SoortIncident" id="SoortIncident" style="width:60%; border-radius: 0px 5px 5px 0px; height: 32px;">
                                 <option value="" selected disabled>Kies uw incident *</option>
                                 <?php
                                 while($row = $soort_incident_result->fetch_assoc())
