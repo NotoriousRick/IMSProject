@@ -5,12 +5,13 @@ var main = "#main";
 var form = $('#formulier');
 var fmodal = $('#fModal');
 // DataTables custom search
+// DataTables custom search
 $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var min = Date.parse($('#datum').val(), 10);
         var max = Date.parse($('#einddatum').val(), 10);
         var incident = $('#incident').val();
-        
+
         var getdatum = Date.parse(data[1]) || 0; // use data for the age column
         var getincident = parseInt(data[0]) || 0;
         console.log(incident);
@@ -18,7 +19,7 @@ $.fn.dataTable.ext.search.push(
             (isNaN(min) && getdatum <= max) ||
             (min <= getdatum && isNaN(max)) ||
             (min <= getdatum && getdatum <= max)
-           )
+        )
         {
             return true;
         }
@@ -133,7 +134,7 @@ function initRapport() {
 
 // Pnotify validation
 function newIncidentCheck(){
-    var forms_input = document.forms["formulier"].querySelectorAll("input, textarea, select");
+    var forms_input = document.forms["formulier"].querySelectorAll("input, textarea, select, select_two");
     var empty_required_columns = '';
     var j = 0;
     $(forms_input).each(function(i, field) {
@@ -143,7 +144,7 @@ function newIncidentCheck(){
             field.name === 'VervolgActie' || field.name === 'Datum' || field.name === 'Incident_ID') {
             // do nothing hu?
         }
-        else if (field.value === '') {
+        else if (field.value === '' || field.value == 0) {
             field.style.borderColor = 'red';
             empty_required_columns += field.name + '<br />';
             j += 1;
@@ -160,8 +161,8 @@ function newIncidentCheck(){
                 title: 'Verplichte velden',
                 text: empty_required_columns,
                 type: 'error'
-            });
-        });
+            })
+        })
     }
     else {
         return true;
@@ -177,7 +178,7 @@ $(document).ready(function () {
         url: 'overzicht_incident.php',
         type: 'post',
         success: function (response) {
-            if (response === null) {
+            if (response == null) {
                 alert('error');
             }
             $(content).append(response);
@@ -202,7 +203,7 @@ $(document).ready(function () {
             url: 'overzicht_incident.php',
             type: 'post',
             success: function (response) {
-                if (response === null) {
+                if (response == null) {
                     alert('error');
                 }
                 $(content).append(response);
@@ -230,7 +231,6 @@ $(content).on('click', 'tbody > tr > td', function (){
     var id = table.row(this).id();
     var incidentID = id.replace('id', '');
     var form = $('#fModal');
-
     // Fill in the form with data
     $.getJSON({
         url: 'get_form_data.php',
@@ -238,7 +238,6 @@ $(content).on('click', 'tbody > tr > td', function (){
         data: {id: incidentID},
         success: function (response) {
             $.each(response, function(name, value){
-                console.log(response['Type_ID']);
                 var selector = $('[name="'+name+'"]');
                 var type = $('[name="'+name+'"]').attr('type');
                 if (selector.hasClass('select_two')){
@@ -249,16 +248,16 @@ $(content).on('click', 'tbody > tr > td', function (){
                     // }).prop('selected', true).trigger("change");
                 }
                 else if(selector.is(':checkbox')){
-                    if (value === 1) form.find($('[value='+name+']')).prop('checked', true);
+                    if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
                 }
                 else {
                     if (value === "0000-00-00"){
-                        form.find(selector).val(' ');
+                        form.find(selector).val(' ')
                     }
                     else
-                        form.find(selector).val(value);
+                        form.find(selector).val(value)
                 }
-            });
+            })
         }
     });
 
@@ -366,7 +365,7 @@ $(document).on('click', '#logoutBut', function () {
 
             // After short delay, redirect to log-in page
             setTimeout(function() {
-                window.location = 'login.php';
+                window.location = 'login.php'
             }, 1000);
         }
     });
@@ -376,7 +375,7 @@ $(document).on('click', '#logoutBut', function () {
 $(document).ready(function(){
     $('#logout').click(function(){
         $('#modalLogOut').modal('show');
-    });
+    })
 });
 
 // New incident registration page
@@ -394,7 +393,7 @@ $(document).ready(function(){
         fmodal.on('change', '.TypeKlant', function () {
             var value = $('.TypeKlant').val();
             var type_klant_value = value;
-            if (type_klant_value === 1 || type_klant_value === 2)
+            if (type_klant_value == 1 || type_klant_value == 2)
             {
                 $('.id_number').show();
             }
@@ -404,15 +403,28 @@ $(document).ready(function(){
                 $('.id_number').hide();
             }
         });
-    });
+    })
 });
 
 // Form submit
-$('#fModal').on('submit', '#formulier', function (e) {
+fmodal.on('submit', '#formulier', function (e) {
 
     var formdata = form.serialize();
     var id = $('[name="Incident_ID"]');
+
     if (!newIncidentCheck()){
+        if($('.TypeKlant').val() === '0'){
+            $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'red');
+        }
+        else{
+            $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'grey');
+        }
+        if($('.SoortIncident').val() === '0'){
+            $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'red');
+        }
+        else{
+            $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'grey');
+        }
         e.preventDefault();
         return;
     }
@@ -443,7 +455,8 @@ $('#fModal').on('submit', '#formulier', function (e) {
             }
         });
     }
-    else if($(modal).hasClass('edit')){ // edit existing incident
+    else if($(modal).hasClass('edit')){
+        console.log(id);// edit existing incident
         $.ajax({
             type: "post",
             url: "edit_incident.php",
@@ -465,10 +478,10 @@ $('#fModal').on('submit', '#formulier', function (e) {
 });
 
 // Show or hide the right fields on modal
-$(form).on('change', '.TypeKlant', function () {
+form.on('change', '.TypeKlant', function () {
     var value = $('.TypeKlant').val();
     var type_klant_value = value;
-    if (type_klant_value === 1 || type_klant_value === 2)
+    if (type_klant_value == 1 || type_klant_value == 2)
     {
         $('.id_number').show();
     }
@@ -530,7 +543,7 @@ $(document).ready(function(){
     });
 });
 
-//Admin knop
+// Admin knop
 $(document).ready(function () {
     $('#admin').click(function () {
         $(content).empty();
@@ -538,7 +551,7 @@ $(document).ready(function () {
             url: 'UserOverzicht.php',
             type: 'get',
             success: function (response) {
-                if (response === null) {
+                if (response == null) {
                     alert('error');
                 }
                 $(content).append(response);
