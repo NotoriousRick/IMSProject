@@ -7,24 +7,24 @@ var fmodal = $('#fModal');
 // DataTables custom search
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
-    function(settings, data, dataIndex) {
-        var min = Date.parse($('#datum').val(), 10);
-        var max = Date.parse($('#einddatum').val(), 10);
-        var incident = $('#incident').val();
+        function (settings, data, dataIndex) {
+            var min = Date.parse($('#datum').val(), 10);
+            var max = Date.parse($('#einddatum').val(), 10);
+            var incident = $('#incident').val();
 
-        var getdatum = Date.parse(data[1]) || 0; // use data for the age column
-        var getincident = parseInt(data[0]) || 0;
-        console.log(incident);
-        if ((isNaN(min) && isNaN(max)) ||
-            (isNaN(min) && getdatum <= max) ||
-            (min <= getdatum && isNaN(max)) ||
-            (min <= getdatum && getdatum <= max)
-        )
-        {
-            return true;
+            var getdatum = Date.parse(data[1]) || 0; // use data for the age column
+            var getincident = parseInt(data[0]) || 0;
+            console.log(incident);
+            if ((isNaN(min) && isNaN(max)) ||
+                    (isNaN(min) && getdatum <= max) ||
+                    (min <= getdatum && isNaN(max)) ||
+                    (min <= getdatum && getdatum <= max)
+                    )
+            {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
 );
 
 $('.select_two').select2({
@@ -33,8 +33,8 @@ $('.select_two').select2({
 
 // Datatable initialization for incident list
 function initTable(source) {
-     return $('#testData').DataTable({
-         retrieve: true,
+    return $('#testData').DataTable({
+        retrieve: true,
         "ajax": source,
         "columns": [
             {"data": "incidentId"},
@@ -84,56 +84,56 @@ function initTable(source) {
 // Datatable for rapportages page
 function initRapport() {
 
-        return table = $('#testData').DataTable({
-            retrieve: true,
-            "ajax": "Pim/Result.php",
-            "columns": [
-                {"data": "Incident_ID"},
-                {"data": "Datum"},
-                {"data": "duration"},
-                {"data": "Naam"}
-            ],
-            "order": [[1, "asc"]],
-            "createdRow": function (row, data) {
-                var days = data['days'];
-                var color;
-                if (days > 356) {
-                    color = 'btn-danger';
-                } else if (days > 160) {
-                    color = 'btn-warning';
-                } else {
-                    color = 'btn-outline-info';
-                }
-                $(row).addClass(color);
-            },
-            "language": {
-                "sProcessing": "Bezig...",
-                "sLengthMenu": "_MENU_ resultaten weergeven",
-                "sZeroRecords": "Geen resultaten gevonden",
-                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
-                "sInfoEmpty": "Geen resultaten om weer te geven",
-                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
-                "sInfoPostFix": "",
-                "sSearch": "Zoeken:",
-                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
-                "sInfoThousands": ".",
-                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
-                "oPaginate": {
-                    "sFirst": "Eerste",
-                    "sLast": "Laatste",
-                    "sNext": "Volgende",
-                    "sPrevious": "Vorige"
-                },
-                "oAria": {
-                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
-                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
-                }
+    return table = $('#testData').DataTable({
+        retrieve: true,
+        "ajax": "Pim/Result.php",
+        "columns": [
+            {"data": "Incident_ID"},
+            {"data": "Datum"},
+            {"data": "duration"},
+            {"data": "Naam"}
+        ],
+        "order": [[1, "asc"]],
+        "createdRow": function (row, data) {
+            var days = data['days'];
+            var color;
+            if (days > 356) {
+                color = 'btn-danger';
+            } else if (days > 160) {
+                color = 'btn-warning';
+            } else {
+                color = 'btn-outline-info';
             }
-        });
+            $(row).addClass(color);
+        },
+        "language": {
+            "sProcessing": "Bezig...",
+            "sLengthMenu": "_MENU_ resultaten weergeven",
+            "sZeroRecords": "Geen resultaten gevonden",
+            "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+            "sInfoEmpty": "Geen resultaten om weer te geven",
+            "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+            "sInfoPostFix": "",
+            "sSearch": "Zoeken:",
+            "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+            "sInfoThousands": ".",
+            "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+            "oPaginate": {
+                "sFirst": "Eerste",
+                "sLast": "Laatste",
+                "sNext": "Volgende",
+                "sPrevious": "Vorige"
+            },
+            "oAria": {
+                "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                "sSortDescending": ": activeer om kolom aflopend te sorteren"
+            }
+        }
+    });
 }
 
 // Pnotify validation
-function newIncidentCheck(){
+function newIncidentCheck() {
     var forms_input = document.forms["formulier"].querySelectorAll("input, textarea, select, select_two");
     var empty_required_columns = '';
     var j = 0;
@@ -163,8 +163,7 @@ function newIncidentCheck(){
                 type: 'error'
             })
         })
-    }
-    else {
+    } else {
         return true;
     }
 }
@@ -186,7 +185,7 @@ $(document).ready(function () {
 
             // Check the state of the navbar settings
             if (!$('#autoscroll').hasClass('fas fa-check')) {
-                $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+                $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
             }
             table = initTable("get_incident_data.php");
 
@@ -211,11 +210,11 @@ $(document).ready(function () {
 
                 // Check the state of the navbar settings
                 if (!$('#autoscroll').hasClass('fas fa-check')) {
-                    $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+                    $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
                 }
 
                 // DataTable initiation
-                table =  initTable("get_incident_data.php");
+                table = initTable("get_incident_data.php");
             }
         });
         $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
@@ -223,9 +222,9 @@ $(document).ready(function () {
 });
 
 // Add modal event to the table cell (display the modal on click)
-$(content).on('click', 'tbody > tr > td', function (){
+$(content).on('click', 'tbody > tr > td', function () {
     // Get incident form id from database
-    if($(modal).hasClass('submit')){
+    if ($(modal).hasClass('submit')) {
         $(modal).removeClass('submit').addClass('edit');
     }
     var id = table.row(this).id();
@@ -237,24 +236,22 @@ $(content).on('click', 'tbody > tr > td', function (){
         method: 'post',
         data: {id: incidentID},
         success: function (response) {
-            $.each(response, function(name, value){
-                var selector = $('[name="'+name+'"]');
-                var type = $('[name="'+name+'"]').attr('type');
-                if (selector.hasClass('select_two')){
-                   $('[name="TypeKlant"]').val(response['Type_ID']).trigger("change");
-                   $('[name="SoortIncident"]').val(response['SoortIncident_ID']).trigger("change");
+            $.each(response, function (name, value) {
+                var selector = $('[name="' + name + '"]');
+                var type = $('[name="' + name + '"]').attr('type');
+                if (selector.hasClass('select_two')) {
+                    $('[name="TypeKlant"]').val(response['Type_ID']).trigger("change");
+                    $('[name="SoortIncident"]').val(response['SoortIncident_ID']).trigger("change");
                     // form.find($('[name='+name+'] option')).filter(function() {
                     //     return ($(this).text() == value);
                     // }).prop('selected', true).trigger("change");
-                }
-                else if(selector.is(':checkbox')){
-                    if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
-                }
-                else {
-                    if (value === "0000-00-00"){
+                } else if (selector.is(':checkbox')) {
+                    if (value == 1)
+                        form.find($('[value=' + name + ']')).prop('checked', true)
+                } else {
+                    if (value === "0000-00-00") {
                         form.find(selector).val(' ')
-                    }
-                    else
+                    } else
                         form.find(selector).val(value)
                 }
             })
@@ -269,14 +266,13 @@ $(content).on('click', ".btn-warning, .btn-danger, .btn-outline-info", function 
 
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
-    }
-    else {
+    } else {
         $(this).addClass('selected');
     }
 });
 
 // Prevent navbar settings dropdown collapsing back when a setting is clicked
-$(".dropdown-menu").click(function(e){
+$(".dropdown-menu").click(function (e) {
     e.stopPropagation();
 });
 
@@ -286,31 +282,28 @@ $(document).ready(function () {
 
         // newIncidentCheck if we need to disable or enable the setting
         // fas fa-newIncidentCheck is a class attribute for checkbox checked sign and is also used to see if the setting is enabled or disabled
-        if($(this).hasClass('fas fa-check')){
+        if ($(this).hasClass('fas fa-check')) {
 
             // disable the setting
             $(this).removeClass('fas fa-check');
 
             // newIncidentCheck what setting to disable
-            if ($(this).attr('value') === "autoscroll"){
+            if ($(this).attr('value') === "autoscroll") {
                 $('.navbar-main').removeClass('fixed-top');
                 $('#sticky').removeClass('sticky-top').css('padding-top', '6px');
                 $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
                 $('.change').css('padding-top', '11px');
                 $('#collapsedNavbar').removeClass('sticky-top');
-            }
-            else if($(this).attr('value') === "secret"){
+            } else if ($(this).attr('value') === "secret") {
                 $('.btn-outline-info, .btn-danger, .btn-warning').removeClass('ainsley');
             }
-        }
-
-        else{
+        } else {
             // enable the setting
             $(this).addClass('fas fa-check');
 
             // newIncidentCheck what setting to enable
             // enable sticky navbars
-            if ($(this).attr('value') === "autoscroll"){
+            if ($(this).attr('value') === "autoscroll") {
                 $('.navbar-main').addClass('fixed-top');
                 $('#sticky').addClass('sticky-top').css('padding-top', '70px');
                 $('#sticky2').addClass('sticky-top').css('padding-top', '72px');
@@ -318,7 +311,7 @@ $(document).ready(function () {
             }
 
             // autohide the navbar to a small collapsed button
-            else if($(this).attr('value') === "autohide"){
+            else if ($(this).attr('value') === "autohide") {
                 $('.navbar').hide();
 
                 // create the collapsed button
@@ -326,8 +319,7 @@ $(document).ready(function () {
                 $('#sticky').css('padding-top', '0');
                 $('#sticky2').css('padding-top', '8px');
                 $('.change').css('padding-top', '11px');
-            }
-            else if(($(this).attr('value') === "secret")){
+            } else if (($(this).attr('value') === "secret")) {
                 $('.btn-outline-info, .btn-danger, .btn-warning').addClass('ainsley');
             }
         }
@@ -341,7 +333,7 @@ $('#collapsedNavbar').on('click', '#toggle', function () {
     $('#autohide').removeClass('fas fa-check');
 
     // Adjust divs if autoscroll is enabled
-    if ($('#autoscroll').hasClass('fas fa-check')){
+    if ($('#autoscroll').hasClass('fas fa-check')) {
         $('#sticky').css('padding-top', '70px');
         $('#sticky2').css('padding-top', '72px');
         $('#collapsedNavbar').addClass('sticky-top');
@@ -359,12 +351,12 @@ $(document).on('click', '#logoutBut', function () {
 
             // Show and hide the logout modal on success
             $('#logoutPopup').modal('show');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#logoutPopup').modal('hide');
             }, 1000);
 
             // After short delay, redirect to log-in page
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location = 'login.php'
             }, 1000);
         }
@@ -372,17 +364,17 @@ $(document).on('click', '#logoutBut', function () {
 });
 
 // Display logout confirmation modal
-$(document).ready(function(){
-    $('#logout').click(function(){
+$(document).ready(function () {
+    $('#logout').click(function () {
         $('#modalLogOut').modal('show');
     })
 });
 
 // New incident registration page
-$(document).ready(function(){
+$(document).ready(function () {
 
     // Load the page
-    $('#incident').click( function(e){
+    $('#incident').click(function (e) {
         $('#TypeKlant').val('').trigger('change');
         $('#SoortIncident').val('').trigger('change');
         form[0].reset();
@@ -396,8 +388,7 @@ $(document).ready(function(){
             if (type_klant_value == 1 || type_klant_value == 2)
             {
                 $('.id_number').show();
-            }
-            else
+            } else
             {
                 $('.id_number').val("");
                 $('.id_number').hide();
@@ -412,25 +403,23 @@ fmodal.on('submit', '#formulier', function (e) {
     var formdata = form.serialize();
     var id = $('[name="Incident_ID"]');
 
-    if (!newIncidentCheck()){
-        if($('.TypeKlant').val() === '0'){
+    if (!newIncidentCheck()) {
+        if ($('.TypeKlant').val() === '0') {
             $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'red');
-        }
-        else{
+        } else {
             $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'grey');
         }
-        if($('.SoortIncident').val() === '0'){
+        if ($('.SoortIncident').val() === '0') {
             $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'red');
-        }
-        else{
+        } else {
             $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'grey');
         }
         e.preventDefault();
         return;
     }
-    if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
+    if ($('.TypeKlant option').filter(':selected').text() !== "Extern")
     {
-        if($('[name="ID_Nummer"]').val() === ""){
+        if ($('[name="ID_Nummer"]').val() === "") {
             $(function () {
                 new PNotify({
                     title: 'Attentie',
@@ -442,34 +431,48 @@ fmodal.on('submit', '#formulier', function (e) {
             return;
         }
     }
-    if ($(modal).hasClass('submit')){ // register new incident
+    if ($(modal).hasClass('submit')) { // register new incident
         $.ajax({
             type: "post",
             url: "incident_submission.php",
             data: formdata,
-            success: function(response)
+            success: function (response)
             {
                 alert('new incident submitted!');
                 console.log(formdata);
                 console.log(response);
+            },
+            error: function (response)  //om de foutmeldingen voor de server side validation aan de gebruiker te tonen via de pnotify plugin
+            {
+                new PNotify({
+                    title: 'Verplichte velden',
+                    text: response.responseText,
+                    type: 'error'
+                });
             }
         });
-    }
-    else if($(modal).hasClass('edit')){
+    } else if ($(modal).hasClass('edit')) {
         console.log(id);// edit existing incident
         $.ajax({
             type: "post",
             url: "edit_incident.php",
-            data: formdata, Incident_ID:id,
-            success: function(response)
+            data: formdata, Incident_ID: id,
+            success: function (response)
             {
                 console.log(formdata);
-                if (response === "noice"){
+                if (response === "noice") {
                     alert('incident edited!');
-                }
-                else{
+                } else {
                     alert('something went wrong');
                 }
+            },
+            error: function (response)
+            {
+                new PNotify({
+                    title: 'Verplichte velden',
+                    text: response.responseText,
+                    type: 'error'
+                });
             }
         });
 
@@ -484,8 +487,7 @@ form.on('change', '.TypeKlant', function () {
     if (type_klant_value == 1 || type_klant_value == 2)
     {
         $('.id_number').show();
-    }
-    else
+    } else
     {
         $('.id_number').val("");
         $('.id_number').hide();
@@ -493,10 +495,10 @@ form.on('change', '.TypeKlant', function () {
 });
 
 // Rapportages page
-$(document).ready(function(){
+$(document).ready(function () {
 
     // Load the initial UI on click
-    $('#rapport').on('click',function() {
+    $('#rapport').on('click', function () {
         $(content).empty();
         $.ajax({
             url: 'Pim/rapportages.php',
@@ -522,20 +524,20 @@ $(document).ready(function(){
                         $(content).css('padding', '0');
 
                         if (!$('#autoscroll').hasClass('fas fa-check')) {
-                            $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+                            $('#sticky2').removeClass('sticky-top').css('padding-top', '8px');
                         }
 
                         // Load the data for the table
                         initRapport();
                         var table = $('#testData').DataTable();
                         // Custom filter options trigger
-                        $('select#incident').change(function() {
+                        $('select#incident').change(function () {
                             var incident = this.value;
                             table.draw();
-                        } );
-                        $('#datum, #einddatum').keyup(function() {
+                        });
+                        $('#datum, #einddatum').keyup(function () {
                             table.draw();
-                        } );
+                        });
                     }
                 });
             }

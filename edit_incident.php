@@ -1,31 +1,84 @@
 <?php
-error_reporting( error_reporting() & ~E_NOTICE );
+
+error_reporting(error_reporting() & ~E_NOTICE);
 
 include "config.php";
 $getDate = date("Y-m-d");
 
 $incident_id = $_POST['Incident_ID'];
-$incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
-$incident_treated_by = mysqli_real_escape_string($mysqli,$_POST['Behandelaar']);
-$incident_description = mysqli_real_escape_string($mysqli,$_POST['Omschrijving']);
-$incident_action = mysqli_real_escape_string($mysqli,$_POST['Actie']);
-$incident_follow_up_action = mysqli_real_escape_string($mysqli,$_POST['VervolgActie']);
-$incident_executed_work = mysqli_real_escape_string($mysqli,$_POST['UitgevoerdeWerkzaamheden']);
-$incident_appointments = mysqli_real_escape_string($mysqli,$_POST['Afspraken']);
-$incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident']);
+$incident_collaborator = mysqli_real_escape_string($mysqli, $_POST['Baliemedewerker']);
+$incident_treated_by = mysqli_real_escape_string($mysqli, $_POST['Behandelaar']);
+$incident_description = mysqli_real_escape_string($mysqli, $_POST['Omschrijving']);
+$incident_action = mysqli_real_escape_string($mysqli, $_POST['Actie']);
+$incident_follow_up_action = mysqli_real_escape_string($mysqli, $_POST['VervolgActie']);
+$incident_executed_work = mysqli_real_escape_string($mysqli, $_POST['UitgevoerdeWerkzaamheden']);
+$incident_appointments = mysqli_real_escape_string($mysqli, $_POST['Afspraken']);
+$incident_type = mysqli_real_escape_string($mysqli, $_POST['SoortIncident']);
 
 $incident_ready_for_closing = 0;
 $incident_closed = 0;
 $client_id = 2;
 
-$klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
-$klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
-$klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
-$klant_customer_type = mysqli_real_escape_string($mysqli,$_POST["TypeKlant"]);
+$klant_name = mysqli_real_escape_string($mysqli, $_POST["Naam"]);
+$klant_phone = mysqli_real_escape_string($mysqli, $_POST["Telefoon"]);
+$klant_email = mysqli_real_escape_string($mysqli, $_POST["Email"]);
+$klant_customer_type = mysqli_real_escape_string($mysqli, $_POST["TypeKlant"]);
 
-$edit_incident = $db->prepare('update Incident
+//deze regels code tot aan het eerste else statement zijn nodig voor de server side validation
+$Fouten = "";
+
+//in deze sring lengte if-statement controleren we server side of de verplichte velden zijn gezet/ingevuld
+if (strlen($klant_name) === 0)
+{
+    $Fouten = $Fouten . "Vul een klantnaam in.";
+}
+if (strlen($klant_phone) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul het telefoonnummer van de klant in.";
+}
+if (strlen($klant_email) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul het email van de klant in.";
+}
+if (strlen($klant_customer_type) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul het type klant in.";
+}
+if (strlen($incident_collaborator) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul de baliemedewerker in.";
+}
+if (strlen($incident_treated_by) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul de behandelaar in.";
+}
+if (strlen($incident_description) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul het omschrijving veld in.";
+}
+if (strlen($incident_action) === 0)
+{
+    $Fouten = $Fouten . "<br>" . " Vul het actie veld in.";
+}
+if (strlen($incident_type) === 0)
+{
+    $Fouten = $Fouten . "<br>" . "Vul het soort incident in.";
+}
+
+//dit if statement is nodig om via de pnotify plugin de server side validation te kunnen tonen aan de gebruiker
+if (strlen($Fouten) > 0)
+{
+    ob_clean();
+    http_response_code(400);
+    print $Fouten;
+    exit();
+}
+else
+{
+
+    $edit_incident = $db->prepare('update Incident
     set 
-    Datum = '.$getDate.',
+    Datum = ' . $getDate . ',
     Baliemedewerker = :balie,
     Behandelaar = :bahandelaar,
     Omschrijving = :omschrijving,
@@ -36,40 +89,42 @@ $edit_incident = $db->prepare('update Incident
     SoortIncident_ID = :incidentid,
     GereedVoorSluiten = :gvoorsluiten,
     IncidentGesloten = :incidentgesloten
-    where Incident_ID = '.$incident_id.'
+    where Incident_ID = ' . $incident_id . '
 ');
 
-$query = $db->prepare('select Type_ID from Incident where Incident_ID = '.$incident_id.'');
-$query->execute();
-$result = $query->fetch(PDO::FETCH_OBJ);
-$result_id = $result['Type_ID'];
+    $query = $db->prepare('select Type_ID from Incident where Incident_ID = ' . $incident_id . '');
+    $query->execute();
+    $result = $query->fetch(PDO::FETCH_OBJ);
+    $result_id = $result['Type_ID'];
 
-echo $result_id;
-$edit_customer = $db->prepare('update Klant
+    echo $result_id;
+    $edit_customer = $db->prepare('update Klant
     set
     Naam = :naam,
     Telefoon = :tel,
     Email = :email,
-    Where  Type_ID = '.$result_id.'
+    Where  Type_ID = ' . $result_id . '
 ');
 
-$edit_incident->bindParam(':balie',$incident_collaborator);
-$edit_incident->bindParam(':bahandelaar',$incident_treated_by);
-$edit_incident->bindParam(':omschrijving',$incident_description);
-$edit_incident->bindParam(':actie', $incident_action);
-$edit_incident->bindParam(':vactie',$incident_follow_up_action);
-$edit_incident->bindParam(':uwerkzaamheden',$incident_executed_work);
-$edit_incident->bindParam(':afspraken',$incident_appointments);
-$edit_incident->bindParam(':incidentid',$incident_type);
-$edit_incident->bindParam(':gvoorsluiten',$incident_ready_for_closing);
-$edit_incident->bindParam(':incidentgesloten',$incident_closed);
+    $edit_incident->bindParam(':balie', $incident_collaborator);
+    $edit_incident->bindParam(':bahandelaar', $incident_treated_by);
+    $edit_incident->bindParam(':omschrijving', $incident_description);
+    $edit_incident->bindParam(':actie', $incident_action);
+    $edit_incident->bindParam(':vactie', $incident_follow_up_action);
+    $edit_incident->bindParam(':uwerkzaamheden', $incident_executed_work);
+    $edit_incident->bindParam(':afspraken', $incident_appointments);
+    $edit_incident->bindParam(':incidentid', $incident_type);
+    $edit_incident->bindParam(':gvoorsluiten', $incident_ready_for_closing);
+    $edit_incident->bindParam(':incidentgesloten', $incident_closed);
 
 
-$edit_customer->bindParam(':naam',$klant_name);
-$edit_customer->bindParam(':tel',$klant_phone);
-$edit_customer->bindParam(':email',$klant_email);
+    $edit_customer->bindParam(':naam', $klant_name);
+    $edit_customer->bindParam(':tel', $klant_phone);
+    $edit_customer->bindParam(':email', $klant_email);
 
-$edit_incident->execute();
-$edit_customer->execute();
+    $edit_incident->execute();
+    $edit_customer->execute();
 
-echo 'noice';
+    echo 'noice';
+    
+}
