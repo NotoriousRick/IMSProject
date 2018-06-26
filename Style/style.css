@@ -166,8 +166,10 @@ html
     padding: 10px;
     margin: 6px;
     /*color: #474040;*/
-    background-color: rgba(0, 0, 0, 0.59);
+/*    background-color: rgba(0, 0, 0, 0.59);*/
     border-color: rgba(0, 0, 0, 0.59);
+    background-color: rgba(248, 249, 250, 1);
+/*    border-color: rgba(248, 249, 250, 1);*/
 }
 
 /*Buttons on the right of each incident form*/
