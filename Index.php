@@ -117,32 +117,37 @@ $getDate = date("Y-m-d");
     <div id="modal" class="edit">
         <div id="fModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg" style="min-width: 1200px">
-    <div id="content" style="">
+    <div id="content1" style="">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
+                        <div>
+                            <h3>INCIDENT FORMULIER</h3>
+                        </div>
+                        <form method="post" id="incidentID">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="span_margin_radius_padding"></span>
+                                                </div>
+                                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
+                                                       name="Incident_ID" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <button type="button" class="close" data-dismiss="modal" id="modalDismiss">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form method="post"  id="formulier">
                             <div class="box">
                                 <div class="box-header with-border">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h3>INCIDENT FORMULIER</h3>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="input-group  sr-only">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="span_margin_radius_padding">ID</span>
-                                                </div>
-                                                <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
-                                                       name="Incident_ID" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="input-group">
@@ -158,7 +163,7 @@ $getDate = date("Y-m-d");
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="span_margin_radius_padding">Datum</span>
                                                 </div>
-                                                <input placeholder="<?=$getDate?>" class="form-control form-control-sm" id="input_margin_radius_padding" disabled
+                                                <input placeholder="<?=$getDate?>" class="form-control form-control-sm" id="input_margin_radius_padding" readonly
                                                        name="Datum">
                                             </div>
                                         </div>
@@ -303,7 +308,7 @@ $getDate = date("Y-m-d");
                                         <div class="form-group">
                                             <div class="col">
                                                 <label><h6>Sluit datum</h6></label>
-                                                <input type="text" name="SluitDatum" disabled>
+                                                <input type="text" name="SluitDatum" readonly>
                                             </div>
                                         </div>
                                     </div>

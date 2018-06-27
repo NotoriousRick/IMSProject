@@ -151,7 +151,8 @@ html
 }
 
 .btn-light:hover{
-    background-color: rgba(0, 0, 0, 0.59);
+    background-color: rgba(255, 255, 255, 0.59);
+    border-color: black;
 }
 
 /*adds custom color to navbar buttons*/
@@ -166,7 +167,7 @@ html
     padding: 10px;
     margin: 6px;
     /*color: #474040;*/
-    background-color: rgba(0, 0, 0, 0.59);
+    background-color: rgba(88, 191, 180, 0.59);
     border-color: rgba(0, 0, 0, 0.59);
 }
 

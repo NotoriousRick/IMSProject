@@ -5,8 +5,8 @@ session_start();
 setlocale(LC_ALL, 'nld_nld');
 // Login configuration
 
-$conf["Username"]= 'root';
-$conf["Password"]= '';
+$conf["Username"]= 'Vlad';
+$conf["Password"]= 'ihatesushi';
 $conf["Host"]= 'localhost';
 $conf["Database"]= "dbims";
 
@@ -32,5 +32,4 @@ if($link === false)
 {
     die("ERROR: Could not connect to database. " . mysqli_connect_error());
 }
-
 

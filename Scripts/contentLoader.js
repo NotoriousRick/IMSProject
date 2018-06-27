@@ -4,21 +4,24 @@ var modal = "#modal"; // Content div for form modals
 var main = "#main";
 var form = $('#formulier');
 var fmodal = $('#fModal');
-// DataTables custom search
+
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var min = Date.parse($('#datum').val(), 10);
         var max = Date.parse($('#einddatum').val(), 10);
-        var incident = $('#incident').val();
-
+        var incident = parseInt($('[name="incident"]').find(":selected").val());
+        var soortincident = parseInt($('[name="soortincident"]').find(":selected").val());
         var getdatum = Date.parse(data[1]) || 0; // use data for the age column
-        var getincident = parseInt(data[0]) || 0;
-        console.log(incident);
-        if ((isNaN(min) && isNaN(max)) ||
-            (isNaN(min) && getdatum <= max) ||
-            (min <= getdatum && isNaN(max)) ||
-            (min <= getdatum && getdatum <= max)
+        var getincident = parseInt(data[7]) || 0;
+        var getsoortincident = parseInt(data[9]) || 0;
+        console.log(incident, getincident, soortincident, getsoortincident);
+        if ((isNaN(min) && isNaN(max)) && isNaN(incident) && isNaN(soortincident)||
+            ((isNaN(min) && getdatum <= max) ||
+                (min <= getdatum && isNaN(max)) ||
+                (min <= getdatum && getdatum <= max)) &&
+            (isNaN(incident) || incident === getincident) &&
+            (isNaN(soortincident) || soortincident === getsoortincident)
         )
         {
             return true;
@@ -29,6 +32,11 @@ $.fn.dataTable.ext.search.push(
 
 $('.select_two').select2({
     placeholder: "*"
+});
+
+// Reset pnotify red fields if needed
+fmodal.on('show.bs.modal', function(){
+    $(':input, [aria-labelledby="select2-TypeKlant-container"], [aria-labelledby="select2-SoortIncident-container"] ').css('border-color', '');
 });
 
 // Datatable initialization for incident list
@@ -91,7 +99,13 @@ function initRapport() {
                 {"data": "Incident_ID"},
                 {"data": "Datum"},
                 {"data": "duration"},
-                {"data": "Naam"}
+                {"data": "Naam"},
+                {"data": "Baliemedewerker"},
+                {"data": "Behandelaar"},
+                {"data": "SluitDatum"},
+                {"data": "IncidentGesloten"},
+                {"data": "Klant_ID"},
+                {"data": "SoortIncident_ID"}
             ],
             "order": [[1, "asc"]],
             "createdRow": function (row, data) {
@@ -106,6 +120,32 @@ function initRapport() {
                 }
                 $(row).addClass(color);
             },
+            "columnDefs": [
+                {
+                    "targets": [ 4 ],
+                    "visible": false
+                },
+                {
+                    "targets": [ 5 ],
+                    "visible": false
+                },
+                {
+                    "targets": [ 6 ],
+                    "visible": false
+                },
+                {
+                    "targets": [ 7 ],
+                    "visible": false
+                },
+                {
+                    "targets": [ 8 ],
+                    "visible": false
+                },
+                {
+                    "targets": [ 9 ],
+                    "visible": false
+                }
+            ],
             "language": {
                 "sProcessing": "Bezig...",
                 "sLengthMenu": "_MENU_ resultaten weergeven",
@@ -224,6 +264,7 @@ $(document).ready(function () {
 
 // Add modal event to the table cell (display the modal on click)
 $(content).on('click', 'tbody > tr > td', function (){
+
     // Get incident form id from database
     if($(modal).hasClass('submit')){
         $(modal).removeClass('submit').addClass('edit');
@@ -231,6 +272,9 @@ $(content).on('click', 'tbody > tr > td', function (){
     var id = table.row(this).id();
     var incidentID = id.replace('id', '');
     var form = $('#fModal');
+
+
+
     // Fill in the form with data
     $.getJSON({
         url: 'get_form_data.php',
@@ -261,7 +305,14 @@ $(content).on('click', 'tbody > tr > td', function (){
         }
     });
 
-    form.modal('show');
+    // Show the ID field
+    $('[name="Incident_ID"]').show();
+
+    // display modal and prevent clicking outside
+    fmodal.modal({
+        backdrop: 'static',
+        keyboard: false},
+        'show');
 });
 
 // When a button is clicked, it will have a different color until its clicked again
@@ -387,7 +438,15 @@ $(document).ready(function(){
         $('#SoortIncident').val('').trigger('change');
         form[0].reset();
         $(modal).removeClass('edit').addClass('submit');
-        fmodal.modal('show');
+
+        // Hide ID field
+        $('[name="Incident_ID"]').hide();
+
+        // Display modal and prevent clicking outside
+        fmodal.modal({
+                backdrop: 'static',
+                keyboard: false},
+            'show');
 
         // Show or hide the right fields
         fmodal.on('change', '.TypeKlant', function () {
@@ -409,21 +468,21 @@ $(document).ready(function(){
 // Form submit
 fmodal.on('submit', '#formulier', function (e) {
 
-    var formdata = form.serialize();
-    var id = $('[name="Incident_ID"]');
+    var formdata = $('#formulier, #incidentID').serialize();
+    // var id = $('[name="Incident_ID"]').val();
 
     if (!newIncidentCheck()){
         if($('.TypeKlant').val() === '0'){
             $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'red');
         }
         else{
-            $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'grey');
+            $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', '');
         }
         if($('.SoortIncident').val() === '0'){
             $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'red');
         }
         else{
-            $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', 'grey');
+            $('[aria-labelledby="select2-SoortIncident-container"]').css('border-color', '');
         }
         e.preventDefault();
         return;
@@ -455,12 +514,14 @@ fmodal.on('submit', '#formulier', function (e) {
             }
         });
     }
-    else if($(modal).hasClass('edit')){
-        console.log(id);// edit existing incident
+    else if($(modal).hasClass('edit')){// edit existing incident
+        $('#incidentID').submit(function (e) {
+            e.preventDefault();
+        });
         $.ajax({
             type: "post",
             url: "edit_incident.php",
-            data: formdata, Incident_ID:id,
+            data: formdata,
             success: function(response)
             {
                 console.log(formdata);
@@ -529,8 +590,10 @@ $(document).ready(function(){
                         initRapport();
                         var table = $('#testData').DataTable();
                         // Custom filter options trigger
-                        $('select#incident').change(function() {
-                            var incident = this.value;
+//                        $('select#soortincident').change(function() {
+//                            table.draw();
+//                        } );
+                        $('select#incident, select#soortincident').change(function() {
                             table.draw();
                         } );
                         $('#datum, #einddatum').keyup(function() {

@@ -2,13 +2,13 @@
     <table id="rapportageForm">
         <tbody>
         <tr>
-            <td>
+<!--            <td>-->
                 Datum: <input type="text" name="datum" id="datum" placeholder="van jjjj-mm-dd">&emsp;<input type="text" name="einddatum" id="einddatum" placeholder="tot jjjj-mm-dd">&emsp;
                 Incident:
                 <select name="incident" id="incident">
-                    <option value="alles">alles</option>
-                    <option value="open">open</option>
-                    <option value="gesloten">gesloten</option>
+                    <option value="">alles</option>
+                    <option value="0">open</option>
+                    <option value="1">gesloten</option>
                 </select>
                 Soort incident:
                 <select name="soortincident" id="soortincident">
@@ -27,7 +27,7 @@
                 </select>
                 &emsp;Baliemedewerker: <input type="text" name="baliemedewerker" id="baliemedewerker">
                 &emsp;Behandelaar: <input type="text" name="behandelaar" id="behandelaar">
-            </td>
+<!--            </td>-->
         </tr>
         </tbody>
     </table>
@@ -38,6 +38,13 @@
             <th width="30%" class="btn-warning">Datum Aanmelding</th>
             <th width="30%" class="btn-warning">Looptijd incident in dagen</th>
             <th width="30%" class="btn-warning">Naam klant</th>
+
+            <th width="0" class="btn-warning">Baliemedewerker</th>
+            <th width="0" class="btn-warning">Behandelaar</th>
+            <th width="0" class="btn-warning">SluitDatum</th>
+            <th width="0" class="btn-warning">IncidentGesloten</th>
+            <th width="0" class="btn-warning">Klant_ID</th>
+            <th width="0" class="btn-warning">SoortIncident_ID</th>
         </tr>
         </thead>
     </table>
