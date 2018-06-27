@@ -3,30 +3,30 @@
         <tbody>
         <tr>
 <!--            <td>-->
-                Datum: <input type="text" name="datum" id="datum" placeholder="van jjjj-mm-dd">&emsp;<input type="text" name="einddatum" id="einddatum" placeholder="tot jjjj-mm-dd">&emsp;
-                Incident:
-                <select name="incident" id="incident">
-                    <option value="">alles</option>
-                    <option value="0">open</option>
-                    <option value="1">gesloten</option>
-                </select>
-                Soort incident:
-                <select name="soortincident" id="soortincident">
-                    <option value="alles">alles</option>
-                    <option value="software">software</option>
-                    <option value="hardware">hardware</option>
-                    <option value="advies">advies</option>
-                    <option value="verzoek">verzoek</option>
-                </select>
-                Type klant:
-                <select name="typeklant" id="typeklant">
-                    <option value="alles">alles</option>
-                    <option value="student">student</option>
-                    <option value="docent">docent</option>
-                    <option value="extern">extern</option>
-                </select>
-                &emsp;Baliemedewerker: <input type="text" name="baliemedewerker" id="baliemedewerker">
-                &emsp;Behandelaar: <input type="text" name="behandelaar" id="behandelaar">
+            Datum: <input type="text" name="datum" id="datum" placeholder="van jjjj-mm-dd">&emsp;<input type="text" name="einddatum" id="einddatum" placeholder="tot jjjj-mm-dd">&emsp;
+            Incident:
+            <select name="incident" id="incident">
+                <option value="">alles</option>
+                <option value="0">open</option>
+                <option value="1">gesloten</option>
+            </select>
+            Soort incident:
+            <select name="soortincident" id="soortincident">
+                <option value="">alles</option>
+                <option value="0">software</option>
+                <option value="1">hardware</option>
+                <option value="2">advies</option>
+                <option value="3">verzoek</option>
+            </select>
+            Type klant:
+            <select name="typeklant" id="typeklant">
+                <option value="">alles</option>
+                <option value="0">student</option>
+                <option value="1">docent</option>
+                <option value="2">extern</option>
+            </select>
+            &emsp;Baliemedewerker: <input type="text" name="baliemedewerker" id="baliemedewerker">
+            &emsp;Behandelaar: <input type="text" name="behandelaar" id="behandelaar">
 <!--            </td>-->
         </tr>
         </tbody>

@@ -10,19 +10,28 @@ $.fn.dataTable.ext.search.push(
     function(settings, data, dataIndex) {
         var min = Date.parse($('#datum').val(), 10);
         var max = Date.parse($('#einddatum').val(), 10);
+        var baliemedewerker = $('#baliemedewerker').val() || "";
+        var behandelaar = $('#behandelaar').val() || "";
         var incident = parseInt($('[name="incident"]').find(":selected").val());
         var soortincident = parseInt($('[name="soortincident"]').find(":selected").val());
+        var typeklant = parseInt($('[name="typeklant"]').find(":selected").val());
         var getdatum = Date.parse(data[1]) || 0; // use data for the age column
+        var getbaliemedewerker = data[4]|| "";
+        var getbehandelaar = data[5] || "";
         var getincident = parseInt(data[7]) || 0;
+        var gettypeklant = parseInt(data[8]) || 0;
         var getsoortincident = parseInt(data[9]) || 0;
-        console.log(incident, getincident, soortincident, getsoortincident);
-        if ((isNaN(min) && isNaN(max)) && isNaN(incident) && isNaN(soortincident)||
+        console.log(min, max, incident, getincident, soortincident, getsoortincident, typeklant, gettypeklant, baliemedewerker, getbaliemedewerker);
+        if ((isNaN(min) && isNaN(max) ||
             ((isNaN(min) && getdatum <= max) ||
-                (min <= getdatum && isNaN(max)) ||
-                (min <= getdatum && getdatum <= max)) &&
+            (min <= getdatum && isNaN(max)) ||
+            (min <= getdatum && getdatum <= max))) &&
             (isNaN(incident) || incident === getincident) &&
-            (isNaN(soortincident) || soortincident === getsoortincident)
-        )
+            (isNaN(soortincident) || soortincident === getsoortincident) &&
+            (isNaN(typeklant) || typeklant === gettypeklant) &&
+            (baliemedewerker === "" || getbaliemedewerker.includes(baliemedewerker)) &&
+            (behandelaar === "" || getbehandelaar.includes(behandelaar))
+           )
         {
             return true;
         }
@@ -590,13 +599,10 @@ $(document).ready(function(){
                         initRapport();
                         var table = $('#testData').DataTable();
                         // Custom filter options trigger
-//                        $('select#soortincident').change(function() {
-//                            table.draw();
-//                        } );
-                        $('select#incident, select#soortincident').change(function() {
+                        $('select#incident, select#soortincident, select#typeklant').change(function() {
                             table.draw();
                         } );
-                        $('#datum, #einddatum').keyup(function() {
+                        $('#datum, #einddatum, #baliemedewerker, #behandelaar').keyup(function() {
                             table.draw();
                         } );
                     }

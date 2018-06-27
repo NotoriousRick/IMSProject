@@ -5,8 +5,8 @@ session_start();
 setlocale(LC_ALL, 'nld_nld');
 // Login configuration
 
-$conf["Username"]= 'Vlad';
-$conf["Password"]= 'ihatesushi';
+$conf["Username"]= 'root';
+$conf["Password"]= '';
 $conf["Host"]= 'localhost';
 $conf["Database"]= "dbims";
 
