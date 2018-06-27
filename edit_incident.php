@@ -91,19 +91,21 @@ else {
     where Incident_ID = ' . $incident_id . '
 ');
 
-//$query = $db->prepare('select Type_ID from Incident where Incident_ID = '.$incident_id.'');
+//$query = $db->prepare('select Klant_ID from Incident where Incident_ID = '.$incident_id.'');
 //$query->execute();
 //$result = $query->fetch(PDO::FETCH_OBJ);
-//$result_id = $result['Type_ID'];
-//
+//$result_id = $result->Klant_ID;
+
 //echo $result_id;
-//$edit_customer = $db->prepare('update Klant
-//    set
-//    Naam = :naam,
-//    Telefoon = :tel,
-//    Email = :email,
-//    Where  Type_ID = '.$result_id.'
-//');
+$edit_customer = $db->prepare('update Klant
+    set
+    Naam = :naam,
+    Telefoon = :tel,
+    Email = :email,
+    Type_ID = :type
+    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = '.$incident_id.')
+');
+print_array($edit_customer);
 
     $edit_incident->bindParam(':balie', $incident_collaborator);
     $edit_incident->bindParam(':bahandelaar', $incident_treated_by);
@@ -117,11 +119,12 @@ else {
     $edit_incident->bindParam(':incidentgesloten', $incident_closed);
 
 
-//$edit_customer->bindParam(':naam',$klant_name);
-//$edit_customer->bindParam(':tel',$klant_phone);
-//$edit_customer->bindParam(':email',$klant_email);
+    $edit_customer->bindParam(':naam',$klant_name);
+    $edit_customer->bindParam(':tel',$klant_phone);
+    $edit_customer->bindParam(':email',$klant_email);
+    $edit_customer->bindParam(':type',$klant_customer_type);
 
     $edit_incident->execute();
-//$edit_customer->execute();
+    $edit_customer->execute();
 }
 echo 'noice';

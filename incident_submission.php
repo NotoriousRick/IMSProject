@@ -88,12 +88,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         VALUES(
         ?,?,?,?)');
 
-        $insert_klant->bindParam('sssi', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
+        $insert_klant->bindParam('ssss', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
         $insert_klant->execute();
 
-        $client_id = $db->lastInsertId();
-
-
+        $client_id = $db->prepare("select max(Klant_ID) + 1 as Klant_ID from Klant");
+        $client_id->execute();
+        $client_id = $client_id->fetch(PDO::FETCH_OBJ);
         if(mysqli_query($mysqli, $insert_klant))
         {
             echo 'Klant saved' . '<br />';
