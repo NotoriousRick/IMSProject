@@ -510,6 +510,7 @@ fmodal.on('submit', '#formulier', function (e) {
             return;
         }
     }
+
     if ($(modal).hasClass('submit')){ // register new incident
         $.ajax({
             type: "post",
@@ -518,8 +519,15 @@ fmodal.on('submit', '#formulier', function (e) {
             success: function(response)
             {
                 alert('new incident submitted!');
-                console.log(formdata);
+                // console.log(formdata);
                 console.log(response);
+            },
+            error: function (response) {
+                new PNotify({
+                    title: 'Verplichte velden',
+                    text: response.responseText,
+                    type: 'error'
+                })
             }
         });
     }
@@ -540,11 +548,18 @@ fmodal.on('submit', '#formulier', function (e) {
                 else{
                     alert('something went wrong');
                 }
+            },
+            error: function (response) {
+                new PNotify({
+                    title: 'Verplichte velden',
+                    text: response.responseText,
+                    type: 'error'
+                })
             }
         });
 
     }
-    // e.preventDefault();
+    e.preventDefault();
 });
 
 // Show or hide the right fields on modal
