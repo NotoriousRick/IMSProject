@@ -1,7 +1,6 @@
 <?php
 include "config.php";
 $getDate = date("Y-m-d H:i:s");
-$id = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -66,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
 
-    $klant_search = $db->prepare('select Klant_ID from klant
+    $klant_search = $db->prepare('select Klant_ID from Klant
      where (Naam = "' . $klant_name . '" and Telefoon = "' . $klant_phone . '" and Email = "' . $klant_email . '")');
     $result = $klant_search->execute();
 
@@ -76,15 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $client_id = $row->Klant_ID;
     }
     else {
-
-        // Get last Klant_ID + 1 and use it
-        $client_id = $db->prepare("select max(Klant_ID) + 1 as Klant_ID from Klant");
-        $client_id->execute();
-        while($result = $client_id->fetch(PDO::FETCH_OBJ)){
-            $id = $result->Klant_ID;
-        }
-        $client_id = $id;
-
         // Insert new cient
         $insert_klant = $mysqli->prepare('INSERT INTO Klant(
         Naam,
@@ -97,6 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $insert_klant->bind_param('sssi', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
         $insert_klant->execute();
+        
+        $client_id = $insert_klant->insert_id;
     }
 
 

@@ -103,8 +103,8 @@ $edit_customer = $db->prepare('update Klant
     Telefoon = :tel,
     Email = :email,
     Type_ID = :type
-    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = '.$incident_id.')
-');
+    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = '.$incident_id.') 
+'); // waarom is het incident_id niet met een parameter gebonden??
 print_array($edit_customer);
 
     $edit_incident->bindParam(':balie', $incident_collaborator);
