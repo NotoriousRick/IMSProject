@@ -1,12 +1,12 @@
 <?php
 include "config.php";
 
-$type_klant = 'SELECT * from TypeKlant';
-$type_klant_result = $mysqli->query($type_klant);
-
-$soort_incident = 'SELECT * from SoortIncident';
-$soort_incident_result = $mysqli->query($soort_incident);
-$getDate = date("Y-m-d");
+//$type_klant = 'SELECT * from TypeKlant';
+//$type_klant_result = $mysqli->query($type_klant);
+//
+//$soort_incident = 'SELECT * from SoortIncident';
+//$soort_incident_result = $mysqli->query($soort_incident);
+$getDate = date("Y-m-d H:i:s");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insert_klant = $mysqli->prepare('INSERT INTO Klant(
@@ -25,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_email = mysqli_real_escape_string($mysqli, $_POST["Email"]);
     $klant_customer_type = mysqli_real_escape_string($mysqli, $_POST["TypeKlant"]);
 
-    $result = $mysqli->prepare('select Klant_ID from klant
+    $klant_search = $db->prepare('select Klant_ID from klant
      where (Naam = ' . $klant_name . ' and Telefoon = ' . $klant_phone . ' and Email = ' . $klant_email . ')');
-
-    if ($row = $query->fetch(PDO::FETCH_OBJ)) {
+    $result = $klant_search->execute();
+    if ($row = $klant_search->fetch(PDO::FETCH_OBJ)) {
         //als klant bestaat, return klant_id
         $klant_id = $result["Klant_ID"];
     } else if (isset($insert_klant, $klant_name, $klant_phone, $klant_email, $klant_customer_type)) {

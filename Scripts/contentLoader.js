@@ -535,7 +535,7 @@ fmodal.on('submit', '#formulier', function (e) {
         });
 
     }
-    e.preventDefault();
+    // e.preventDefault();
 });
 
 // Show or hide the right fields on modal

@@ -3,6 +3,7 @@ error_reporting( error_reporting() & ~E_NOTICE );
 
 include "config.php";
 $getDate = date("Y-m-d H:i:s");
+
 //echo $getDate;
 $incident_id = $_POST['Incident_ID'];
 $incident_collaborator = mysqli_real_escape_string($mysqli,$_POST['Baliemedewerker']);
@@ -76,7 +77,7 @@ else {
 
     $edit_incident = $db->prepare('update Incident
     set 
-    Datum = ' . $getDate . ',
+    Datum = "' . $getDate . '",
     Baliemedewerker = :balie,
     Behandelaar = :bahandelaar,
     Omschrijving = :omschrijving,
