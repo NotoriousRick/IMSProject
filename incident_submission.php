@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 $getDate = date("Y-m-d H:i:s");
+$id = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -25,8 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $incident_ready_for_closing = 0;
     $incident_closed = 0;
-//    $client_id = 3;
-
 
 //deze regels code tot aan het eerste else statement zijn nodig voor de server side validation
     $Fouten = "";
@@ -72,14 +71,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $klant_search->execute();
 
     if ($row = $klant_search->fetch(PDO::FETCH_OBJ)) {
-        //als klant bestaat, return klant_id
+
+        //Return Klant_ID if client exists
         $client_id = $row->Klant_ID;
-        echo $client_id;
     }
     else {
 
-        // maak klant aan
-        $insert_klant = $db->prepare('INSERT INTO Klant(
+        // Get last Klant_ID + 1 and use it
+        $client_id = $db->prepare("select max(Klant_ID) + 1 as Klant_ID from Klant");
+        $client_id->execute();
+        while($result = $client_id->fetch(PDO::FETCH_OBJ)){
+            $id = $result->Klant_ID;
+        }
+        $client_id = $id;
+
+        // Insert new cient
+        $insert_klant = $mysqli->prepare('INSERT INTO Klant(
         Naam,
         Telefoon,
         Email,
@@ -88,23 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         VALUES(
         ?,?,?,?)');
 
-        $insert_klant->bindParam('ssss', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
+        $insert_klant->bind_param('sssi', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
         $insert_klant->execute();
-
-        $client_id = $db->prepare("select max(Klant_ID) + 1 as Klant_ID from Klant");
-        $client_id->execute();
-        $client_id = $client_id->fetch(PDO::FETCH_OBJ);
-        if(mysqli_query($mysqli, $insert_klant))
-        {
-            echo 'Klant saved' . '<br />';
-        }
-        else{
-            echo $mysqli->error;
-        }
     }
 
-
-        echo $client_id;
 
     $insert_incident = $mysqli->prepare('INSERT INTO Incident(
     Datum,
@@ -126,12 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $insert_incident->bind_param('ssssssssiiii', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing,
         $incident_closed, $client_id);
         $insert_incident->execute();
-
-        if (mysqli_query($mysqli, $insert_incident)) {
-            echo 'Incident saved.';
-        } else {
-            echo $mysqli->error;
-        }
     }
 }
 ?>

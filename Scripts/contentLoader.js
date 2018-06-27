@@ -222,7 +222,6 @@ var table = initTable("get_incident_data.php");
 
 // Initial page load
 $(document).ready(function () {
-    // $(content).empty();
     $.ajax({
         url: 'overzicht_incident.php',
         type: 'post',
@@ -480,6 +479,7 @@ fmodal.on('submit', '#formulier', function (e) {
     var formdata = $('#formulier, #incidentID').serialize();
     // var id = $('[name="Incident_ID"]').val();
 
+    // Client side check for empty fields
     if (!newIncidentCheck()){
         if($('.TypeKlant').val() === '0'){
             $('[aria-labelledby="select2-TypeKlant-container"]').css('border-color', 'red');
@@ -496,8 +496,8 @@ fmodal.on('submit', '#formulier', function (e) {
         e.preventDefault();
         return;
     }
-    if($('.TypeKlant option' ).filter(':selected').text() !== "Extern")
-    {
+    // Client side check for ID_Nummer field
+    if($('.TypeKlant option' ).filter(':selected').text() !== "Extern"){
         if($('[name="ID_Nummer"]').val() === ""){
             $(function () {
                 new PNotify({
@@ -522,6 +522,7 @@ fmodal.on('submit', '#formulier', function (e) {
                 // console.log(formdata);
                 console.log(response);
             },
+            // Server side check for empty fields
             error: function (response) {
                 new PNotify({
                     title: 'Verplichte velden',
@@ -549,6 +550,7 @@ fmodal.on('submit', '#formulier', function (e) {
                     alert('something went wrong');
                 }
             },
+            // Server side check for empty fields
             error: function (response) {
                 new PNotify({
                     title: 'Verplichte velden',
@@ -560,6 +562,29 @@ fmodal.on('submit', '#formulier', function (e) {
 
     }
     e.preventDefault();
+    fmodal.modal('hide');
+
+    $(content).empty();
+    // Refresh data
+    $.ajax({
+        url: 'overzicht_incident.php',
+        type: 'post',
+        success: function (response) {
+            if (response == null) {
+                alert('error');
+            }
+            $(content).append(response);
+            $(content).css('padding', '0');
+
+            // Check the state of the navbar settings
+            if (!$('#autoscroll').hasClass('fas fa-check')) {
+                $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
+            }
+            table = initTable("get_incident_data.php");
+
+        }
+    });
+    $(content).off('click', ".btn-warning, .btn-danger, .btn-outline-info");
 });
 
 // Show or hide the right fields on modal
