@@ -1,8 +1,10 @@
 <?php
+
 include "config.php";
 $getDate = date("Y-m-d H:i:s");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
 
     // Klant variables
     $klant_name = mysqli_real_escape_string($mysqli, $_POST["Naam"]);
@@ -21,61 +23,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $incident_appointments = mysqli_real_escape_string($mysqli, $_POST['Afspraken']);
     $incident_type = mysqli_real_escape_string($mysqli, $_POST['SoortIncident']);
 
-//    $incident_ready_for_closing = mysqli_real_escape_string($mysqli,$_POST['GereedVoorSluiten']);
-//    $incident_closed = mysqli_real_escape_string($mysqli,$_POST['IncidentGesloten']);
-
     $incident_ready_for_closing = 0;
     $incident_closed = 0;
+
+    if (isset($_POST['GereedVoorSluiten1']) && $_POST['GereedVoorSluiten1'] == 'on')
+        $incident_ready_for_closing = 1;
+    if (isset($_POST['GereedVoorSluiten2']) && $_POST['GereedVoorSluiten2'] == 'on')
+        $incident_closed = 1;
 
 //deze regels code tot aan het eerste else statement zijn nodig voor de server side validation
     $Fouten = "";
 
-    //in deze sring lengte if-statement controleren we server side of de verplichte velden zijn gezet/ingevuld
-    if (strlen($klant_name) === 0) {
+    //in deze string lengte if-statement controleren we server side of de verplichte velden zijn gezet/ingevuld
+    if (strlen($klant_name) === 0)
+    {
         $Fouten = $Fouten . "Vul een klantnaam in.";
     }
-    if (strlen($klant_phone) === 0) {
+    if (strlen($klant_phone) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul het telefoonnummer van de klant in.";
     }
-    if (strlen($klant_email) === 0) {
+    if (strlen($klant_email) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul het email van de klant in.";
     }
-    if (strlen($klant_customer_type) === 0) {
+    if (strlen($klant_customer_type) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul het type klant in.";
     }
-    if (strlen($incident_collaborator) === 0) {
+    if (strlen($incident_collaborator) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul de baliemedewerker in.";
     }
-    if (strlen($incident_treated_by) === 0) {
+    if (strlen($incident_treated_by) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul de behandelaar in.";
     }
-    if (strlen($incident_description) === 0) {
+    if (strlen($incident_description) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul het omschrijving veld in.";
     }
-    if (strlen($incident_action) === 0) {
+    if (strlen($incident_action) === 0)
+    {
         $Fouten = $Fouten . "<br>" . " Vul het actie veld in.";
     }
-    if (strlen($incident_type) === 0) {
+    if (strlen($incident_type) === 0)
+    {
         $Fouten = $Fouten . "<br>" . "Vul het soort incident in.";
     }
     //dit if statement is nodig om via de pnotify plugin de server side validation te kunnen tonen aan de gebruiker
-    if (strlen($Fouten) > 0) {
+    if (strlen($Fouten) > 0)
+    {
         ob_clean();
         http_response_code(400);
         print $Fouten;
         exit();
-    } else {
+    }
+    else
+    {
 
         $klant_search = $db->prepare('select Klant_ID from Klant
      where (Naam = "' . $klant_name . '" and Telefoon = "' . $klant_phone . '" and Email = "' . $klant_email . '")');
         $result = $klant_search->execute();
 
-        if ($row = $klant_search->fetch(PDO::FETCH_OBJ)) {
+        if ($row = $klant_search->fetch(PDO::FETCH_OBJ))
+        {
 
             //Return Klant_ID if client exists
             $client_id = $row->Klant_ID;
         }
-        else {
+        else
+        {
             // Insert new cient
             $insert_klant = $mysqli->prepare('INSERT INTO Klant(
             Naam,
@@ -89,7 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insert_klant->execute();
             $client_id = $insert_klant->insert_id;
 
-            if ( $klant_customer_type !== 3){
+            if ($klant_customer_type !== 3)
+            {
 
                 $insert_id_number = $mysqli->prepare('INSERT INTO StudentDocentNummer(
                 Klant_ID,
@@ -97,9 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 )
                 VALUES(
                 ?,?)');
-                $insert_id_number->bind_param('ii',$client_id, $klant_id_nummer );
+                $insert_id_number->bind_param('ii', $client_id, $klant_id_nummer);
                 $insert_id_number->execute();
-
             }
         }
 
@@ -116,13 +134,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         SoortIncident_ID,
         GereedVoorSluiten,
         IncidentGesloten, 
-        Klant_ID
+        Klant_ID,
+        SluitDatum
         )  
         VALUES(
-        ?,?,?,?,?,?,?,?,?,?,?,?
+        ?,?,?,?,?,?,?,?,?,?,?,?,?
         )');
-        $insert_incident->bind_param('ssssssssiiii', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing,
-            $incident_closed, $client_id);
+
+        if ($incident_ready_for_closing == 1 && $incident_closed == 1)
+        {
+            $SluitDatum = $getDate;
+        }
+        else
+        {
+            $SluitDatum = null;
+        }
+
+        $insert_incident->bind_param('ssssssssiiiis', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing, $incident_closed, $client_id, $SluitDatum);
         $insert_incident->execute();
     }
 }

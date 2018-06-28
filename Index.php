@@ -359,7 +359,7 @@ $getDate = date("Y-m-d");
                                             <div class="form-group">
                                                 <div class="col">
                                                     <label>Incident gesloten</label>
-                                                    <input type="checkbox" name="GereedVoorSluiten2" value="1">
+                                                    <input type="checkbox" name="GereedVoorSluiten2">
                                                 </div>
                                             </div>
                                             <div class="form-group">
