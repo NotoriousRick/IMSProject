@@ -548,7 +548,13 @@ fmodal.on('submit', '#formulier', function (e) {
             data: formdata,
             success: function(response)
             {
-                alert('new incident submitted!');
+                fmodal.modal('hide');
+                document.getElementById('body').style.overflow = 'hidden';
+                var modal = $('#added');
+                $('.added').modal('show').addClass('animate');
+                $('.close').click(function() {
+                    modal.modal('hide');
+                });
             },
             // Server side check for empty fields
             error: function (response) {
@@ -570,10 +576,13 @@ fmodal.on('submit', '#formulier', function (e) {
             data: formdata,
             success: function()
             {
-
                 fmodal.modal('hide');
-                // $('.success').modal('show').addClass('animate');
-
+                document.getElementById('body').style.overflow = 'hidden';
+                var modal = $('#edit');
+                modal.modal('show').addClass('animate');
+                $('.close').click(function() {
+                    modal.modal('hide');
+                });
             },
             // Server side check for empty fields
             error: function (response) {
