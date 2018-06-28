@@ -1,11 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.8
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 04, 2018 at 06:52 PM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Host: localhost
+-- Generation Time: Jun 28, 2018 at 01:30 PM
+-- Created by: Jetske de Boer
+-- Server version: 5.5.59-MariaDB
+-- PHP Version: 5.6.36
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,18 +20,23 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dbims`
+-- Database: `dbIMS`
 --
+CREATE DATABASE IF NOT EXISTS `dbIMS` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `dbIMS`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `incident`
+-- Table structure for table `Incident`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
 --
 
-CREATE TABLE `incident` (
+DROP TABLE IF EXISTS `Incident`;
+CREATE TABLE `Incident` (
   `Incident_ID` int(11) NOT NULL,
-  `Datum` date DEFAULT NULL,
+  `Datum` datetime DEFAULT NULL,
   `Baliemedewerker` varchar(255) DEFAULT NULL,
   `Behandelaar` varchar(255) DEFAULT NULL,
   `Omschrijving` text,
@@ -38,168 +44,218 @@ CREATE TABLE `incident` (
   `VervolgActie` text,
   `UitgevoerdeWerkzaamheden` text,
   `Afspraken` text,
-  `SluitDatum` date DEFAULT NULL,
+  `GereedVoorSluiten` bit(1) DEFAULT NULL,
   `IncidentGesloten` bit(1) DEFAULT NULL,
+  `SluitDatum` datetime DEFAULT NULL,
   `Klant_ID` int(11) NOT NULL,
   `SoortIncident_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `incident`
---
-
-INSERT INTO `incident` (`Incident_ID`, `Datum`, `Baliemedewerker`, `Behandelaar`, `Omschrijving`, `Actie`, `VervolgActie`, `UitgevoerdeWerkzaamheden`, `Afspraken`, `SluitDatum`, `IncidentGesloten`, `Klant_ID`, `SoortIncident_ID`) VALUES
-(1, '2018-02-12', 'Abdul Zahara', 'Vicar Amelia', 'Mobiel scherm stuk', 'Scherm vervangen', '', '', '', '0000-00-00', b'1', 1, 3),
-(2, '2018-01-12', 'Lara Simons', ' Zara Madino', 'Wifi werkt niet', 'Software en hardware test', '', '', 'kom morgen terug', '0000-00-00', b'0', 2, 4),
-(3, '2018-03-21', 'Abdul Asahakama', 'Piet Lakanda', 'Heel vaak zwarte scherm ', 'Grafische kaart vervangen', '', '', 'Volgende week vanwege bestelling', '0000-00-00', b'0', 4, 1),
-(4, '2018-01-11', 'Vicar Amelia', 'Jerome Bernard', 'Testssssss', 'Doe ding', '', '', 'test', '0000-00-00', b'0', 5, 5),
-(5, '2018-06-14', 'Skra', 'Big Shaq', 'sdcsdcscsdc', 'csdcsdcd', '', '', '', '0000-00-00', b'0', 3, 1),
-(6, '2017-10-23', 'Skra', 'Big Shaq', 'sdcsdcscsdc', 'csdcsdcd', '', '', '', '0000-00-00', b'0', 3, 1),
-(7, '0000-00-00', 'Skra', 'Big Shaq', 'sdcsdcscsdc', 'csdcsdcd', '', '', '', '2018-04-21', b'1', 3, 1);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `klant`
+-- Table structure for table `Klant`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
 --
 
-CREATE TABLE `klant` (
+DROP TABLE IF EXISTS `Klant`;
+CREATE TABLE `Klant` (
   `Klant_ID` int(11) NOT NULL,
   `Naam` varchar(255) DEFAULT NULL,
   `Telefoon` varchar(13) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
-  `Type_ID` int(11) NOT NULL,
-  `ID_nummer` varchar(30) NOT NULL
+  `Type_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `klant`
---
-
-INSERT INTO `klant` (`Klant_ID`, `Naam`, `Telefoon`, `Email`, `Type_ID`, `ID_nummer`) VALUES
-(1, 'Jaapie Sneeuwbal', '065415248', ' ', 3, ''),
-(2, 'Osram Abdelsahar', ' ', 'aavadg@bab.nl', 1, 'OS5558254A'),
-(3, 'Peter Klos', ' ', 'skra@gappa.com', 1, 'PE2668418461K'),
-(4, 'Sabrina Veter', '0254524585', 'vdfvd@ertetwrte.lol', 2, '158871'),
-(5, 'Sandra Parmelis', '0544987247', ' ', 3, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `soortincident`
+-- Table structure for table `SoortIncident`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
 --
 
-CREATE TABLE `soortincident` (
+DROP TABLE IF EXISTS `SoortIncident`;
+CREATE TABLE `SoortIncident` (
   `SoortIncident_ID` int(11) NOT NULL,
   `SoortIncident` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `soortincident`
+-- Dumping data for table `SoortIncident`
 --
 
-INSERT INTO `soortincident` (`SoortIncident_ID`, `SoortIncident`) VALUES
-(1, 'Incident software'),
-(2, 'Incident hardware'),
-(3, 'Incident advies'),
-(4, 'Incident verzoek'),
-(5, 'Test incident');
+INSERT INTO `SoortIncident` (`SoortIncident_ID`, `SoortIncident`) VALUES
+(1, 'Software incident'),
+(2, 'Hardware incident'),
+(3, 'Advies'),
+(4, 'Verzoek');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `typeklant`
+-- Table structure for table `StudentDocentNummer`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
 --
 
-CREATE TABLE `typeklant` (
+DROP TABLE IF EXISTS `StudentDocentNummer`;
+CREATE TABLE `StudentDocentNummer` (
+  `ID_nummer` varchar(255) NOT NULL DEFAULT '',
+  `Klant_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TypeKlant`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
+--
+
+DROP TABLE IF EXISTS `TypeKlant`;
+CREATE TABLE `TypeKlant` (
   `Type_ID` int(11) NOT NULL,
   `TypeKlant` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `typeklant`
+-- Dumping data for table `TypeKlant`
 --
 
-INSERT INTO `typeklant` (`Type_ID`, `TypeKlant`) VALUES
-(1, 'Docent'),
-(2, 'Student'),
+INSERT INTO `TypeKlant` (`Type_ID`, `TypeKlant`) VALUES
+(1, 'Student'),
+(2, 'Docent'),
 (3, 'Extern');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User`
+--
+-- Creation: Jun 26, 2018 at 03:32 PM
+--
+
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User` (
+  `User_ID` int(11) NOT NULL,
+  `UserName` varchar(255) NOT NULL,
+  `PasswordHash` varchar(255) NOT NULL,
+  `IsAdmin` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`User_ID`, `UserName`, `PasswordHash`, `IsAdmin`) VALUES
+(1, 'Jetske', '$2y$10$ssB8H1FJjn3x/IXULMozBuGa.zWBpYusFL3EDuaWV5RuQB1fAlQ6m', b'1'),
+(5, 'Paul', '$2y$10$fGtJG2rw01k/JnnKPlsxm.XvCywPWfbsoCYJcD3jOzAyqlAJ8EFOC', b'1'),
+(6, 'Andy', '$2y$10$TLKpWBZwmEvnqNMCahLjEukVuA4z0VIGf3hm9zXB7cvHjMgontBDy', b'1');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `incident`
+-- Indexes for table `Incident`
 --
-ALTER TABLE `incident`
+ALTER TABLE `Incident`
   ADD PRIMARY KEY (`Incident_ID`),
   ADD KEY `Incident_Klant` (`Klant_ID`),
   ADD KEY `Incident_SoortIncident` (`SoortIncident_ID`);
 
 --
--- Indexes for table `klant`
+-- Indexes for table `Klant`
 --
-ALTER TABLE `klant`
+ALTER TABLE `Klant`
   ADD PRIMARY KEY (`Klant_ID`),
   ADD KEY `Klant_TypeKlant` (`Type_ID`);
 
 --
--- Indexes for table `soortincident`
+-- Indexes for table `SoortIncident`
 --
-ALTER TABLE `soortincident`
+ALTER TABLE `SoortIncident`
   ADD PRIMARY KEY (`SoortIncident_ID`);
 
 --
--- Indexes for table `typeklant`
+-- Indexes for table `StudentDocentNummer`
 --
-ALTER TABLE `typeklant`
+ALTER TABLE `StudentDocentNummer`
+  ADD PRIMARY KEY (`ID_nummer`),
+  ADD UNIQUE KEY `ID_nummer` (`ID_nummer`),
+  ADD KEY `Klant_StudentDocentNummer` (`Klant_ID`);
+
+--
+-- Indexes for table `TypeKlant`
+--
+ALTER TABLE `TypeKlant`
   ADD PRIMARY KEY (`Type_ID`);
+
+--
+-- Indexes for table `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`User_ID`),
+  ADD UNIQUE KEY `UserName` (`UserName`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `incident`
+-- AUTO_INCREMENT for table `Incident`
 --
-ALTER TABLE `incident`
-  MODIFY `Incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `Incident`
+  MODIFY `Incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `klant`
+-- AUTO_INCREMENT for table `Klant`
 --
-ALTER TABLE `klant`
-  MODIFY `Klant_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `Klant`
+  MODIFY `Klant_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `soortincident`
+-- AUTO_INCREMENT for table `SoortIncident`
 --
-ALTER TABLE `soortincident`
-  MODIFY `SoortIncident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `SoortIncident`
+  MODIFY `SoortIncident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `typeklant`
+-- AUTO_INCREMENT for table `TypeKlant`
 --
-ALTER TABLE `typeklant`
+ALTER TABLE `TypeKlant`
   MODIFY `Type_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `User`
+--
+ALTER TABLE `User`
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `incident`
+-- Constraints for table `Incident`
 --
-ALTER TABLE `incident`
-  ADD CONSTRAINT `Incident_Klant` FOREIGN KEY (`Klant_ID`) REFERENCES `klant` (`Klant_ID`),
-  ADD CONSTRAINT `Incident_SoortIncident` FOREIGN KEY (`SoortIncident_ID`) REFERENCES `soortincident` (`SoortIncident_ID`);
+ALTER TABLE `Incident`
+  ADD CONSTRAINT `Incident_Klant` FOREIGN KEY (`Klant_ID`) REFERENCES `Klant` (`Klant_ID`),
+  ADD CONSTRAINT `Incident_SoortIncident` FOREIGN KEY (`SoortIncident_ID`) REFERENCES `SoortIncident` (`SoortIncident_ID`);
 
 --
--- Constraints for table `klant`
+-- Constraints for table `Klant`
 --
-ALTER TABLE `klant`
-  ADD CONSTRAINT `Klant_TypeKlant` FOREIGN KEY (`Type_ID`) REFERENCES `typeklant` (`Type_ID`);
+ALTER TABLE `Klant`
+  ADD CONSTRAINT `Klant_TypeKlant` FOREIGN KEY (`Type_ID`) REFERENCES `TypeKlant` (`Type_ID`);
+
+--
+-- Constraints for table `StudentDocentNummer`
+--
+ALTER TABLE `StudentDocentNummer`
+  ADD CONSTRAINT `Klant_StudentDocentNummer` FOREIGN KEY (`Klant_ID`) REFERENCES `Klant` (`Klant_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
