@@ -273,7 +273,6 @@ $getDate = date("Y-m-d");
                                         <div class="col">
                                             <label>Vervolg actie</label>
                                             <i class="fas fa-toggle-on" id="show"></i>
-                                            <i class="fas fa-toggle-off" id="hide"></i>
                                             <textarea class="form-control" name="VervolgActie" id="toggle_follow_up_action" cols="30" rows="5"></textarea>
                                         </div>
                                     </div>
@@ -366,9 +365,6 @@ $getDate = date("Y-m-d");
 <script>
    $("#show").click(function() {
        $("#toggle_follow_up_action").show();
-   });
-   $("#hide").click(function() {
-       $("#toggle_follow_up_action").hide();
    });
 </script>
 </html>
