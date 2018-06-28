@@ -4,6 +4,28 @@ var modal = "#modal"; // Content div for form modals
 var main = "#main";
 var form = $('#formulier');
 var fmodal = $('#fModal');
+var btn = $("#toggler");
+
+$('[name="VervolgActie"]').keyup(function () {
+    if($('[name="VervolgActie"]').val().length === 0){
+        btn.show();
+    }
+    else{
+        btn.hide();
+    }
+});
+
+// Toggle button for VervolgActie
+btn.click(function() {
+        if(btn.hasClass("fa-toggle-on")){
+            $("#toggle_follow_up_action").show();
+            btn.removeClass('fa-toggle-on').addClass('fa-toggle-off')
+        }
+        else if (btn.hasClass('fa-toggle-off')){
+            $("#toggle_follow_up_action").hide();
+            btn.removeClass('fa-toggle-off').addClass('fa-toggle-on')
+        }
+    });
 
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
@@ -47,6 +69,7 @@ $('.select_two').select2({
 fmodal.on('show.bs.modal', function(){
     $(':input, [aria-labelledby="select2-TypeKlant-container"], [aria-labelledby="select2-SoortIncident-container"] ').css('border-color', '');
 });
+
 
 // Datatable initialization for incident list
 function initTable(source) {
@@ -270,59 +293,6 @@ $(document).ready(function () {
     });
 });
 
-// Add modal event to the table cell (display the modal on click)
-$(content).on('click', 'tbody > tr > td', function (){
-
-    // Get incident form id from database
-    if($(modal).hasClass('submit')){
-        $(modal).removeClass('submit').addClass('edit');
-    }
-    var id = table.row(this).id();
-    var incidentID = id.replace('id', '');
-    var form = $('#fModal');
-
-
-
-    // Fill in the form with data
-    $.getJSON({
-        url: 'get_form_data.php',
-        method: 'post',
-        data: {id: incidentID},
-        success: function (response) {
-            $.each(response, function(name, value){
-                var selector = $('[name="'+name+'"]');
-                var type = $('[name="'+name+'"]').attr('type');
-                if (selector.hasClass('select_two')){
-                   $('[name="TypeKlant"]').val(response['Type_ID']).trigger("change");
-                   $('[name="SoortIncident"]').val(response['SoortIncident_ID']).trigger("change");
-                    // form.find($('[name='+name+'] option')).filter(function() {
-                    //     return ($(this).text() == value);
-                    // }).prop('selected', true).trigger("change");
-                }
-                else if(selector.is(':checkbox')){
-                    if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
-                }
-                else {
-                    if (value === "0000-00-00"){
-                        form.find(selector).val(' ')
-                    }
-                    else
-                        form.find(selector).val(value)
-                }
-            })
-        }
-    });
-
-    // Show the ID field
-    $('[name="Incident_ID"]').show();
-
-    // display modal and prevent clicking outside
-    fmodal.modal({
-        backdrop: 'static',
-        keyboard: false},
-        'show');
-});
-
 // When a button is clicked, it will have a different color until its clicked again
 $(content).on('click', ".btn-warning, .btn-danger, .btn-outline-info", function () {
 
@@ -437,6 +407,64 @@ $(document).ready(function(){
     })
 });
 
+// (Edit Incident), Add modal event to the table cell (display the modal on click)
+$(content).on('click', 'tbody > tr > td', function (){
+
+    // Get incident form id from database
+    if($(modal).hasClass('submit')){
+        $(modal).removeClass('submit').addClass('edit');
+    }
+    var id = table.row(this).id();
+    var incidentID = id.replace('id', '');
+    var form = $('#fModal');
+    if($('[name="VervolgActie"]').val().length === 0){
+        $('#Vervolg').show();
+        btn.show();
+    }
+    else{
+        btn.hide();
+    }
+
+    // Fill in the form with data
+    $.getJSON({
+        url: 'get_form_data.php',
+        method: 'post',
+        data: {id: incidentID},
+        success: function (response) {
+            $.each(response, function(name, value){
+                var selector = $('[name="'+name+'"]');
+                var type = $('[name="'+name+'"]').attr('type');
+                if (selector.hasClass('select_two')){
+                    $('[name="TypeKlant"]').val(response['Type_ID']).trigger("change");
+                    $('[name="SoortIncident"]').val(response['SoortIncident_ID']).trigger("change");
+                    // form.find($('[name='+name+'] option')).filter(function() {
+                    //     return ($(this).text() == value);
+                    // }).prop('selected', true).trigger("change");
+                }
+                else if(selector.is(':checkbox')){
+                    if (value == 1) form.find($('[value='+name+']')).prop('checked', true)
+                }
+                else {
+                    if (value === "0000-00-00"){
+                        form.find(selector).val(' ')
+                    }
+                    else
+                        form.find(selector).val(value)
+                }
+            })
+        }
+    });
+
+    // Show the ID field
+    $('[name="Incident_ID"]').show();
+
+    // display modal and prevent clicking outside
+    fmodal.modal({
+            backdrop: 'static',
+            keyboard: false},
+        'show');
+});
+
 // New incident registration page
 $(document).ready(function(){
 
@@ -446,6 +474,8 @@ $(document).ready(function(){
         $('#SoortIncident').val('').trigger('change');
         form[0].reset();
         $(modal).removeClass('edit').addClass('submit');
+        btn.hide();
+        $('#Vervolg').hide();
 
         // Hide ID field
         $('[name="Incident_ID"]').hide();
@@ -519,8 +549,6 @@ fmodal.on('submit', '#formulier', function (e) {
             success: function(response)
             {
                 alert('new incident submitted!');
-                // console.log(formdata);
-                console.log(response);
             },
             // Server side check for empty fields
             error: function (response) {
@@ -540,15 +568,12 @@ fmodal.on('submit', '#formulier', function (e) {
             type: "post",
             url: "edit_incident.php",
             data: formdata,
-            success: function(response)
+            success: function()
             {
-                console.log(formdata);
-                if (response === "noice"){
-                    alert('incident edited!');
-                }
-                else{
-                    alert('something went wrong');
-                }
+
+                fmodal.modal('hide');
+                // $('.success').modal('show').addClass('animate');
+
             },
             // Server side check for empty fields
             error: function (response) {
@@ -562,9 +587,12 @@ fmodal.on('submit', '#formulier', function (e) {
 
     }
     e.preventDefault();
-    fmodal.modal('hide');
+});
 
+// Reload content when modal dissapears
+fmodal.on('hide.bs.modal', function () {
     $(content).empty();
+
     // Refresh data
     $.ajax({
         url: 'overzicht_incident.php',

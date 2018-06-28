@@ -110,6 +110,25 @@ $getDate = date("Y-m-d");
             </div>
         </div>
 
+        <!--Incident edited/saved modal -->
+                <div class="modal bs-example-modal-sm modalbox success animate modal fade">
+                    <div class="icon">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </div>
+                    <h1>Success!</h1>
+                    <p>Incident is aangepast!</p>
+                    <button type="button" class="redo btn">Ok</button>
+                </div>
+
+                <div class="modal bs-example-modal-sm modalbox success  animate modal fade">
+                    <div class="icon">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </div>
+                    <h1>Success!</h1>
+                    <p>Incident toegevoegd</p>
+                    <button type="button" class="redo btn">Ok</button>
+                </div>
+
 <!--  Hier wordt de content van de geklikte link weergegeven   -->
     <div id="content">
 
@@ -269,11 +288,10 @@ $getDate = date("Y-m-d");
                                             display: none;
                                         }
                                     </style>
-                                    <div class="row">
+                                    <div class="row" id="Vervolg">
                                         <div class="col">
                                             <label>Vervolg actie</label>
-                                            <i class="fas fa-toggle-on" id="show"></i>
-                                            <i class="fas fa-toggle-off" id="hide"></i>
+                                            <i class="fas fa-toggle-on btn" id="toggler"></i>
                                             <textarea class="form-control" name="VervolgActie" id="toggle_follow_up_action" cols="30" rows="5"></textarea>
                                         </div>
                                     </div>
@@ -363,14 +381,6 @@ $getDate = date("Y-m-d");
 
     <!--Pnotify plugin-->
     <script type="text/javascript" src="Scripts/pnotify.custom.min.js"></script>
-<script>
-   $("#show").click(function() {
-       $("#toggle_follow_up_action").show();
-   });
-   $("#hide").click(function() {
-       $("#toggle_follow_up_action").hide();
-   });
-</script>
 </html>
 
 <?php

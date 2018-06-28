@@ -88,7 +88,7 @@ else {
     SoortIncident_ID = :incidentid,
     GereedVoorSluiten = :gvoorsluiten,
     IncidentGesloten = :incidentgesloten
-    where Incident_ID = ' . $incident_id . '
+    where Incident_ID = :id
 ');
 
 //$query = $db->prepare('select Klant_ID from Incident where Incident_ID = '.$incident_id.'');
@@ -103,9 +103,8 @@ $edit_customer = $db->prepare('update Klant
     Telefoon = :tel,
     Email = :email,
     Type_ID = :type
-    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = '.$incident_id.') 
-'); // waarom is het incident_id niet met een parameter gebonden??
-print_array($edit_customer);
+    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = :id) 
+');
 
     $edit_incident->bindParam(':balie', $incident_collaborator);
     $edit_incident->bindParam(':bahandelaar', $incident_treated_by);
@@ -117,8 +116,9 @@ print_array($edit_customer);
     $edit_incident->bindParam(':incidentid', $incident_type);
     $edit_incident->bindParam(':gvoorsluiten', $incident_ready_for_closing);
     $edit_incident->bindParam(':incidentgesloten', $incident_closed);
+    $edit_incident->bindParam(':id',$incident_id);
 
-
+    $edit_customer->bindParam(':id',$incident_id);
     $edit_customer->bindParam(':naam',$klant_name);
     $edit_customer->bindParam(':tel',$klant_phone);
     $edit_customer->bindParam(':email',$klant_email);
@@ -127,4 +127,3 @@ print_array($edit_customer);
     $edit_incident->execute();
     $edit_customer->execute();
 }
-echo 'noice';
