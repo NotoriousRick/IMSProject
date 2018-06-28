@@ -100,10 +100,17 @@ $edit_customer = $db->prepare('update Klant
     where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = :id) 
 ');
 if ($klant_customer_type !== 3){
-    $edit_customer_id = $db->prepare('update StudentDocentNummer
-    set
+    $edit_customer_id = $db->prepare('   
+   
+     INSERT INTO StudentDocentNummer (
+    Klant_ID,
+    ID_Nummer
+    )
+    VALUES(( select Klant_ID from Incident where Incident_ID = :id), :idnum)
+    
+    ON DUPLICATE KEY
+    UPDATE
     ID_Nummer = :idnum
-    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = :id) 
 ');
 }
 
