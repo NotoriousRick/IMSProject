@@ -251,28 +251,36 @@ $getDate = date("Y-m-d");
                                     <hr>
                                     <div class="row">
                                         <div class="col">
-                                            <label><h6>Omschrijving incident</h6></label>
+                                            <label>Omschrijving incident</label>
                                             <textarea class="form-control" name="Omschrijving" id="" cols="30" rows="5" placeholder="*"></textarea>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col">
-                                            <label><h6>Actie</h6></label>
+                                            <label>Actie</label>
                                             <textarea class="form-control" name="Actie" id="" cols="30" rows="5" placeholder="*"></textarea>
                                         </div>
                                     </div>
                                     <br />
-                                    <div class="row" id="VervolgActie">
+                                    <style>
+                                        #toggle_follow_up_action
+                                        {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <div class="row">
                                         <div class="col">
-                                            <label><h6>Vervolg actie</h6></label>
-                                            <textarea class="form-control" name="VervolgActie" id="" cols="30" rows="5"></textarea>
+                                            <label>Vervolg actie</label>
+                                            <i class="fas fa-toggle-on" id="show"></i>
+                                            <i class="fas fa-toggle-off" id="hide"></i>
+                                            <textarea class="form-control" name="VervolgActie" id="toggle_follow_up_action" cols="30" rows="5"></textarea>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col">
-                                            <label><h6>Behandeld door</h6></label>
+                                            <label>Behandeld door</label>
                                             <input type="text" class="form-control form-control-sm" id="input_margin_radius_padding"
                                                    name="Behandelaar" placeholder="*">
                                         </div>
@@ -280,14 +288,14 @@ $getDate = date("Y-m-d");
                                     <br />
                                     <div class="row">
                                         <div class="col">
-                                            <label><h6>Uitgevoerde werkzaamheden</h6></label>
+                                            <label>Uitgevoerde werkzaamheden</label>
                                             <textarea class="form-control" name="UitgevoerdeWerkzaamheden" cols="30" rows="5"></textarea>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="row">
                                         <div class="col">
-                                            <label><h6>Afspraken</h6></label>
+                                            <label>Afspraken</label>
                                             <textarea class="form-control" name="Afspraken" cols="30" rows="5"></textarea>
                                         </div>
                                     </div>
@@ -295,19 +303,19 @@ $getDate = date("Y-m-d");
                                     <div class="row">
                                         <div class="form-group">
                                             <div class="col">
-                                                <label><h6>Gereed voor sluiten</h6></label>
+                                                <label>Gereed voor sluiten</label>
                                                 <input type="checkbox" name="GereedVoorSluiten1">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col">
-                                                <label><h6>Incident gesloten</h6></label>
+                                                <label>Incident gesloten</label>
                                                 <input type="checkbox" name="GereedVoorSluiten2" value="1">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col">
-                                                <label><h6>Sluit datum</h6></label>
+                                                <label>Sluit datum</label>
                                                 <input type="text" name="SluitDatum" readonly>
                                             </div>
                                         </div>
@@ -355,7 +363,14 @@ $getDate = date("Y-m-d");
 
     <!--Pnotify plugin-->
     <script type="text/javascript" src="Scripts/pnotify.custom.min.js"></script>
-
+<script>
+   $("#show").click(function() {
+       $("#toggle_follow_up_action").show();
+   });
+   $("#hide").click(function() {
+       $("#toggle_follow_up_action").hide();
+   });
+</script>
 </html>
 
 <?php
