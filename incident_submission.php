@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $klant_phone = mysqli_real_escape_string($mysqli, $_POST["Telefoon"]);
     $klant_email = mysqli_real_escape_string($mysqli, $_POST["Email"]);
     $klant_customer_type = mysqli_real_escape_string($mysqli, $_POST["TypeKlant"]);
+    $klant_id_nummer = mysqli_real_escape_string($mysqli, $_POST["ID_Nummer"]);
 
     // Incident variables
     $incident_collaborator = mysqli_real_escape_string($mysqli, $_POST['Baliemedewerker']);
@@ -65,52 +66,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
 
-    $klant_search = $db->prepare('select Klant_ID from Klant
+        $klant_search = $db->prepare('select Klant_ID from Klant
      where (Naam = "' . $klant_name . '" and Telefoon = "' . $klant_phone . '" and Email = "' . $klant_email . '")');
-    $result = $klant_search->execute();
+        $result = $klant_search->execute();
 
-    if ($row = $klant_search->fetch(PDO::FETCH_OBJ)) {
+        if ($row = $klant_search->fetch(PDO::FETCH_OBJ)) {
 
-        //Return Klant_ID if client exists
-        $client_id = $row->Klant_ID;
-    }
-    else {
-        // Insert new cient
-        $insert_klant = $mysqli->prepare('INSERT INTO Klant(
-        Naam,
-        Telefoon,
-        Email,
-        Type_ID
-        )
+            //Return Klant_ID if client exists
+            $client_id = $row->Klant_ID;
+        }
+        else {
+            // Insert new cient
+            $insert_klant = $mysqli->prepare('INSERT INTO Klant(
+            Naam,
+            Telefoon,
+            Email,
+            Type_ID
+            )
+            VALUES(
+            ?,?,?,?)');
+            $insert_klant->bind_param('sssi', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
+            $insert_klant->execute();
+            $client_id = $insert_klant->insert_id;
+
+            if ( $klant_customer_type !== 3){
+
+                $insert_id_number = $mysqli->prepare('INSERT INTO StudentDocentNummer(
+                Klant_ID,
+                ID_Nummer
+                )
+                VALUES(
+                ?,?)');
+                $insert_id_number->bind_param('ii',$client_id, $klant_id_nummer );
+                $insert_id_number->execute();
+
+            }
+        }
+
+
+        $insert_incident = $mysqli->prepare('INSERT INTO Incident(
+        Datum,
+        Baliemedewerker,
+        Behandelaar,
+        Omschrijving,
+        Actie,
+        VervolgActie,
+        UitgevoerdeWerkzaamheden,
+        Afspraken,
+        SoortIncident_ID,
+        GereedVoorSluiten,
+        IncidentGesloten, 
+        Klant_ID
+        )  
         VALUES(
-        ?,?,?,?)');
-
-        $insert_klant->bind_param('sssi', $klant_name, $klant_phone, $klant_email, $klant_customer_type);
-        $insert_klant->execute();
-        
-        $client_id = $insert_klant->insert_id;
-    }
-
-
-    $insert_incident = $mysqli->prepare('INSERT INTO Incident(
-    Datum,
-    Baliemedewerker,
-    Behandelaar,
-    Omschrijving,
-    Actie,
-    VervolgActie,
-    UitgevoerdeWerkzaamheden,
-    Afspraken,
-    SoortIncident_ID,
-    GereedVoorSluiten,
-    IncidentGesloten, 
-    Klant_ID
-    )  
-    VALUES(
-    ?,?,?,?,?,?,?,?,?,?,?,?
-    )');
+        ?,?,?,?,?,?,?,?,?,?,?,?
+        )');
         $insert_incident->bind_param('ssssssssiiii', $getDate, $incident_collaborator, $incident_treated_by, $incident_description, $incident_action, $incident_follow_up_action, $incident_executed_work, $incident_appointments, $incident_type, $incident_ready_for_closing,
-        $incident_closed, $client_id);
+            $incident_closed, $client_id);
         $insert_incident->execute();
     }
 }

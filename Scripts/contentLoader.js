@@ -69,7 +69,7 @@ $('.select_two').select2({
 fmodal.on('show.bs.modal', function(){
     $(':input, [aria-labelledby="select2-TypeKlant-container"], [aria-labelledby="select2-SoortIncident-container"] ').css('border-color', '');
 });
-
+//bla
 
 // Datatable initialization for incident list
 function initTable(source) {

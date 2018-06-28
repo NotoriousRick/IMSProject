@@ -17,8 +17,8 @@ $incident_type = mysqli_real_escape_string($mysqli,$_POST['SoortIncident']);
 
 $incident_ready_for_closing = 0;
 $incident_closed = 0;
-$client_id = 2;
 
+$klant_id_nummer = mysqli_real_escape_string($mysqli, $_POST["ID_Nummer"]);
 $klant_name = mysqli_real_escape_string($mysqli,$_POST["Naam"]);
 $klant_phone = mysqli_real_escape_string($mysqli,$_POST["Telefoon"]);
 $klant_email = mysqli_real_escape_string($mysqli,$_POST["Email"]);
@@ -91,12 +91,6 @@ else {
     where Incident_ID = :id
 ');
 
-//$query = $db->prepare('select Klant_ID from Incident where Incident_ID = '.$incident_id.'');
-//$query->execute();
-//$result = $query->fetch(PDO::FETCH_OBJ);
-//$result_id = $result->Klant_ID;
-
-//echo $result_id;
 $edit_customer = $db->prepare('update Klant
     set
     Naam = :naam,
@@ -105,6 +99,13 @@ $edit_customer = $db->prepare('update Klant
     Type_ID = :type
     where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = :id) 
 ');
+if ($klant_customer_type !== 3){
+    $edit_customer_id = $db->prepare('update StudentDocentNummer
+    set
+    ID_Nummer = :idnum
+    where  Klant_ID = ( select Klant_ID from Incident where Incident_ID = :id) 
+');
+}
 
     $edit_incident->bindParam(':balie', $incident_collaborator);
     $edit_incident->bindParam(':bahandelaar', $incident_treated_by);
@@ -124,6 +125,10 @@ $edit_customer = $db->prepare('update Klant
     $edit_customer->bindParam(':email',$klant_email);
     $edit_customer->bindParam(':type',$klant_customer_type);
 
+    $edit_customer_id->bindParam(':idnum',$klant_id_nummer);
+    $edit_customer_id->bindParam(':id',$incident_id);
+
     $edit_incident->execute();
     $edit_customer->execute();
+    $edit_customer_id->execute();
 }
