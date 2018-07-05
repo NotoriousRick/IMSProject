@@ -27,7 +27,13 @@
             </select>
             &emsp;Baliemedewerker: <input type="text" name="baliemedewerker" id="baliemedewerker">
             &emsp;Behandelaar: <input type="text" name="behandelaar" id="behandelaar">
+            <button id="submit" class="w3-btn w3-white w3-border">Submit</button>
 <!--            </td>-->
+<div class="demo-container">
+        <div id="chart-demo">
+            <div id="chart"></div>
+        </div>
+    </div>
         </tr>
         </tbody>
     </table>

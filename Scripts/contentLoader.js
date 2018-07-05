@@ -26,10 +26,9 @@ btn.click(function() {
             btn.removeClass('fa-toggle-off').addClass('fa-toggle-on')
         }
     });
-
 // DataTables custom search
 $.fn.dataTable.ext.search.push(
-    function(settings, data, dataIndex) {
+    function(settings, data, dataIndex, a, b) {
         var min = Date.parse($('#datum').val(), 10);
         var max = Date.parse($('#einddatum').val(), 10);
         var baliemedewerker = $('#baliemedewerker').val() || "";
@@ -43,7 +42,6 @@ $.fn.dataTable.ext.search.push(
         var getincident = parseInt(data[7]) || 0;
         var gettypeklant = parseInt(data[8]) || 0;
         var getsoortincident = parseInt(data[9]) || 0;
-        console.log(min, max, incident, getincident, soortincident, getsoortincident, typeklant, gettypeklant, baliemedewerker, getbaliemedewerker);
         if ((isNaN(min) && isNaN(max) ||
             ((isNaN(min) && getdatum <= max) ||
             (min <= getdatum && isNaN(max)) ||
@@ -57,7 +55,9 @@ $.fn.dataTable.ext.search.push(
         {
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
     }
 );
 
@@ -123,7 +123,6 @@ function initTable(source) {
 
 // Datatable for rapportages page
 function initRapport() {
-
         return table = $('#testData').DataTable({
             retrieve: true,
             "ajax": "Pim/Result.php",
@@ -505,7 +504,6 @@ $(document).ready(function(){
 
 // Form submit
 fmodal.on('submit', '#formulier', function (e) {
-
     var formdata = $('#formulier, #incidentID').serialize();
     // var id = $('[name="Incident_ID"]').val();
 
@@ -601,7 +599,6 @@ fmodal.on('submit', '#formulier', function (e) {
 // Reload content when modal dissapears
 fmodal.on('hide.bs.modal', function () {
     $(content).empty();
-
     // Refresh data
     $.ajax({
         url: 'overzicht_incident.php',
@@ -671,17 +668,49 @@ $(document).ready(function(){
                         if (!$('#autoscroll').hasClass('fas fa-check')) {
                             $('#sticky2').removeClass('sticky-top').css('padding-top','8px');
                         }
-
                         // Load the data for the table
                         initRapport();
                         var table = $('#testData').DataTable();
                         // Custom filter options trigger
-                        $('select#incident, select#soortincident, select#typeklant').change(function() {
+                        //$('select#incident, select#soortincident, select#typeklant').change(function() {
+                        $('button#submit').click(function() {
                             table.draw();
+                            var dataSource = [{
+                                data: "incidenten",
+                                gegevens: 3 + 1
+                            }, {
+                                data: "Tuesday",
+                                gegevens: 2
+                            }, {
+                                data: "Wednesday",
+                                gegevens: 3
+                            }, {
+                                data: "Thursday",
+                                gegevens: 4
+                            }, {
+                                data: "Friday",
+                                gegevens: 6
+                            }, {
+                                data: "Saturday",
+                                gegevens: 11
+                            }, {
+                                data: "Sunday",
+                                gegevens: 4
+                            }];
+                            $("#chart").dxChart({
+                                dataSource: dataSource, 
+                                series: {
+                                    argumentField: "data",
+                                    valueField: "gegevens",
+                                    name: "My gegevens",
+                                    type: "bar",
+                                    color: '#ffaa66'
+                                }
+                            });
                         } );
-                        $('#datum, #einddatum, #baliemedewerker, #behandelaar').keyup(function() {
-                            table.draw();
-                        } );
+                        //$('#datum, #einddatum, #baliemedewerker, #behandelaar').keyup(function() {
+                        //    table.draw();
+                        //} );
                     }
                 });
             }
