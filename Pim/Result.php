@@ -12,11 +12,11 @@ include "../config.php";
 //$behandelaar = $_POST['behandelaar'];
 //$where = 'WHERE';
 $sql = 'select i.*, k.Naam, s.SoortIncident, t.TypeKlant from Incident i
-        right join Klant k 
+        left join Klant k 
         on i.Klant_ID = k.Klant_ID
-        right join SoortIncident s
+        left join SoortIncident s
         on i.SoortIncident_ID = s.SoortIncident_ID
-        right join TypeKlant t
+        left join TypeKlant t
         on k.Type_ID = t.Type_ID
         ';
 
